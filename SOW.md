@@ -9,7 +9,7 @@ This class project will be to produce a software system which will take a set of
 The features listed below shall be included in the software.
 1. The proposed system will accept as input either (1) a comma delimited data file such as can be output from Microsoft Excel or (2) data input into an editable table or text fields on screen.
 
-2. The user shall be able to select any or all of the following statistical measures to be calculated on the data if the measure is meaningful for the type of data (frequency, ordinal, interval):  mean, median, mode, standard deviation, variance, coefficient of variance, percentiles, probability distribution, binomial distribution, least square line, 2 (Chi Square), correlation coefficient, sign test, rank sum test, and Spearman rank correlation coefficient.
+2. The user shall be able to select any or all of the following statistical measures to be calculated on the data if the measure is meaningful for the type of data (frequency, ordinal, interval):  mean, median, mode, standard deviation, variance, coefficient of variance, percentiles, probability distribution, binomial distribution, least square line, X^2 (Chi Square), correlation coefficient, sign test, rank sum test, and Spearman rank correlation coefficient.
 
 3. When appropriate for the statistical measure the following graphs shall be selectable by the user for display: Horizontal bar chart, vertical bar chart, pie chart, normal distribution curve, X-Y graph.
 
