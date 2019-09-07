@@ -1,0 +1,17 @@
+,Text,Text,Numerical,Numerical
+Test,Nominal,Ordinal,Interval,Ratio
+Mean,,,y,
+median,,y,y,
+Mode,y,y,y,
+Std Dev,,,,
+Var,,,,
+Var Coeff,,,,
+Percentile,,,,
+Probability Dist,,,,
+Binom Dist,,,,
+Least Squares line,,,,
+X2 ,,,,
+Correlation Coeff,,,,
+Sign Test,,,,
+Rank Sum Test,,,,
+Spearman Rank Coeff,,,,
