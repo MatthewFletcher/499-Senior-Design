@@ -1,0 +1,55 @@
+
+Use histogram shape to approximate 
+
+Discretization: go from cotninuous to discrete 
+Numerical analysis methods 
+
+Use computer to compute integrals by partitioning continuous into discrete 
+
+
+Curve fitting is opposite of discretization
+
+express pdf as a continous function
+
+Rperesent a histogram of the data, and look at the top shape of the hiosgram. See how does that shape look. 
+
+Could look like any shape, like bell curve, line, etc. 
+
+
+When you roll a die, you get a discrete count o feach number 
+
+Look at shape of histogram, 
+
+Normal dist looks like a bell
+
+Parameters of normal distribution are mean, and standard deviation
+
+Once you figure out mean and standard deviation, then you can convert discrete values into cointinuous 
+
+
+Regression modeling
+
+r squared test, r squared coeff, 
+
+Must eliminate outliers before regression modeling 
+
+Model selection problem: which model beswt fits data 
+Different coefficients to compuete regression modeling scores 
+
+Mallows C_p corrrelation model 
+
+Adjusted R2 model 
+
+
+Principle of pacimony 
+
+Find model with minimal amount of computing time
+
+Everything you run costs energy. 
+
+ISE390 
+Look at minitab 
+
+Analysis of variance (for regression)
+
+
