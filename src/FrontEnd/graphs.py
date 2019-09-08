@@ -2,13 +2,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels
+import csv
 
-# plt.plot(x, y)
-# plt.title("Statistical Graph")
-# plt.xlabel("x")
-# plt.ylabel("y")
-# plt.show()
+# This function will graph the inputted CSV files automatically without any options given
+def default():
+    x = []
+    y = []
+    with open('FrequencyDataTest.csv', 'r') as csvfile:
+        plots = csv.reader(csvfile, delimiter= ',')
+        for row in plots:
+            x.append(int(row[1]))
+            y.append(int(row[2]))
 
-# sample_data = pd.read_csv('FrequencyDataTest.csv')
-# sample_data2 = pd.read_csv('IntervalDataTest.csv')
-# sample_data3 = pd.read_csv('OrdinalDataTest.csv')
+    plt.plot(x, y)
+    plt.title('Frequency Data')
+    plt.xlabel('')
+    plt.ylabel('')
+    plt.show()
