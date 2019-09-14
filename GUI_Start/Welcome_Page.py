@@ -1,23 +1,25 @@
-import tkinter as tk
-from tkinter import ttk
+from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog,
+QDialogButtonBox, QFormLayout, QGridLayout, QGroupBox, QHBoxLayout,
+QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit,
+QVBoxLayout, QWidget)
+from PyQt5.QtGui import QPixmap
 
-# Declare the window 
-start_window = tk.Tk()
+def StartPage():
+    app = QApplication([])
+    app.setStyle("Fusion")
+    window = QWidget()
 
-# Add details 
-start_window.title("Welcome")
-start_window.geometry("600x600")
+    label = QLabel
+    label.setPixmap(QLabel(), QPixmap("StatsLogo1.png"))
 
-# Labels 
-title = ttk.Label(text="Welcome to the _____. \nChoose how you'd like to enter your data.")
-title.grid(column=2, row=2)
+    layout = QVBoxLayout()
+    layout.addWidget(QPushButton("Import CSV File"))
+    layout.addWidget(QPushButton("Manual Input"))
+    layout.addWidget(QPushButton("Help"))
 
-# Buttons 
-csv_Button = ttk.Button(text="Import CSV File")
-csv_Button.grid(column=2, row=3)
-
-manual_Input_Button = ttk.Button(text="Manual Input")
-manual_Input_Button.grid(column=2, row=4)
-
-# Main loop
-start_window.mainloop()
+    window.setWindowTitle("Stats Wiz Start Page")
+    window.setLayout(layout)
+    window.show()
+    app.exec_()
+    
+StartPage()
