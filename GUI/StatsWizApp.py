@@ -12,24 +12,19 @@ class TabWdiget(QDialog):
         self.setWindowIcon(QIcon("StatsLogo1.png"))
 
         tabwidget = QTabWidget()
-        tabwidget.addTab(FirstTab(), "Data Input")
-        tabwidget.addTab(SecondTab(), "Graph")
-        tabwidget.addTab(ThirdTab(), "Analysis")
-        tabwidget.addTab(FourthTab(), "Summary")
-
-        buttonbox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        buttonbox.accepted.connect(self.accept)
-        buttonbox.rejected.connect(self.reject)
+        tabwidget.addTab(DataTab(), "Data Input")
+        tabwidget.addTab(GraphTab(), "Graph")
+        tabwidget.addTab(AnalysisTab(), "Analysis")
+        tabwidget.addTab(SummaryTab(), "Summary")
 
         vbox = QVBoxLayout()
         vbox.addWidget(tabwidget)
-        vbox.addWidget(buttonbox)
 
         self.setLayout(vbox)
 
 
 
-class FirstTab(QWidget):
+class DataTab(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -45,13 +40,11 @@ class FirstTab(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(name)
         layout.addWidget(nameEdit)
-        layout.addWidget(age)
-        layout.addWidget(ageEdit)
         layout.addWidget(dob)
         layout.addWidget(dobEdit)
         self.setLayout(layout)
 
-class SecondTab(QWidget):
+class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -59,7 +52,7 @@ class SecondTab(QWidget):
         combo = QComboBox()
         list = ["Windows", "Mac", "Linux", "Fedora", "Kali"]
         combo.addItems(list)
-        selectLayout - QVBoxLayout
+        selectLayout = QVBoxLayout()
         selectLayout.addWidget(combo)
         selectGroup.setLayout(selectLayout)
 
@@ -73,34 +66,34 @@ class SecondTab(QWidget):
         checkLayout.addWidget(mac)
         checkLayout.addWidget(linux)
 
-        checkLayout.setLayout(checkLayout)
+        checkGroup.setLayout(checkLayout)
 
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(selectGroup)
         mainLayout.addWidget(checkGroup)
         self.setLayout(mainLayout)
 
-class ThirdTab(QWidget):
+class AnalysisTab(QWidget):
     def __init__(self):
         super().__init__()
 
         label = QLabel("Terms and Conditions")
-        listWidget = QListWidget
+        listWidget = QListWidget()
         list = []
 
         for i in range(1, 20):
             list.append("This is the Terms and Conditions")
 
-        listWidget.insertItems(0, list)
+        listWidget.insertItems(1, list)
 
         checkbox = QCheckBox("Agree to the Terms and Conditions")
 
-        layout = QVBoxLayout
+        layout = QVBoxLayout()
         layout.addWidget(label)
         layout.addWidget(checkbox)
         self.setLayout(layout)
 
-class FourthTab(QWidget):
+class SummaryTab(QWidget):
     def __init__(self):
         super().__init__()
 
