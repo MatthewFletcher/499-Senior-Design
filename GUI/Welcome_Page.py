@@ -2,13 +2,13 @@ from PyQt5.QtWidgets import (QApplication,
 QLabel,  QPushButton, QGridLayout, QWidget, 
 QVBoxLayout, QGroupBox)
 from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import Qt
 import sys
 
 class StartPage(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowIcon(QIcon("StatsLogo1.png"))
         self.title = "Stats Wiz Start Page"
         self.left = 0
         self.top = 0
@@ -18,6 +18,7 @@ class StartPage(QWidget):
 
     def initUi(self):
         self.setWindowTitle(self.title)
+        self.setWindowIcon(QIcon("StatsLogo1.png"))
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.createGridLayout()
 
@@ -28,16 +29,21 @@ class StartPage(QWidget):
 
     def createGridLayout(self):
         layout = QGridLayout()
-        layout.setColumnStretch(1, 4)
 
         pixmap = QPixmap("StatsLogo1.png")
 
         label = QLabel(self)
         label.setPixmap(pixmap)
 
-        layout.addWidget(QPushButton("Import CSV File"), 2, 2)
-        layout.addWidget(QPushButton("Manual Input"), 2, 3)
-        layout.addWidget(label, 1, 1)
+        labelText = QLabel(self)
+        labelText.setText("Welcome to the Stats Wiz!\n\nGet started by selecting\nhow you want to input your data.")
+        labelText.setAlignment(Qt.AlignCenter)
+        labelText.setStyleSheet("font: 20pt Tw Cen MT")
+
+        layout.addWidget(QPushButton("Import CSV File"), 1, 1)
+        layout.addWidget(QPushButton("Manual Input"), 2, 1)
+        layout.addWidget(labelText, 0, 1)
+        layout.addWidget(label, 0, 0)
         self.setLayout(layout)
 
 

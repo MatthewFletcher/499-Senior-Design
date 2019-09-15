@@ -16,6 +16,7 @@ class TabWdiget(QDialog):
         self.top = 0
         self.width = 1000
         self.height = 1000
+        self.showFullScreen()
 
         tabwidget = QTabWidget()
         tabwidget.addTab(DataTab(), "Data Input")
@@ -36,9 +37,10 @@ class DataTab(QWidget):
 
         self.form_widget = Table(10, 10)
 
-        self.form_widget.openSheet()
+        layout = QVBoxLayout()
+        layout.addWidget(self.form_widget.openSheet())
+        self.setLayout(layout)
         self.show()
-
 
 
 
