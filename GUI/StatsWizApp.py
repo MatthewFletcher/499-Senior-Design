@@ -1,7 +1,9 @@
-from PyQt5.QtWidgets import (QApplication, QDialog, QTabWidget, 
-QWidget, QVBoxLayout, QDialogButtonBox, QLabel, QLineEdit, QGroupBox,
-QCheckBox, QComboBox, QListWidget)
+from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
+QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
+QTextEdit, QLineEdit, QMainWindow, QFileDialog)
 from PyQt5.QtGui import QIcon
+import os
+import csv
 import sys 
 
 class TabWdiget(QDialog):
@@ -10,6 +12,7 @@ class TabWdiget(QDialog):
 
         self.setWindowTitle("Stats Wiz")
         self.setWindowIcon(QIcon("StatsLogo1.png"))
+        self.showMaximized()
 
         tabwidget = QTabWidget()
         tabwidget.addTab(DataTab(), "Data Input")
@@ -28,76 +31,68 @@ class DataTab(QWidget):
     def __init__(self):
         super().__init__()
 
-        name = QLabel("Name:")
-        nameEdit = QLineEdit()
+        self.form_widget = Table(10, 10)
+        self.setCentralWidget(self.form_widget)
 
-        dob = QLabel("Birth Date:")
-        dobEdit = QLineEdit()
+        self.form_widget.openSheet()
+        self.show()
 
-        phone = QLabel("Phone Number:")
-        phoneEdit = QLineEdit()
 
-        layout = QVBoxLayout()
-        layout.addWidget(name)
-        layout.addWidget(nameEdit)
-        layout.addWidget(dob)
-        layout.addWidget(dobEdit)
-        self.setLayout(layout)
+
 
 class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
 
-        selectGroup = QGroupBox("Select Operating Systems")
-        combo = QComboBox()
-        list = ["Windows", "Mac", "Linux", "Fedora", "Kali"]
-        combo.addItems(list)
-        selectLayout = QVBoxLayout()
-        selectLayout.addWidget(combo)
-        selectGroup.setLayout(selectLayout)
 
-        checkGroup = QGroupBox("Which Operating System Do You Like?")
-        windows = QCheckBox("Windows")
-        mac = QCheckBox("Mac")
-        linux = QCheckBox("Linux")
-
-        checkLayout = QVBoxLayout()
-        checkLayout.addWidget(windows)
-        checkLayout.addWidget(mac)
-        checkLayout.addWidget(linux)
-
-        checkGroup.setLayout(checkLayout)
-
-        mainLayout = QVBoxLayout()
-        mainLayout.addWidget(selectGroup)
-        mainLayout.addWidget(checkGroup)
-        self.setLayout(mainLayout)
 
 class AnalysisTab(QWidget):
     def __init__(self):
         super().__init__()
 
-        label = QLabel("Terms and Conditions")
-        listWidget = QListWidget()
-        list = []
 
-        for i in range(1, 20):
-            list.append("This is the Terms and Conditions")
-
-        listWidget.insertItems(1, list)
-
-        checkbox = QCheckBox("Agree to the Terms and Conditions")
-
-        layout = QVBoxLayout()
-        layout.addWidget(label)
-        layout.addWidget(checkbox)
-        self.setLayout(layout)
 
 class SummaryTab(QWidget):
     def __init__(self):
         super().__init__()
 
 
+
+class Table(QTableWidget):
+    def __init__(self, rows, columns):
+        super().__init__(rows, columns)
+        self.checkChange = True
+        self.initUi()
+
+        def initUi(self):
+            self.cellChanged.connect(self.currentCell)
+            self.show()
+
+        def currentCell(self):
+            if self.checkChange:
+                row = self.currentRow()
+                col = self.currentColumn()
+                value = self.item(row, col)
+                value = value.text()
+
+        def openSheet(self):
+            self.checkChange = False
+            path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
+            if path[0] != '':
+                with open(path[0], newline = '') as csv_file:
+                    self.setRowCount(0)
+                    self.setColumnCount(10)
+                    my_file = csv.reader(csv_file, delimiter = ',' | '  ', quotechar = '|')
+                    for row_data in my_file:
+                        row = self.rowCount()
+                        self.insertRow(row)
+                        if len(row_data) > 10:
+                            self.setColumnCount(len(row_data))
+                        for column, stuff in enumerate(row_data):
+                            item = QTableWidgetItem(stuff)
+                            self.setItem(row, column, item)
+
+            self.checkChange = True
 
 
 app = QApplication(sys.argv)

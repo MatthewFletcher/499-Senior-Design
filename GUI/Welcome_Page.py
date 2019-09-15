@@ -1,23 +1,26 @@
-from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog,DialogButtonBox, QFormLayout, QGridLayout, QGroupBox, 
-QHBoxLayout, QLabel, QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTextEdit, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (QApplication,
+QLabel,  QPushButton, QGridLayout, QWidget)
 from PyQt5.QtGui import QPixmap
 
-def StartPage():
-    app = QApplication([])
-    app.setStyle("Fusion")
-    window = QWidget()
+class StartPage(QWidget):
+    def __init__(self):
+        super().__init__()
 
-    label = QLabel
-    label.setPixmap(QLabel(), QPixmap("StatsLogo1.png"))
+        app = QApplication([])
+        app.setStyle("Fusion")
+        window = QWidget()
 
-    layout = QVBoxLayout()
-    layout.addWidget(QPushButton("Import CSV File"))
-    layout.addWidget(QPushButton("Manual Input"))
-    layout.addWidget(QPushButton("Help"))
+        label = QLabel
+        label.setPixmap(QLabel(), QPixmap("StatsLogo1.png"))
 
-    window.setWindowTitle("Stats Wiz Start Page")
-    window.setLayout(layout)
-    window.show()
-    app.exec_()
+        layout = QGridLayout()
+        layout.addWidget(QPushButton("Import CSV File"))
+        layout.addWidget(QPushButton("Manual Input"))
+        layout.addWidget(QPushButton("Help"))
+
+        window.setWindowTitle("Stats Wiz Start Page")
+        window.setLayout(layout)
+        window.show()
+        app.exec_()
     
 StartPage()
