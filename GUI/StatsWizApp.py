@@ -12,8 +12,8 @@ class TabWdiget(QDialog):
 
         self.setWindowTitle("Stats Wiz")
         self.setWindowIcon(QIcon("StatsLogo1.png"))
-        self.left = 10
-        self.top = 10
+        self.left = 0
+        self.top = 0
         self.width = 1000
         self.height = 1000
 

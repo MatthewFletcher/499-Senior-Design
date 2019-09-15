@@ -1,23 +1,23 @@
 from PyQt5.QtWidgets import (QApplication,
 QLabel,  QPushButton, QGridLayout, QWidget, 
 QVBoxLayout, QGroupBox)
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 import sys
 
 class StartPage(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.setWindowIcon(QIcon("StatsLogo1.png"))
         self.title = "Stats Wiz Start Page"
-        self.left = 10
-        self.top = 10
+        self.left = 0
+        self.top = 0
         self.width = 1000
         self.height = 1000
         self.initUi()
 
     def initUi(self):
         self.setWindowTitle(self.title)
-        self.setWindowIcon(QIcon("StatsLogo1.png"))
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.createGridLayout()
 
