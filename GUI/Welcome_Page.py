@@ -20,13 +20,7 @@ class StartPage(QWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.createGridLayout()
 
-        pixmap = QPixmap("StatsLogo1.png")
-
-        lbl = QLabel(self)
-        lbl.setPixmap(pixmap)
-
         windowLayout = QVBoxLayout()
-        windowLayout.addWidget(lbl)
         self.setLayout(windowLayout)
 
         self.show()
@@ -34,10 +28,15 @@ class StartPage(QWidget):
     def createGridLayout(self):
         layout = QGridLayout()
         layout.setColumnStretch(1, 4)
-        layout.setColumnStretch(2, 4)
+
+        pixmap = QPixmap("StatsLogo1.png")
+
+        label = QLabel(self)
+        label.setPixmap(pixmap)
 
         layout.addWidget(QPushButton("Import CSV File"), 2, 2)
         layout.addWidget(QPushButton("Manual Input"), 2, 3)
+        layout.addWidget(label, 1, 1)
         self.setLayout(layout)
 
 
