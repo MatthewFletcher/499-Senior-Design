@@ -12,7 +12,10 @@ class TabWdiget(QDialog):
 
         self.setWindowTitle("Stats Wiz")
         self.setWindowIcon(QIcon("StatsLogo1.png"))
-        self.showMaximized()
+        self.left = 10
+        self.top = 10
+        self.width = 1000
+        self.height = 1000
 
         tabwidget = QTabWidget()
         tabwidget.addTab(DataTab(), "Data Input")
@@ -32,7 +35,6 @@ class DataTab(QWidget):
         super().__init__()
 
         self.form_widget = Table(10, 10)
-        self.setCentralWidget(self.form_widget)
 
         self.form_widget.openSheet()
         self.show()
@@ -64,35 +66,35 @@ class Table(QTableWidget):
         self.checkChange = True
         self.initUi()
 
-        def initUi(self):
-            self.cellChanged.connect(self.currentCell)
-            self.show()
+    def initUi(self):
+        self.cellChanged.connect(self.currentCell)
+        self.show()
 
-        def currentCell(self):
-            if self.checkChange:
-                row = self.currentRow()
-                col = self.currentColumn()
-                value = self.item(row, col)
-                value = value.text()
+    def currentCell(self):
+        if self.checkChange:
+            row = self.currentRow()
+            col = self.currentColumn()
+            value = self.item(row, col)
+            value = value.text()
 
-        def openSheet(self):
-            self.checkChange = False
-            path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
-            if path[0] != '':
-                with open(path[0], newline = '') as csv_file:
-                    self.setRowCount(0)
-                    self.setColumnCount(10)
-                    my_file = csv.reader(csv_file, delimiter = ',' | '  ', quotechar = '|')
-                    for row_data in my_file:
-                        row = self.rowCount()
-                        self.insertRow(row)
-                        if len(row_data) > 10:
-                            self.setColumnCount(len(row_data))
-                        for column, stuff in enumerate(row_data):
-                            item = QTableWidgetItem(stuff)
-                            self.setItem(row, column, item)
+    def openSheet(self):
+        self.checkChange = False
+        path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
+        if path[0] != '':
+            with open(path[0], newline = '') as csv_file:
+                self.setRowCount(0)
+                self.setColumnCount(10)
+                my_file = csv.reader(csv_file, delimiter = ',' | '  ', quotechar = '|')
+                for row_data in my_file:
+                    row = self.rowCount()
+                    self.insertRow(row)
+                    if len(row_data) > 10:
+                        self.setColumnCount(len(row_data))
+                    for column, stuff in enumerate(row_data):
+                        item = QTableWidgetItem(stuff)
+                        self.setItem(row, column, item)
 
-            self.checkChange = True
+        self.checkChange = True
 
 
 app = QApplication(sys.argv)

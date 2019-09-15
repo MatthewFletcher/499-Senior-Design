@@ -11,12 +11,13 @@ class StartPage(QWidget):
         self.title = "Stats Wiz Start Page"
         self.left = 10
         self.top = 10
-        self.width = 500
-        self.height = 500
+        self.width = 1000
+        self.height = 1000
         self.initUi()
 
     def initUi(self):
         self.setWindowTitle(self.title)
+        self.setWindowIcon(QIcon("StatsLogo1.png"))
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.createGridLayout()
 
