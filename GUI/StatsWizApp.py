@@ -40,5 +40,4 @@ def runStatsWiz():
     tabPage.show()
     app.exec()
 
-
-#runStatsWiz()
+runStatsWiz()

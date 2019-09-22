@@ -11,6 +11,7 @@ class DataTab(QWidget):
         super().__init__()
 
         self.form_widget = Table(100, 100)
+        #self.form_widget1 = openMadeSheet()
 
         layout = QVBoxLayout()
         layout.addWidget(self.form_widget)
@@ -46,7 +47,7 @@ class Table(QTableWidget):
             with open(path[0], newline = '') as csv_file:
                 self.setRowCount(0)
                 self.setColumnCount(10)
-                my_file = csv.reader(csv_file, delimiter = ',' | '  ', quotechar = '|')
+                my_file = csv.reader(csv_file, delimiter = ',', quotechar = '|')
                 for row_data in my_file:
                     row = self.rowCount()
                     self.insertRow(row)
