@@ -12,7 +12,7 @@ class TabPage(QTabWidget):
     def __init__(self):
         super().__init__()
 
-        self.setStyleSheet('font-size: 20pt; font-family: Courier')
+        self.setStyleSheet('font: 15pt Tw Cen MT')
 
         self.setWindowTitle("Stats Wiz")
         self.setWindowIcon(QIcon("StatsLogo1.png"))
@@ -35,7 +35,9 @@ class TabPage(QTabWidget):
         self.setLayout(layout)
 
 def runStatsWiz():
-    #app = QApplication(sys.argv)
     tabPage = TabPage()
     tabPage.show()
-    #app.exec()
+    # app = QApplication(sys.argv)
+    # app.exec()
+
+#runStatsWiz()
