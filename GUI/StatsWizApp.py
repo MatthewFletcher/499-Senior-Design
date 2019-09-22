@@ -35,9 +35,10 @@ class TabPage(QTabWidget):
         self.setLayout(layout)
 
 def runStatsWiz():
+    app = QApplication(sys.argv)
     tabPage = TabPage()
     tabPage.show()
-    # app = QApplication(sys.argv)
-    # app.exec()
+    app.exec()
+
 
 #runStatsWiz()
