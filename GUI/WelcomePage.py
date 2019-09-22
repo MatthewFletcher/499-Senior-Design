@@ -1,11 +1,13 @@
 from PyQt5.QtWidgets import (QApplication,
 QLabel,  QPushButton, QGridLayout, QWidget, 
-QVBoxLayout, QGroupBox)
+QVBoxLayout, QGroupBox, QDesktopWidget, QTabBar,
+QMainWindow)
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 import sys
+import StatsWizApp
 
-class StartPage(QWidget):
+class StartPage(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -22,9 +24,6 @@ class StartPage(QWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.createGridLayout()
 
-        windowLayout = QVBoxLayout()
-        self.setLayout(windowLayout)
-
         self.show()
 
     def createGridLayout(self):
@@ -40,15 +39,37 @@ class StartPage(QWidget):
         labelText.setAlignment(Qt.AlignCenter)
         labelText.setStyleSheet("font: 20pt Tw Cen MT")
 
-        layout.addWidget(QPushButton("Import CSV File"), 1, 1)
-        layout.addWidget(QPushButton("Manual Input"), 2, 1)
+        importButton = QPushButton("Import CSV File")
+        manualButton = QPushButton("Manual Input")
+
+        importButton.setIconSize(QSize(20, 20))   
+        importButton.setStyleSheet("font: 18pt Tw Cen MT")
+
+        manualButton.setIconSize(QSize(20, 20))   
+        manualButton.setStyleSheet("font: 18pt Tw Cen MT")
+
+        importButton.clicked.connect(self.importClick)
+        manualButton.clicked.connect(self.manualClick)
+
+        layout.addWidget(importButton, 1, 1)
+        layout.addWidget(manualButton, 2, 1)
         layout.addWidget(labelText, 0, 1)
         layout.addWidget(label, 0, 0)
-        self.setLayout(layout)
 
+        centralWidget = QWidget()
+        self.setCentralWidget(centralWidget)
+        centralWidget.setLayout(layout)
 
-    
-app = QApplication(sys.argv)
-startPage = StartPage()
-startPage.show()
-app.exec()
+    def importClick(self):
+        StatsWizApp.runStatsWiz()
+
+    def manualClick(self):
+        StatsWizApp.runStatsWiz()
+
+def main():
+    app = QApplication(sys.argv)
+    startPage = StartPage()
+    startPage.show()
+    app.exec()
+
+main()
