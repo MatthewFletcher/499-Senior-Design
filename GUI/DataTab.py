@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
 QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
 QTextEdit, QLineEdit, QMainWindow, QFileDialog, QRadioButton, 
-QGroupBox, QCheckBox, QPushButton, QGridLayout)
+QGroupBox, QCheckBox, QPushButton, QGridLayout, QButtonGroup)
 from PyQt5.QtGui import QIcon
 from PyQt5 import Qt
 import os
@@ -13,61 +13,70 @@ class DataTab(QWidget):
         super().__init__()
 
         self.createGraphGroup()
-        self.createSelectionGroup()
-        self.createDataTypeGroup()
+        self.createCustomGroup()
 
         layout = QGridLayout()
-        layout.addWidget(self.LeftGroupBox, 0, 0)
-        layout.addWidget(self.RightGroupBox, 0, 1)
-        layout.addWidget(self.DataTypeGroup, 1, 1)
+        layout.addWidget(self.GraphGroup, 0, 0, 0, 1)
+        layout.addWidget(self.CustomGroup, 0, 1)
         #layout.addWidget(self.form_widget.openMadeSheet())
         self.setLayout(layout)
         self.show()
 
     def createGraphGroup(self):
-        self.LeftGroupBox = QGroupBox("Group 1")
+        self.GraphGroup = QGroupBox("Group 1")
 
         self.form_widget = Table(100, 100)
 
         layout = QVBoxLayout()
         layout.addWidget(self.form_widget)
-        self.LeftGroupBox.setLayout(layout)    
+        self.GraphGroup.setLayout(layout)    
 
-    def createSelectionGroup(self):
-        self.RightGroupBox = QGroupBox("Do you want to analyze all your data or only part of it?")
+    def createCustomGroup(self):
+        self.CustomGroup = QGroupBox()
 
-        defaultPushButton = QPushButton("Default Push Button")
-        defaultPushButton.setDefault(True)
+        # Ask user what they'd like to graph
+        graphLabel = QLabel("How much do you want graphed?")
+        graphGroup = QButtonGroup()
+        allRadioButton = QRadioButton("Graph everything")
+        selectionRadioButton = QRadioButton("Let me pick what to graph")
+        graphGroup.addButton(allRadioButton)
+        graphGroup.addButton(selectionRadioButton)
 
-        togglePushButton = QPushButton("Toggle Push Button")
-        togglePushButton.setCheckable(True)
-        togglePushButton.setChecked(True)
+        # Ask user what type of data it is 
+        dataLabel = QLabel("What kind of data is it?")
+        newLine = QLabel("\n")
+        typeGroup = QButtonGroup()
+        intervalRadioButton = QRadioButton("Interval")
+        ordinalRadioButton = QRadioButton("Ordinal")
+        frequencyRadioButton = QRadioButton("Frequency")
+        typeGroup.addButton(intervalRadioButton)
+        typeGroup.addButton(ordinalRadioButton)
+        typeGroup.addButton(frequencyRadioButton)
 
-        flatPushButton = QPushButton("Flat Push Button")
-        flatPushButton.setFlat(True)
+        # Buttons to let the user submit the data
+        goButton = QPushButton("Submit Data")
+        goButton.setDefault(True)
+        newButton = QPushButton("Import New CSV")
+        newButton.setDefault(True)
 
+        # Layout
         layout = QVBoxLayout()
-        layout.addWidget(defaultPushButton)
-        layout.addWidget(togglePushButton)
-        layout.addWidget(flatPushButton)
+        layout.addWidget(graphLabel)
+        layout.addWidget(allRadioButton)
+        layout.addWidget(selectionRadioButton)
+        layout.addWidget(newLine)
+
+        layout.addWidget(dataLabel)
+        layout.addWidget(intervalRadioButton)
+        layout.addWidget(ordinalRadioButton)
+        layout.addWidget(frequencyRadioButton)
         layout.addStretch(1)
-        self.RightGroupBox.setLayout(layout)
+        layout.addWidget(newLine)
 
-    def createDataTypeGroup(self):
-        self.DataTypeGroup = QGroupBox("What Type of data is it?")
-
-        radioButton1 = QRadioButton("Interval")
-        radioButton2 = QRadioButton("Ordinal")
-        radioButton3 = QRadioButton("Frequency")
-
-        layout = QVBoxLayout()
-        layout.addWidget(radioButton1)
-        layout.addWidget(radioButton2)
-        layout.addWidget(radioButton3)
+        layout.addWidget(goButton)
+        layout.addWidget(newButton)
         layout.addStretch(1)
-        self.DataTypeGroup.setLayout(layout) 
-
-
+        self.CustomGroup.setLayout(layout) 
 
 class Table(QTableWidget):
     def __init__(self, rows, columns):
