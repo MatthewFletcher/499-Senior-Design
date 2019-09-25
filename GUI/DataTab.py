@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
 QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-QTextEdit, QLineEdit, QMainWindow, QFileDialog)
+QTextEdit, QLineEdit, QMainWindow, QFileDialog, QRadioButton, 
+QGroupBox, QCheckBox, QPushButton, QGridLayout)
 from PyQt5.QtGui import QIcon
+from PyQt5 import Qt
 import os
 import csv
 import sys 
@@ -10,14 +12,61 @@ class DataTab(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.form_widget = Table(100, 100)
-        #self.form_widget1 = openMadeSheet()
+        self.createGraphGroup()
+        self.createSelectionGroup()
+        self.createDataTypeGroup()
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.form_widget)
+        layout = QGridLayout()
+        layout.addWidget(self.LeftGroupBox, 0, 0)
+        layout.addWidget(self.RightGroupBox, 0, 1)
+        layout.addWidget(self.DataTypeGroup, 1, 1)
         #layout.addWidget(self.form_widget.openMadeSheet())
         self.setLayout(layout)
         self.show()
+
+    def createGraphGroup(self):
+        self.LeftGroupBox = QGroupBox("Group 1")
+
+        self.form_widget = Table(100, 100)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.form_widget)
+        self.LeftGroupBox.setLayout(layout)    
+
+    def createSelectionGroup(self):
+        self.RightGroupBox = QGroupBox("Do you want to analyze all your data or only part of it?")
+
+        defaultPushButton = QPushButton("Default Push Button")
+        defaultPushButton.setDefault(True)
+
+        togglePushButton = QPushButton("Toggle Push Button")
+        togglePushButton.setCheckable(True)
+        togglePushButton.setChecked(True)
+
+        flatPushButton = QPushButton("Flat Push Button")
+        flatPushButton.setFlat(True)
+
+        layout = QVBoxLayout()
+        layout.addWidget(defaultPushButton)
+        layout.addWidget(togglePushButton)
+        layout.addWidget(flatPushButton)
+        layout.addStretch(1)
+        self.RightGroupBox.setLayout(layout)
+
+    def createDataTypeGroup(self):
+        self.DataTypeGroup = QGroupBox("What Type of data is it?")
+
+        radioButton1 = QRadioButton("Interval")
+        radioButton2 = QRadioButton("Ordinal")
+        radioButton3 = QRadioButton("Frequency")
+
+        layout = QVBoxLayout()
+        layout.addWidget(radioButton1)
+        layout.addWidget(radioButton2)
+        layout.addWidget(radioButton3)
+        layout.addStretch(1)
+        self.DataTypeGroup.setLayout(layout) 
+
 
 
 class Table(QTableWidget):
