@@ -23,6 +23,7 @@ def graph(df):
     plt.plot(x, y)
     plt.show()
 
+# This function will graph the ordinal data with no restriction
 def ordinal(df):
     headers = list(df.columns.values)
     # Remove the Question # column
@@ -37,7 +38,7 @@ def ordinal(df):
     print(y)
 
 if __name__ == '__main__':
-    myinfo = CSV_Wizard.openFile("../../TestData/FrequencyDataTest.csv")
+    myinfo = CSV_Wizard.openFile("../../TestData/OrdinalDataTest.csv")
     #contains numpy array
     d = myinfo[0]
     ordinal(d)
