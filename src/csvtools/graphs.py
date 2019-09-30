@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels
 import csv
-import CSV_Wizard
+import CSV_Wizard 
 import UserSelect
 
 # This function will graph the functional or interval data with no restrictions
