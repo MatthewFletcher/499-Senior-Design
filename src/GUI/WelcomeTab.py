@@ -1,15 +1,23 @@
 from PyQt5.QtWidgets import (QApplication,
-QLabel,  QPushButton, QGridLayout, QWidget, 
-QVBoxLayout, QGroupBox, QDesktopWidget, QTabBar,
-QMainWindow, QTabWidget)
+                             QLabel, QPushButton, QGridLayout, QWidget,
+                             QVBoxLayout, QGroupBox, QDesktopWidget, QTabBar,
+                             QMainWindow, QTabWidget)
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, QSize
 import sys
+
 
 class WelcomeTab(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.centralWidget = QWidget()
+        self.labelText = QLabel(self)
+        self.infoText = QLabel(self)
+        self.layout = QGridLayout()
+        self.pixmap = QPixmap("StatsLogo1.png")
+        self.pixmap2 = self.pixmap.scaled(600, 600)
+        self.label = QLabel(self)
         self.left = 0
         self.top = 0
         self.width = 1000
@@ -23,55 +31,26 @@ class WelcomeTab(QMainWindow):
         self.show()
 
     def createGridLayout(self):
-        layout = QGridLayout()
+        self.label.setPixmap(self.pixmap2)
 
-        pixmap = QPixmap("StatsLogo1.png")
+        #self.labelText.setAlignment(Qt.AlignCenter)
+        self.labelText.setStyleSheet("font: 18pt Tw Cen MT")
+        self.labelText.setText("Welcome to the Stats Wiz! Here's all you need to know:\n\n"
+                               "Data Tab:\nData can be manually entered into a table or uploaded from a CSV File.\n"
+                               "The rest of the capabilities will be dependent upon the type of data you entered\n"
+                               "(ordinal, interval, or frequency).\n\n"
+                               "Graph Tab:\nOur application will graph your data with your choice of "
+                               "graph-\nHorizontal bar chart, vertical bar chart, pie chart, normal distribution "
+                               "curve, or X-Y graph.\n\n"
+                               "Analysis Tab:\nWe can run the following statistical analyses on your data-\nmean, "
+                               "median, mode, standard deviation, variance, coefficient of variance,\npercentiles, "
+                               "probability distribution, binomial distribution,\nleast square line, X^2 (Chi Square), "
+                               "correlation coefficient, sign test,\nrank sum test, and Spearman rank correlation "
+                               "coefficient.\n\n"
+                               "Summary Tab:\nHere you can see a summary of all you did to your data.\n")
 
-        label = QLabel(self)
-        label.setPixmap(pixmap)
+        self.layout.addWidget(self.labelText, 0, 1)
+        self.layout.addWidget(self.label, 0, 0)
 
-        labelText = QLabel(self)
-        labelText.setText("Welcome to the Stats Wiz!\n\nGet started by goint to the Data Input Tab to input your data.")
-        labelText.setAlignment(Qt.AlignCenter)
-        labelText.setStyleSheet("font: 20pt Tw Cen MT")
-
-        # importButton = QPushButton("Import CSV File")
-        # manualButton = QPushButton("Manual Input")
-
-        # importButton.setIconSize(QSize(20, 20))   
-        # importButton.setStyleSheet("font: 18pt Tw Cen MT")
-
-        # manualButton.setIconSize(QSize(20, 20))   
-        # manualButton.setStyleSheet("font: 18pt Tw Cen MT")
-
-        # importButton.clicked.connect(self.importClick)
-        # manualButton.clicked.connect(self.manualClick)
-
-        # layout.addWidget(importButton, 1, 1)
-        # layout.addWidget(manualButton, 2, 1)
-        layout.addWidget(labelText, 0, 1)
-        layout.addWidget(label, 0, 0)
-
-        centralWidget = QWidget()
-        self.setCentralWidget(centralWidget)
-        centralWidget.setLayout(layout)
-
-    # def importClick(self):
-    #     self.close()
-    #     tabPage = TabPage.TabPage()
-    #     tabPage.show()
-    #     tabPage.exec_()
-
-    # def manualClick(self):
-    #     self.close()
-    #     tabPage = TabPage.TabPage()
-    #     tabPage.show()
-    #     tabPage.exec_()
-
-# def main():
-#     welcomeApp = QApplication(sys.argv)
-#     startPage = StartPage()
-#     startPage.show()
-#     welcomeApp.exec_()
-
-# main()
+        self.setCentralWidget(self.centralWidget)
+        self.centralWidget.setLayout(self.layout)

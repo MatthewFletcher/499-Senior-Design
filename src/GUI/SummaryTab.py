@@ -1,10 +1,11 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
-QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-QTextEdit, QLineEdit, QMainWindow, QFileDialog)
-from PyQt5.QtGui import QIcon
+                             QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
+                             QTextEdit, QLineEdit, QMainWindow, QFileDialog)
+import PyQt5.QtGui
 import os
 import csv
-import sys 
+import sys
+
 
 class SummaryTab(QWidget):
     def __init__(self):

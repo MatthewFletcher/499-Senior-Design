@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f9316df-b4f2-4a8a-908b-901e240c2d5b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/csvtools/graphs.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/csvtools/graphs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/499-Senior-Design.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/AnalysisTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/AnalysisTab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/DataTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/DataTab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/GraphTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GraphTab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/StatsWizApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StatsWizApp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/SummaryTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SummaryTab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/WelcomeTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/WelcomeTab.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,7 +26,7 @@
   </component>
   <component name="ProjectId" id="1ROdqPCjPQiQ6uCtPEFyO5vUQ7D" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/GUI/StatsWizApp.py" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -28,6 +39,29 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="StatsWizApp" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="499-Senior-Design" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\Jada\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/GUI" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="false" />
+      <option name="ADD_SOURCE_ROOTS" value="false" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/GUI/StatsWizApp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -47,7 +81,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

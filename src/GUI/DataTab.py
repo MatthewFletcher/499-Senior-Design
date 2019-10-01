@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
-QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-QTextEdit, QLineEdit, QMainWindow, QFileDialog, QRadioButton, 
-QGroupBox, QCheckBox, QPushButton, QGridLayout, QButtonGroup)
+                             QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
+                             QTextEdit, QLineEdit, QMainWindow, QFileDialog, QRadioButton,
+                             QGroupBox, QCheckBox, QPushButton, QGridLayout, QButtonGroup)
 from PyQt5.QtGui import QIcon
 from PyQt5 import Qt
 import os
 import csv
-import sys 
+import sys
+
 
 class DataTab(QWidget):
     def __init__(self):
@@ -18,7 +19,7 @@ class DataTab(QWidget):
         self.layout = QGridLayout()
         self.layout.addWidget(self.GraphGroup, 0, 0, 0, 1)
         self.layout.addWidget(self.CustomGroup, 0, 1)
-        #layout.addWidget(self.form_widget.openMadeSheet())
+        # layout.addWidget(self.form_widget.openMadeSheet())
         self.setLayout(self.layout)
         self.show()
 
@@ -29,7 +30,7 @@ class DataTab(QWidget):
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.form_widget)
-        self.GraphGroup.setLayout(self.layout)    
+        self.GraphGroup.setLayout(self.layout)
 
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox()
@@ -79,7 +80,8 @@ class DataTab(QWidget):
         self.layout.addWidget(self.clearButton)
         self.layout.addWidget(self.goButton)
         self.layout.addStretch(1)
-        self.CustomGroup.setLayout(self.layout) 
+        self.CustomGroup.setLayout(self.layout)
+
 
 class Table(QTableWidget):
     def __init__(self, rows, columns):
@@ -97,7 +99,7 @@ class Table(QTableWidget):
             col = self.currentColumn()
             value = self.item(row, col)
             value = value.text()
-    
+
     def openBlankSheet(self):
         i = 2
 
@@ -105,10 +107,10 @@ class Table(QTableWidget):
         self.checkChange = False
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':
-            with open(path[0], newline = '') as csv_file:
+            with open(path[0], newline='') as csv_file:
                 self.setRowCount(0)
                 self.setColumnCount(10)
-                my_file = csv.reader(csv_file, delimiter = ',', quotechar = '|')
+                my_file = csv.reader(csv_file, delimiter=',', quotechar='|')
                 for row_data in my_file:
                     row = self.rowCount()
                     self.insertRow(row)
