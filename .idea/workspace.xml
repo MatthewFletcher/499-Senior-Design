@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f9316df-b4f2-4a8a-908b-901e240c2d5b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/499-Senior-Design.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/AnalysisTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/AnalysisTab.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/DataTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/DataTab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/GraphTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/GraphTab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/StatsWizApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StatsWizApp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/SummaryTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SummaryTab.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/WelcomeTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/WelcomeTab.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

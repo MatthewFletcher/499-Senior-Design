@@ -43,6 +43,11 @@ class DataTab(QWidget):
         self.graphGroup.addButton(self.allRadioButton)
         self.graphGroup.addButton(self.selectionRadioButton)
 
+        self.beginRow = QLineEdit("Starting Row")
+        self.beginCol = QLineEdit("Starting Column")
+        self.endRow = QLineEdit("Ending Row")
+        self.endCol = QLineEdit("Ending Column")
+
         # Ask user what type of data it is 
         self.dataLabel = QLabel("What kind of data is it?")
         self.newLine = QLabel("\n")
@@ -67,6 +72,10 @@ class DataTab(QWidget):
         self.layout.addWidget(self.graphLabel)
         self.layout.addWidget(self.allRadioButton)
         self.layout.addWidget(self.selectionRadioButton)
+        self.layout.addWidget(self.beginRow)
+        self.layout.addWidget(self.beginCol)
+        self.layout.addWidget(self.endRow)
+        self.layout.addWidget(self.endCol)
         self.layout.addWidget(self.newLine)
 
         self.layout.addWidget(self.dataLabel)
