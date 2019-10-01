@@ -2,26 +2,17 @@ import pandas as pd
 import numpy as np
 import sys
 
+ #dont use function literally add and divide
+def mean(df):
+    #test=np.mean(df) Check: match
+    #print(test)
 
-def mean(a):
-    #dont use function literally add and divide
-    #b=np.sum(a.iloc[:,:])
-    print("inside mean function")
-    xrow,ycol=a.shape
-    labels=a.columns
-    print(a.shape)
-    test=a
-    
-    
+    #Add each columns values total
+    newDF=df.append(df.sum(numeric_only=True)/len(df),ignore_index=True)
+    #retrive the last row which is the mean result.
+    newDF=newDF[len(newDF)-1:]
+    return newDF
 
-    
-    print(test)
-    print("\n\ntype: "+ str(type(test)))
-
-    # a=a.iloc[:,1]
-    # look=np.sum(a.iloc[:])
-
-    return a
 def median(a):
     return np.median(a)
 def var(a):
