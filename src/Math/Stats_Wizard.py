@@ -1,36 +1,53 @@
 import numpy as np
 import statistics as s
 import math as ma
+import scipy.stats as st
+
+class Statistics:
+    def __init__(self, d):
+        self.d = d
+
+    def max(self):
+        return max(self.d)
+
+    def min(self):
+        return min(self.d)
+
+    def range(self):
+        return self.max() - self.min()
+    
+    def mean(self):
+        return sum(self.d)/len(self.d) 
+
+    def median(self):
+        return sorted(self.d)[int(len(self.d) / 2)]
+    
+    def mode(self):
+        #TODO Fix this
+        return 1
+    
+    def var(self):
+        return 4
+        #TODO MAKE THIS STUPID FUNCTION WORK
+        #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
+        return sum([x - self.d.mean() for x in self.d]) / (len(self.d) ) 
+
+
+    def stddev(self):
+        return self.var() ** 0.5
+
 
 class Regression:
     def __init__(self, a, x_col = 0, y_col = 4):
-        self.data = a
+        self.df = a
         self.cols = a.T
         
         #TODO make this less janky
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
 
-    def range(self):
-        return [np.amax(col) - np.amin(col) for col in self.data.T]
-    
-    def mean(self):
-        return np.avg(self.data)
-
-    def mode(self):
-        pass
-
-    def median(self):
-        return np.median(self.data)
-
-    def var(self):
-        return np.var(self.data)
-
-    def stddev(self):
-        return np.std(self.data)        
-
     def pearsonR(self):
-        # http://onlinestatbook.com/2/describing_bivariate_data/calculation.html
+        # http://onlinestatbook.com/2/describing_bivariate_df/calculation.html
         x = self.xcol
         y = self.ycol
         
@@ -58,7 +75,7 @@ class Regression:
 
     def linear(self):
         '''
-        Calculates the line of best fit for 2 vectors of data
+        Calculates the line of best fit for 2 vectors of df
         Parameters: None
         Returns: Dictionary d
             d['slope'] = m
@@ -88,8 +105,18 @@ class Regression:
         d['y_int'] = b
 
         return d 
-    
-    def normal(self):
-        pass
 
+    def makeDistributionList(self):
+        distributions = [st.laplace, st.norm]
 
+    def getBestDistribution(self):
+        mles = []
+
+        for distribution in distributions:
+            pars = distribution.fit(df)
+            mle = distribution.nnlf(pars, df)
+            mles.append(mle)
+
+        results = [(distribution.name, mle) for distribution, mle in zip(distributions, mles)]
+        best_fit = sorted(zip(distributions, mles), key=lambda d: d[1])[0]
+        print("Best fit reached using {}, MLE value: {}".format(best_fit[0].name, best_fit[1]))
