@@ -9,6 +9,9 @@ import inspect
 
 
 class Statistics:
+    '''
+        This class consists of all tests that require only 1 vector.
+    '''
     def __init__(self, d):
         self.d = d
 
@@ -58,7 +61,6 @@ class Statistics:
         Parameters: None
         Returns: Number if a mode exists, otherwise returns None.
         '''
-        #TODO Fix this
         return self.d.value_counts().idxmax() if self.d.value_counts().max()==1 else None
     
     def s_var(self):
@@ -82,15 +84,18 @@ class Statistics:
         '''
         Returns a list of all methods in the Statistics class
         Parameters: None
-        Returns: List of string names
+        Returns: List of tuples: (method_name, method)
 
         Exceptions: None
         '''
-        return [m[0]  for m in inspect.getmembers(self,predicate=inspect.ismethod) if m[0].startswith('s_')]
+        return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod) if m[0].startswith('s_')]
 
 
 
 class Regression:
+    '''
+    This class consists of all tests that require 2 or more vectors.
+    '''
     def __init__(self, a, x_col = 0, y_col = 4):
         self.df = a
         self.cols = a.T
@@ -126,7 +131,7 @@ class Regression:
         return num(x,y)/den(x,y)
 
 
-    def linear(self):
+    def r_linear(self):
         '''
         Calculates the line of best fit for 2 vectors of df
         Parameters: None
@@ -159,8 +164,10 @@ class Regression:
 
         return d 
 
+    
     def makeDistributionList(self):
-        distributions = [st.laplace, st.norm]
+        return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
+                if m[0].startswith('r_')]
 
     def getBestDistribution(self):
         mles = []
