@@ -4,36 +4,90 @@ import numpy as np
 import statistics as s
 import math as ma
 import scipy.stats as st
+from optparse import OptionParser
+import inspect
+
 
 class Statistics:
     def __init__(self, d):
         self.d = d
 
     def s_max(self):
+        '''
+        Calculates the variance of a vector of data 
+        Parameters: None
+        Returns: Number
+        '''
         return max(self.d)
 
     def s_min(self):
+        '''
+        Calculates the min of a vector of data 
+        Parameters: None
+        Returns: Number
+        '''
         return min(self.d)
 
     def s_range(self):
+        '''
+        Calculates the range of a vector of data 
+        Parameters: None
+        Returns: Number
+        '''
         return self.s_max() - self.s_min()
     
     def s_mean(self):
+        '''
+        Calculates the mean of a vector of data 
+        Parameters: None
+        Returns: Number
+        '''
         return sum(self.d)/len(self.d) 
 
     def s_median(self):
+        '''
+        Calculates the median of a vector of data 
+        Parameters: None
+        Returns: Number
+        '''
         return sorted(self.d)[int(len(self.d) / 2)]
     
     def s_mode(self):
+        '''
+        Calculates the mode of a vector of data 
+        Parameters: None
+        Returns: Number if a mode exists, otherwise returns None.
+        '''
         #TODO Fix this
-        return 1
+        return self.d.value_counts().idxmax() if self.d.value_counts().max()==1 else None
     
     def s_var(self):
+        '''
+        Calculates the variance of a vector of data 
+        Parameters: None
+        Returns: Number
+        '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
         return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
 
     def s_stddev(self):
+        '''
+        Calculates the std deviation of a vector of data 
+        Parameters: None
+        Returns: Number
+        '''
         return self.s_var() ** 0.5
+
+    def test_list(self):
+        '''
+        Returns a list of all methods in the Statistics class
+        Parameters: None
+        Returns: List of string names
+
+        Exceptions: None
+        '''
+        return [m[0]  for m in inspect.getmembers(self,predicate=inspect.ismethod) if m[0].startswith('s_')]
+
 
 
 class Regression:
