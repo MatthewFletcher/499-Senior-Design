@@ -1,3 +1,5 @@
+#!/usr/vin/env python3
+
 import numpy as np
 import statistics as s
 import math as ma
@@ -7,34 +9,31 @@ class Statistics:
     def __init__(self, d):
         self.d = d
 
-    def max(self):
+    def s_max(self):
         return max(self.d)
 
-    def min(self):
+    def s_min(self):
         return min(self.d)
 
-    def range(self):
-        return self.max() - self.min()
+    def s_range(self):
+        return self.s_max() - self.s_min()
     
-    def mean(self):
+    def s_mean(self):
         return sum(self.d)/len(self.d) 
 
-    def median(self):
+    def s_median(self):
         return sorted(self.d)[int(len(self.d) / 2)]
     
-    def mode(self):
+    def s_mode(self):
         #TODO Fix this
         return 1
     
-    def var(self):
-        return 4
-        #TODO MAKE THIS STUPID FUNCTION WORK
+    def s_var(self):
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
-        return sum([x - self.d.mean() for x in self.d]) / (len(self.d) ) 
+        return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
 
-
-    def stddev(self):
-        return self.var() ** 0.5
+    def s_stddev(self):
+        return self.s_var() ** 0.5
 
 
 class Regression:
