@@ -8,7 +8,9 @@ import pandas as pd
 
 df = c.openFile("../../TestData/sathead.csv")[0]
 
-#r = s.Regression(df)
+r = s.Regression(df)
+
+ds = s.Statistics(df['high_GPA'])
 
 
 
