@@ -19,7 +19,6 @@ C           https://stackoverflow.com/questions/10520819/what-does-real8-mean
 
             AVG = SUM / N
 
-
             FILENAME = "./DATA1.DAT"
             ! https://stackoverflow.com/questions/9522933/test-whether-a-directory-exists-or-not
             INQUIRE(FILE=FILENAME, EXIST=E)
