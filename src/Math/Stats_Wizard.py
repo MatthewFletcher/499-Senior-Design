@@ -7,6 +7,8 @@ import scipy.stats as st
 from optparse import OptionParser
 import inspect
 
+import StatisticsFortran as sf
+
 
 class Statistics:
     '''
@@ -45,7 +47,7 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        return sum(self.d)/len(self.d) 
+        return sf.mean(self.d)
 
     def s_median(self):
         '''
@@ -164,6 +166,10 @@ class Regression:
 
         return d 
 
+    def r_normal(self):
+        '''
+        Calculates the normal distribution for the data
+        '''
     
     def makeDistributionList(self):
         return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
