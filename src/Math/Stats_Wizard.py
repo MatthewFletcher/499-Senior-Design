@@ -48,8 +48,8 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        return sf.mean(self.d)
-        #return sum(self.d)/len(self.d) 
+        #return sf.mean(self.d)
+        return sum(self.d)/len(self.d) 
 
     def s_median(self):
         '''
@@ -75,9 +75,9 @@ class Statistics:
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
+        #return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
         return sf.var(self.d)
         
-        #return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
 
     def s_stddev(self):
         '''
@@ -117,6 +117,9 @@ class Regression:
         x = self.xcol
         y = self.ycol
         
+
+        return sf.pearson(self.xcol, self.ycol)
+
         x_mean = np.mean(x)
         y_mean = np.mean(y)
         def num(x,y):
@@ -155,27 +158,24 @@ class Regression:
         x = self.xcol
         y = self.ycol
 
+    
+        #Call subroutine
+        out = sf.linear(x,y)
+
+        return {'slope': out[0], 'y_int': out[1]}
+        
         #Save more typing, calculate standard deviation
-        x_std = sf.stddev(self.xcol)
-        y_std = sf.stddev(self.ycol)
+        x_std = np.std(self.xcol)
+        y_std = np.std(self.ycol)
 
         
         #Calculate the y intercept
         b = self.pearsonR() * y_std / x_std
 
         #Calculate the slope
-        m = np.mean(y) - b * np.mean(x)
-    
-        #Call subroutine
-        out = sf.linear(x,y)
-
-        #Creation of dictionary for returning
-        d = {}
-        d['slope'] = out[0]
-        d['y_int'] = out[1]
-        
-        #d_old['slope'] = m
-        #d_old['y_int'] = b
+        m = sf.mean(y) - b * sf.mean(x)
+        #d['slope'] = m
+        #d['y_int'] = b
 
 
         return d 
