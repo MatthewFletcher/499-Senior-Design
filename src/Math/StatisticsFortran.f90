@@ -76,3 +76,45 @@ subroutine stddev(arr,n,output)
     output = SQRT(output)
 
     end subroutine
+
+subroutine pearson(arr_x, arr_y, n, output)
+    implicit none
+    integer ::  n, i
+    real(8), dimension(n)   ::  arr_x, arr_y
+    real(8) ::  x_mean, y_mean, numerator, denom
+    real(8) ::  x_sum, y_sum
+    real(8) ::  xi,yi
+    real(8) ::  output
+
+    !f2py intent(in)    ::  arr
+    !f2py intent(hide), depend(arr_x) ::  n = shape(arr_x)
+    !f2py intent(out) output
+
+    !Set x and y array means 
+    call mean(arr_x, n, x_mean)
+    call mean(arr_y, n, y_mean)
+   
+    numerator = 0
+    x_sum = 0
+    y_sum = 0
+    do i=1,N
+
+        !Set array 
+        xi = arr_x(i)
+        yi = arr_y(i)
+        
+        !Numerator calculation
+        numerator = numerator + ((xi - x_mean) * (yi - y_mean))
+
+        !Looped Denominator calculation
+        x_sum = x_sum +  (xi - x_mean) * (xi - x_mean) 
+        y_sum = y_sum +  (yi - y_mean) * (yi - y_mean) 
+    end do
+   
+    !Get square root to calculate final denom value
+    output = numerator / SQRT(x_sum * y_sum)
+
+
+    end subroutine
+
+
