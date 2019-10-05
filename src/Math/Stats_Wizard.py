@@ -128,15 +128,16 @@ class Regression:
         def den(x,y):
             x_sum = 0
             y_sum = 0
-
+            
             for m,n in zip(x,y):
                 x_sum += (m - x_mean)**2
-                y_sum += (m - y_mean)**2
+                y_sum += (n - y_mean)**2
+                print(x_sum, y_sum)
             den = ma.sqrt(x_sum * y_sum)
             return den
         
-        print(f"FORTRAN value: {sf.pearson(self.xcol, self.ycol)}")
-        return num(x,y)/den(x,y)
+        return sf.pearson(self.xcol, self.ycol)
+        #return num(x,y)/den(x,y)
 
 
     def r_linear(self):

@@ -93,15 +93,18 @@ subroutine pearson(arr_x, arr_y, n, output)
     !Set x and y array means 
     call mean(arr_x, n, x_mean)
     call mean(arr_y, n, y_mean)
-   
+    
+    
     numerator = 0
     x_sum = 0
     y_sum = 0
+    write(*,*) "Begin Fortran loop"
     do i=1,N
 
         !Set array 
         xi = arr_x(i)
         yi = arr_y(i)
+
         
         !Numerator calculation
         numerator = numerator + ((xi - x_mean) * (yi - y_mean))
@@ -111,7 +114,7 @@ subroutine pearson(arr_x, arr_y, n, output)
         y_sum = y_sum +  (yi - y_mean) * (yi - y_mean) 
     end do
    
-    !Get square root to calculate final denom value
+    !Get square root and calculate final denom value
     output = numerator / SQRT(x_sum * y_sum)
 
 
