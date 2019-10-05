@@ -81,7 +81,7 @@ subroutine pearson(arr_x, arr_y, n, output)
     implicit none
     integer ::  n, i
     real(8), dimension(n)   ::  arr_x, arr_y
-    real(8) ::  x_mean, y_mean, numerator, denom
+    real(8) ::  x_mean, y_mean, numerator
     real(8) ::  x_sum, y_sum
     real(8) ::  xi,yi
     real(8) ::  output
@@ -98,13 +98,11 @@ subroutine pearson(arr_x, arr_y, n, output)
     numerator = 0
     x_sum = 0
     y_sum = 0
-    write(*,*) "Begin Fortran loop"
     do i=1,N
 
         !Set array 
         xi = arr_x(i)
         yi = arr_y(i)
-
         
         !Numerator calculation
         numerator = numerator + ((xi - x_mean) * (yi - y_mean))
@@ -117,7 +115,58 @@ subroutine pearson(arr_x, arr_y, n, output)
     !Get square root and calculate final denom value
     output = numerator / SQRT(x_sum * y_sum)
 
+    end subroutine
+
+subroutine linear(arr_x, arr_y, n, slope, y_int)
+    implicit none
+    integer ::  n
+    real(8), dimension(n)   ::  arr_x, arr_y
+    real(8) ::  x_mean, y_mean
+    real(8) ::  x_std, y_std
+    real(8) ::  p
+    real(8) ::  slope, y_int
+
+    !f2py intent(in)    ::  arr_x, arr_y
+    !f2py intent(hide), depend(arr_x) ::  n = shape(arr_x)
+    !f2py intent(out) slope, y_int
+    
+    !Calculate mean
+    call mean(arr_x,n,x_mean)
+    call mean(arr_y,n,y_mean)
+
+    !Calculate std dev
+    call stddev(arr_x, n, x_std)
+    call stddev(arr_y, n, y_std)
+
+
+    !Calculate pearson correlation
+    call pearson(arr_x, arr_y, n, p)
+    
+    y_int = p * y_std/x_std
+
+    slope = y_mean - y_int * x_mean
+
+
 
     end subroutine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
