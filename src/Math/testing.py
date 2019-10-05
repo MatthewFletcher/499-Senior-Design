@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 
-df = c.openFile("../../TestData/sathead.csv")[0]
+df = c.openFile("../../TestData/sat.csv")[0]
 
 r = s.Regression(df)
 
@@ -17,9 +17,10 @@ ds = s.Statistics(df['high_GPA'])
 
 x = df['high_GPA']
 y = df['univ_GPA']
-plt.scatter(x,y, c="blue", s = 0.5)
 
 '''
+plt.scatter(x,y, c="blue", s = 0.5)
+
 x = np.linspace(min(x), max(x), 1000)
 d = r.r_linear()
 y = [d['slope'] * i + d['y_int'] for i in x]
@@ -28,6 +29,5 @@ plt.scatter(x,y, color='orange', s = 0.5)
 
 plt.show()
 '''
-
 
 
