@@ -44,10 +44,12 @@ class Statistics:
     def s_mean(self):
         '''
         Calculates the mean of a vector of data 
+        Implemented in FORTRAN
         Parameters: None
         Returns: Number
         '''
         return sf.mean(self.d)
+        #return sum(self.d)/len(self.d) 
 
     def s_median(self):
         '''
@@ -68,11 +70,14 @@ class Statistics:
     def s_var(self):
         '''
         Calculates the variance of a vector of data 
+        Implemented in FORTRAN
         Parameters: None
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
-        return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
+        return sf.var(self.d)
+        
+        #return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
 
     def s_stddev(self):
         '''
