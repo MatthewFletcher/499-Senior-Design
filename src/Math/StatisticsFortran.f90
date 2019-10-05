@@ -49,9 +49,11 @@ subroutine var(arr, n, output)
     sum = 0
     !Loop through array
     do i=1,N
+        !Calculate variance by accumulative sum of square of difference
+        !between mean and value
         sum = sum + ((arr_c(i) - mean_val) * (arr_c(i) - mean_val))
     end do
-    
+
         output = sum / n
         
     end subroutine
