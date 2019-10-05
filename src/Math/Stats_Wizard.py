@@ -132,7 +132,6 @@ class Regression:
             for m,n in zip(x,y):
                 x_sum += (m - x_mean)**2
                 y_sum += (n - y_mean)**2
-                print(x_sum, y_sum)
             den = ma.sqrt(x_sum * y_sum)
             return den
         
@@ -157,8 +156,9 @@ class Regression:
         y = self.ycol
 
         #Save more typing, calculate standard deviation
-        x_std = np.std(self.ycol)
-        y_std = np.std(self.ycol)
+        x_std = sf.stddev(self.xcol)
+        y_std = sf.stddev(self.ycol)
+
         
         #Calculate the y intercept
         b = self.pearsonR() * y_std / x_std
@@ -166,10 +166,17 @@ class Regression:
         #Calculate the slope
         m = np.mean(y) - b * np.mean(x)
     
+        #Call subroutine
+        out = sf.linear(x,y)
+
         #Creation of dictionary for returning
         d = {}
-        d['slope'] = m
-        d['y_int'] = b
+        d['slope'] = out[0]
+        d['y_int'] = out[1]
+        
+        #d_old['slope'] = m
+        #d_old['y_int'] = b
+
 
         return d 
 
@@ -177,6 +184,7 @@ class Regression:
         '''
         Calculates the normal distribution for the data
         '''
+        pass
     
     def makeDistributionList(self):
         return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
