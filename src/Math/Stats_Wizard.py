@@ -85,6 +85,7 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
+        print(sf.stddev(self.d))
         return self.s_var() ** 0.5
 
     def test_list(self):
