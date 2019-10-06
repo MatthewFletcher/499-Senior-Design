@@ -194,12 +194,21 @@ class Regression:
                 False: No significant difference
         '''
         z =  sf.signtest(self.xcol, self.ycol)
+
+        #https://www.youtube.com/watch?v=K1RYSyAu7Hg
+        #Everything in this comes from this video 
+        #To whatever heavenly deity reads this, please let the video be correct
         crit_val = 1.96
         
         #If computed z is within critical value, fail to reject the null hypothesis
         return (abs(z) < crit_val)
 
-
+    def spearman(self):
+        '''
+        Calculates spearman rank correlation coefficient
+        Parameters: none
+        Returns: value
+        return sf.spearman(self.xcol, self.ycol)
 
     def makeDistributionList(self):
         return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
