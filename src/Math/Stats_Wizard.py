@@ -104,7 +104,7 @@ class Regression:
     '''
     This class consists of all tests that require 2 or more vectors.
     '''
-    def __init__(self, a, x_col = 0, y_col = 4):
+    def __init__(self, a, x_col = 0, y_col = 1):
         self.df = a
         self.cols = a.T
         
@@ -185,7 +185,22 @@ class Regression:
         Calculates the normal distribution for the data
         '''
         pass
-    
+   
+    def signtest(self):
+        '''
+        Runs a sign test on the data. 
+        Returns: Boolean
+                True:  Significant difference
+                False: No significant difference
+        '''
+        z =  sf.signtest(self.xcol, self.ycol)
+        crit_val = 1.96
+        
+        #If computed z is within critical value, fail to reject the null hypothesis
+        return (abs(z) < crit_val)
+
+
+
     def makeDistributionList(self):
         return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
                 if m[0].startswith('r_')]
