@@ -151,8 +151,11 @@ subroutine linear(arr_x, arr_y, n, slope, y_int)
 
     end subroutine
 
-
 subroutine binomial(p,n,x_suc,output)
+    !So I'm not sure if I'll need this function or not 
+    !but i'm super proud of writing this and I might need
+    !it later so here it will stay for now 
+
     implicit none
 
     real ::  n, x_suc
@@ -223,7 +226,8 @@ subroutine signtest(arr1, arr2, n, z_val)
     real(8) ::  z_val
     real(8) ::  m,s
 
-    
+   
+    !Initialize the counters
     new_n = 0
     pos_ct = 0
     neg_ct = 0
@@ -241,11 +245,14 @@ subroutine signtest(arr1, arr2, n, z_val)
             zer_ct = zer_ct + 1
         end if 
 
+        !Count all differences
         if (diff .NE. 0) then
             new_n = new_n + 1
         end if
+
     end do 
 
+    !Set sig_ct to greater of pos_ct and neg_ct
     if (pos_ct < neg_ct) then
         sig_ct = neg_ct
     else if (neg_ct < pos_ct) then
@@ -257,11 +264,18 @@ subroutine signtest(arr1, arr2, n, z_val)
    
     !Null Hypothesis: sign difference is 50% 
     null_prob = 0.5
-     
-    
+    !This next section came from this youtube video 
+    !https://www.youtube.com/watch?v=K1RYSyAu7Hg
+
+    !It's the only way i could figure out how to calculate the values
+    !without having to use a z table which i swear I'll implement
+    !later. 
+
+    !Calculate mean and std dev 
     m = new_n * null_prob
     s = SQRT(new_n * null_prob * (1-null_prob))
     
+    !Calculate z value
     z_val = ((sig_ct - null_prob) - m)/s
 
     
