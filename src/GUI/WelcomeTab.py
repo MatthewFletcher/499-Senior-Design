@@ -1,10 +1,5 @@
-from PyQt5.QtWidgets import (QApplication,
-                             QLabel, QPushButton, QGridLayout, QWidget,
-                             QVBoxLayout, QGroupBox, QDesktopWidget, QTabBar,
-                             QMainWindow, QTabWidget)
-from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, QSize
-import sys
+from PyQt5.QtWidgets import (QLabel, QGridLayout, QWidget, QMainWindow)
+from PyQt5.QtGui import QPixmap
 
 
 class WelcomeTab(QMainWindow):

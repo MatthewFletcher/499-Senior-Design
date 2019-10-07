@@ -3,14 +3,10 @@ from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
                              QTextEdit, QLineEdit, QMainWindow, QFileDialog, QTabBar,
                              QDesktopWidget)
 from PyQt5.QtGui import QIcon
-import AnalysisTab
-import DataTab
-import GraphTab
-import SummaryTab
-import WelcomeTab
 import sys
 import csv
 import os
+import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 
 class TabPage(QTabWidget):

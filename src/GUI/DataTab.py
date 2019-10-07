@@ -1,9 +1,8 @@
-from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
-                             QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-                             QTextEdit, QLineEdit, QMainWindow, QFileDialog, QRadioButton,
-                             QGroupBox, QCheckBox, QPushButton, QGridLayout, QButtonGroup)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
+                             QLineEdit, QFileDialog, QRadioButton,QGroupBox,QPushButton,
+                             QGridLayout, QButtonGroup)
 from PyQt5.QtGui import QIcon
-from PyQt5 import Qt
+#from PyQt5 import Qt
 import os
 import csv
 import sys
@@ -26,8 +25,9 @@ class DataTab(QWidget):
     def createGraphGroup(self):
         self.GraphGroup = QGroupBox()
 
-        self.form_widget = Table(100, 100)
+        self.form_widget = Table(1000, 1000)
 
+        self.GraphGroup.setFixedWidth(1800)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.form_widget)
         self.GraphGroup.setLayout(self.layout)
@@ -43,10 +43,14 @@ class DataTab(QWidget):
         self.graphGroup.addButton(self.allRadioButton)
         self.graphGroup.addButton(self.selectionRadioButton)
 
-        self.beginRow = QLineEdit("Starting Row")
-        self.beginCol = QLineEdit("Starting Column")
-        self.endRow = QLineEdit("Ending Row")
-        self.endCol = QLineEdit("Ending Column")
+        self.beginRow = QLineEdit()
+        self.beginCol = QLineEdit()
+        self.endRow = QLineEdit()
+        self.endCol = QLineEdit()
+        self.beginRow.setFixedWidth(100)
+        self.beginCol.setFixedWidth(100)
+        self.endRow.setFixedWidth(100)
+        self.endCol.setFixedWidth(100)
 
         # Ask user what type of data it is 
         self.dataLabel = QLabel("What kind of data is it?")
@@ -62,10 +66,13 @@ class DataTab(QWidget):
         # Buttons to let the user submit the data
         self.newCSVButton = QPushButton("Import CSV")
         self.newCSVButton.setDefault(True)
+        self.newCSVButton.setFixedWidth(400)
         self.clearButton = QPushButton("Clear Table")
         self.clearButton.setDefault(True)
+        self.clearButton.setFixedWidth(400)
         self.goButton = QPushButton("Submit Data")
         self.goButton.setDefault(True)
+        self.goButton.setFixedWidth(400)
 
         # Layout
         self.layout = QVBoxLayout()
@@ -89,6 +96,7 @@ class DataTab(QWidget):
         self.layout.addWidget(self.clearButton)
         self.layout.addWidget(self.goButton)
         self.layout.addStretch(1)
+        self.CustomGroup.setAlignment(100)
         self.CustomGroup.setLayout(self.layout)
 
 
@@ -109,8 +117,8 @@ class Table(QTableWidget):
             value = self.item(row, col)
             value = value.text()
 
-    def openBlankSheet(self):
-        i = 2
+    # def openBlankSheet(self):
+    #     i = 2
 
     def openMadeSheet(self):
         self.checkChange = False

@@ -4,12 +4,17 @@
     <list default="true" id="3f9316df-b4f2-4a8a-908b-901e240c2d5b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/DataTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/DataTab.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/StatsWizApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/StatsWizApp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/WelcomeTab.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/WelcomeTab.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="499-Senior-Design" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
