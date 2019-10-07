@@ -280,3 +280,75 @@ subroutine signtest(arr1, arr2, n, z_val)
 
     
     end subroutine
+
+subroutine rank(arr, n, outarr)
+    !Takes in a 1D array, and computes the ranks
+    implicit none 
+    integer ::  n, i, j
+    real(8), dimension(n), intent(in) ::  arr
+    real(8), dimension(n), intent(out) ::  outarr
+    real(8), dimension(n,2) ::  master
+    real(8) ::  tempval, tempidx
+    
+
+    do i=1,n
+        master(i,2) = i
+        master(i,1) = arr(i)
+    end do
+
+    !Write out array
+    ! 5 3 8 2 4 0
+    ! 1 2 3 4 5 6 
+
+!    do, i=1,2
+!        write(*,*) ( master(j,i), j=1,n )
+!    enddo 
+
+    do i=1,n-1
+        do j=1,n
+            if (master(j,1) < master(j+1,1)) then
+                !Swapping a and b
+
+                !temp = a
+                tempval = master(j,1)
+                tempidx = master(j,2)
+                
+                !a = b
+                master(j,1) = master(j+1,1)
+                master(j,2) = master(j+1,2)
+
+                !b = temp
+                master(j+1,1) = tempval
+                master(j+1,2) = tempidx
+            end if
+        end do
+    end do
+
+    do i=1,n
+        outarr(i) =  master(i,2)
+        !write(*,*) outarr(i)
+    end do
+    end subroutine
+
+subroutine spearman(arr1, arr2, n, r_val)
+    implicit none
+
+    !f2py intent(in)    ::  arr1, arr2
+    !f2py intent(hide), depend(arr1) ::  n = shape(arr1)
+    !f2py intent(out)   ::  r_val
+
+    real(8), dimension(n)   ::  arr1, arr2
+    real(8), dimension(n)   ::  arr1r, arr2r
+    integer ::  n, i
+    real(8) ::  r_val
+    call rank(arr1,n, arr1r)
+    call rank(arr2,n, arr2r)
+
+    write(*,*) "Array 1"
+    write(*,*) arr1
+    write(*,*) "Array 1 rank"
+    write(*,*) arr1r
+
+
+
+    end subroutine
