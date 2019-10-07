@@ -358,6 +358,6 @@ subroutine spearman(arr1, arr2, n, rho)
     end do
 
     !Calculate value of rho
-    rho = 1 - (6 * sum / (n * n**2 -1))
+    rho = 1 - (6 * sum / (n * (n**2 -1)))
 
     end subroutine
