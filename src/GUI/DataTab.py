@@ -30,6 +30,7 @@ class DataTab(QWidget):
 
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox()
+        self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
         self.graphLabel = QLabel("How much do you want graphed?")
