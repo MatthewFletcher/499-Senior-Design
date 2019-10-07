@@ -210,6 +210,7 @@ class Regression:
         Returns: value
         return sf.spearman(self.xcol, self.ycol)
         '''
+        return sf.spearman(self.xcol, self.ycol)
 
     def makeDistributionList(self):
         return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
