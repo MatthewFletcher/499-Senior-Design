@@ -15,7 +15,6 @@ class DataTab(QWidget):
         self.layout = QGridLayout()
         self.layout.addWidget(self.GraphGroup, 0, 0, 0, 1)
         self.layout.addWidget(self.CustomGroup, 0, 1)
-        # layout.addWidget(self.form_widget.openMadeSheet())
         self.setLayout(self.layout)
         self.show()
 
@@ -80,9 +79,13 @@ class DataTab(QWidget):
         self.newCSVButton = QPushButton("Import CSV")
         self.newCSVButton.setDefault(True)
         self.newCSVButton.setFixedWidth(680)
+        self.newCSVButton.clicked.connect(self.newCSVButtonClicked)
+
         self.clearButton = QPushButton("Clear Table")
         self.clearButton.setDefault(True)
         self.clearButton.setFixedWidth(680)
+
+
         self.goButton = QPushButton("Submit Data")
         self.goButton.setDefault(True)
         self.goButton.setFixedWidth(680)
@@ -128,6 +131,9 @@ class DataTab(QWidget):
             self.endRow.setReadOnly(False)
             self.endCol.setReadOnly(False)
 
+    def newCSVButtonClicked(self):
+        self.Table.openMadeSheet()
+
 
 class Table(QTableWidget):
     def __init__(self, rows, columns):
@@ -145,9 +151,6 @@ class Table(QTableWidget):
             col = self.currentColumn()
             value = self.item(row, col)
             value = value.text()
-
-    # def openBlankSheet(self):
-    #     i = 2
 
     def openMadeSheet(self):
         self.checkChange = False
