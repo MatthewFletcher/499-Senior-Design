@@ -1,11 +1,8 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton,QGroupBox,QPushButton,
                              QGridLayout, QButtonGroup)
-from PyQt5.QtGui import QIcon
-#from PyQt5 import Qt
 import os
 import csv
-import sys
 
 
 class DataTab(QWidget):
@@ -43,6 +40,8 @@ class DataTab(QWidget):
         self.graphGroup.addButton(self.allRadioButton)
         self.graphGroup.addButton(self.selectionRadioButton)
 
+        # Space for users to input the rows and columns
+        # they want graphed
         self.beginRowText = QLabel("Start Row: ")
         self.beginColText = QLabel("Start Col: ")
         self.endRowText = QLabel("End Row: ")
@@ -52,10 +51,23 @@ class DataTab(QWidget):
         self.beginCol = QLineEdit()
         self.endRow = QLineEdit()
         self.endCol = QLineEdit()
-        self.beginRow.setFixedWidth(100)
-        self.beginCol.setFixedWidth(100)
-        self.endRow.setFixedWidth(100)
-        self.endCol.setFixedWidth(100)
+        self.beginRow.setFixedWidth(150)
+        self.beginCol.setFixedWidth(150)
+        self.endRow.setFixedWidth(150)
+        self.endCol.setFixedWidth(150)
+
+        # Have the QLineEdits only be editable if
+        # selectionRadioButton is selected
+        self.beginRow.setReadOnly(True)
+        self.beginCol.setReadOnly(True)
+        self.endRow.setReadOnly(True)
+        self.endCol.setReadOnly(True)
+
+        if self.selectionRadioButton.isChecked():
+            self.beginRow.setReadOnly(False)
+            self.beginCol.setReadOnly(False)
+            self.endRow.setReadOnly(False)
+            self.endCol.setReadOnly(False)
 
         # Ask user what type of data it is 
         self.dataLabel = QLabel("What kind of data is it?")
@@ -71,17 +83,17 @@ class DataTab(QWidget):
         # Buttons to let the user submit the data
         self.newCSVButton = QPushButton("Import CSV")
         self.newCSVButton.setDefault(True)
-        self.newCSVButton.setFixedWidth(400)
+        self.newCSVButton.setFixedWidth(680)
         self.clearButton = QPushButton("Clear Table")
         self.clearButton.setDefault(True)
-        self.clearButton.setFixedWidth(400)
+        self.clearButton.setFixedWidth(680)
         self.goButton = QPushButton("Submit Data")
         self.goButton.setDefault(True)
-        self.goButton.setFixedWidth(400)
+        self.goButton.setFixedWidth(680)
 
         # Layout
         self.layout = QGridLayout()
-        self.layout.addWidget(self.graphLabel, 0, 0, 1, 3)
+        self.layout.addWidget(self.graphLabel, 0, 0, 1, 4)
         self.layout.addWidget(self.allRadioButton, 1, 0, 1, 3)
         self.layout.addWidget(self.selectionRadioButton, 2, 0, 1, 3)
         self.layout.addWidget(self.beginRowText, 3, 0)
@@ -103,7 +115,7 @@ class DataTab(QWidget):
         self.layout.addWidget(self.newCSVButton, 11, 0, 1, 3)
         self.layout.addWidget(self.clearButton, 12, 0, 1, 3)
         self.layout.addWidget(self.goButton, 13, 0, 1, 3)
-        self.CustomGroup.setAlignment(100)
+        self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
 
 
