@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-                             QLineEdit, QFileDialog, QRadioButton,QGroupBox,QPushButton,
+                             QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
                              QGridLayout, QButtonGroup)
 import os
 import csv
