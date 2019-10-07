@@ -330,25 +330,34 @@ subroutine rank(arr, n, outarr)
     end do
     end subroutine
 
-subroutine spearman(arr1, arr2, n, r_val)
+subroutine spearman(arr1, arr2, n, rho)
     implicit none
 
     !f2py intent(in)    ::  arr1, arr2
     !f2py intent(hide), depend(arr1) ::  n = shape(arr1)
-    !f2py intent(out)   ::  r_val
+    !f2py intent(out)   ::  rho
 
     real(8), dimension(n)   ::  arr1, arr2
-    real(8), dimension(n)   ::  arr1r, arr2r
+    real(8), dimension(n)   ::  arr1r, arr2r, diff
     integer ::  n, i
-    real(8) ::  r_val
+    real(8) ::  rho, sum
     call rank(arr1,n, arr1r)
     call rank(arr2,n, arr2r)
 
-    write(*,*) "Array 1"
-    write(*,*) arr1
-    write(*,*) "Array 1 rank"
-    write(*,*) arr1r
+    !Ranks are held in arr1r and arr2r
 
+    !Calculate sum of square of rank differences
+    diff = (arr1r-arr2r)**2
 
+    !initialize sum value
+    sum = 0
+    
+    !Accumulate sum of rank difference squares
+    do i=1,n
+        sum = sum + diff(i)
+    end do
+
+    !Calculate value of rho
+    rho = 1 - (6 * sum / (n * n**2 -1))
 
     end subroutine
