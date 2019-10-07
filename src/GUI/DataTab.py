@@ -39,6 +39,8 @@ class DataTab(QWidget):
         self.selectionRadioButton = QRadioButton("Let me pick what to graph")
         self.graphGroup.addButton(self.allRadioButton)
         self.graphGroup.addButton(self.selectionRadioButton)
+        self.allRadioButton.toggled.connect(self.allRadioButtonClicked)
+        self.selectionRadioButton.toggled.connect(self.selectionRadioButtonClicked)
 
         # Space for users to input the rows and columns
         # they want graphed
@@ -62,18 +64,6 @@ class DataTab(QWidget):
         self.beginCol.setReadOnly(True)
         self.endRow.setReadOnly(True)
         self.endCol.setReadOnly(True)
-
-        if self.selectionRadioButton.isChecked():
-            self.beginRow.setReadOnly(False)
-            self.beginCol.setReadOnly(False)
-            self.endRow.setReadOnly(False)
-            self.endCol.setReadOnly(False)
-
-        if self.allRadioButton.isChecked():
-            self.beginRow.setReadOnly(True)
-            self.beginCol.setReadOnly(True)
-            self.endRow.setReadOnly(True)
-            self.endCol.setReadOnly(True)
 
         # Ask user what type of data it is 
         self.dataLabel = QLabel("What kind of data is it?")
@@ -123,6 +113,20 @@ class DataTab(QWidget):
         self.layout.addWidget(self.goButton, 13, 0, 1, 3)
         self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
+
+    def allRadioButtonClicked(self, enabled):
+        if enabled:
+            self.beginRow.setReadOnly(True)
+            self.beginCol.setReadOnly(True)
+            self.endRow.setReadOnly(True)
+            self.endCol.setReadOnly(True)
+
+    def selectionRadioButtonClicked(self, enabled):
+        if enabled:
+            self.beginRow.setReadOnly(False)
+            self.beginCol.setReadOnly(False)
+            self.endRow.setReadOnly(False)
+            self.endCol.setReadOnly(False)
 
 
 class Table(QTableWidget):
