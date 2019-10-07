@@ -69,6 +69,12 @@ class DataTab(QWidget):
             self.endRow.setReadOnly(False)
             self.endCol.setReadOnly(False)
 
+        if self.allRadioButton.isChecked():
+            self.beginRow.setReadOnly(True)
+            self.beginCol.setReadOnly(True)
+            self.endRow.setReadOnly(True)
+            self.endCol.setReadOnly(True)
+
         # Ask user what type of data it is 
         self.dataLabel = QLabel("What kind of data is it?")
         self.newLine = QLabel("\n")
