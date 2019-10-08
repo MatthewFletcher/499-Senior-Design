@@ -1,12 +1,8 @@
-from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
-QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-QTextEdit, QLineEdit, QMainWindow, QFileDialog, QTabBar,
-QDesktopWidget)
+from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
-import os
-import csv
-import sys 
-import DataTab, GraphTab, AnalysisTab, SummaryTab
+import sys
+import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
+
 
 class TabPage(QTabWidget):
     def __init__(self):
@@ -24,20 +20,23 @@ class TabPage(QTabWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.show()
 
-        tabwidget = QTabWidget()
-        tabwidget.addTab(DataTab.DataTab(), "Data Input")
-        tabwidget.addTab(GraphTab.GraphTab(), "Graph")
-        tabwidget.addTab(AnalysisTab.AnalysisTab(), "Analysis")
-        tabwidget.addTab(SummaryTab.SummaryTab(), "Summary")
+        self.tabWidget = QTabWidget()
+        self.tabWidget.addTab(WelcomeTab.WelcomeTab(), "Welcome")
+        self.tabWidget.addTab(DataTab.DataTab(), "Data Input")
+        self.tabWidget.addTab(GraphTab.GraphTab(), "Graph")
+        self.tabWidget.addTab(AnalysisTab.AnalysisTab(), "Analysis")
+        self.tabWidget.addTab(SummaryTab.SummaryTab(), "Summary")
 
-        layout = QVBoxLayout()
-        layout.addWidget(tabwidget)
-        self.setLayout(layout)
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.tabWidget)
+        self.setLayout(self.layout)
+
 
 def runStatsWiz():
     app = QApplication(sys.argv)
     tabPage = TabPage()
     tabPage.show()
-    app.exec()
+    app.exec_()
+
 
 runStatsWiz()
