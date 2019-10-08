@@ -34,13 +34,13 @@ def main():
 
    
     xvals = np.arange(a,b,delta) 
-    if True:
+    if False:
         outfile = "zscore.txt"
         with open(outfile, "w") as f:
             for x,y in zip(xvals, yvals):
                 f.write(f"{x:.2f},{y:.20f}\n")
     plt.plot(xvals,yvals)
     plt.grid()
-    #plt.show()
+    plt.show()
 if __name__ == "__main__":
     main()
