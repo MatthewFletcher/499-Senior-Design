@@ -6,7 +6,7 @@ __pycache__
 SprintReports/
 *.so
 .DS_Store
-.idea
+.idea/
 src/.DS_Store 
 venv/
 
