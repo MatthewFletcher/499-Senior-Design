@@ -24,23 +24,21 @@ def integrate(fn, start, end, delta):
 def main():
     a = -5
     b = 5
-    delta = 0.1
+    delta = 0.01
    
     yvals = []
     for b in np.arange(a+delta, b+delta,delta):
         val = integrate(binom, a,b,delta)
-        print("{}".format(val))
         yvals.append(val)
     
 
    
-    if False:
+    xvals = np.arange(a,b,delta) 
+    if True:
         outfile = "zscore.txt"
         with open(outfile, "w") as f:
             for x,y in zip(xvals, yvals):
-                x = round(x,2)
-                f.write(f"{x},{y}\n")
-    xvals = np.arange(a,b,delta) 
+                f.write(f"{x:.2f},{y:.20f}\n")
     plt.plot(xvals,yvals)
     plt.grid()
     #plt.show()
