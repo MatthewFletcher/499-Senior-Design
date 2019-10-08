@@ -24,7 +24,7 @@ class DataTab(QWidget):
     def createTableGroup(self):
         self.TableGroup = QGroupBox()
 
-        self.myTable = QTableWidget(1000, 1000)
+        self.myTable = QTableWidget(400, 400)
 
         self.TableGroup.setFixedWidth(1750)
         self.layout = QVBoxLayout()
@@ -148,15 +148,21 @@ class DataTab(QWidget):
 
     def openMadeSheet(self):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
-        with open(path, "r") as fileInput:
-            for row in csv.reader(fileInput):
-                items = [
-                    QtGui.QStandardItem(field)
-                    for field in row
-                ]
-                self.model.appendRow(items)
+        if path[0] != '':
+            with open(path[0], newline='') as csv_file:
+                self.myTable.setRowCount(0)
+                self.myTable.setColumnCount(5)
+                my_file = csv.reader(csv_file, delimiter=',', quotechar='|')
+                for row_data in my_file:
+                    row = self.myTable.rowCount()
+                    self.myTable.insertRow(row)
+                    if len(row_data) > 10:
+                        self.myTable.setColumnCount(len(row_data))
+                    for column, stuff in enumerate(row_data):
+                        item = QTableWidgetItem(stuff)
+                        self.myTable.setItem(row, column, item)
 
-#
+        #
 # class Table(QTableWidget):
 #     def __init__(self, rows, columns):
 #         super().__init__(rows, columns)
