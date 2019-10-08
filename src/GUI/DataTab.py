@@ -167,6 +167,7 @@ class DataTab(QWidget):
                         item = QTableWidgetItem(stuff)
                         self.myTable.setItem(row, column, item)
 
+# Clears the table and restores it to the original
     def clearTable(self):
         while self.myTable.rowCount() > 0:
             self.myTable.removeRow(0)
