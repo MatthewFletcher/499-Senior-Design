@@ -3,31 +3,36 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableW
                              QGridLayout, QButtonGroup)
 import os
 import csv
+from qtpy import QtGui
 
 
+# The DataTab class holds all the GUI for the DataTab
 class DataTab(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.createGraphGroup()
+        self.createTableGroup()
         self.createCustomGroup()
 
         self.layout = QGridLayout()
-        self.layout.addWidget(self.GraphGroup, 0, 0, 0, 1)
+        self.layout.addWidget(self.TableGroup, 0, 0, 0, 1)
         self.layout.addWidget(self.CustomGroup, 0, 1)
         self.setLayout(self.layout)
         self.show()
 
-    def createGraphGroup(self):
-        self.GraphGroup = QGroupBox()
+# The left side of DataTab containing the Table
+    def createTableGroup(self):
+        self.TableGroup = QGroupBox()
 
-        self.form_widget = Table(1000, 1000)
+        self.myTable = QTableWidget(1000, 1000)
 
-        self.GraphGroup.setFixedWidth(1750)
+        self.TableGroup.setFixedWidth(1750)
         self.layout = QVBoxLayout()
-        self.layout.addWidget(self.form_widget)
-        self.GraphGroup.setLayout(self.layout)
+        self.layout.addWidget(self.myTable)
+        self.TableGroup.setLayout(self.layout)
 
+# The right side of DataTab containing Radio Buttons and
+# text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox()
         self.setStyleSheet("font: 15pt Tw Cen MT")
@@ -118,6 +123,8 @@ class DataTab(QWidget):
         self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
 
+# Changes the QLineEdits to be ReadOnly when
+# allRadioButtton is clicked
     def allRadioButtonClicked(self, enabled):
         if enabled:
             self.beginRow.setReadOnly(True)
@@ -125,6 +132,8 @@ class DataTab(QWidget):
             self.endRow.setReadOnly(True)
             self.endCol.setReadOnly(True)
 
+# Changes the QLineEdits to not be ReadOnly when
+# selectionRadioButtton is clicked
     def selectionRadioButtonClicked(self, enabled):
         if enabled:
             self.beginRow.setReadOnly(False)
@@ -132,42 +141,54 @@ class DataTab(QWidget):
             self.endRow.setReadOnly(False)
             self.endCol.setReadOnly(False)
 
+# Populates the table with data from a CSV File
+# when newCSVButton is clicked
     def newCSVButtonClicked(self):
-        self.Table.openMadeSheet()
-
-
-class Table(QTableWidget):
-    def __init__(self, rows, columns):
-        super().__init__(rows, columns)
-        self.checkChange = True
-        self.initUi()
-
-    def initUi(self):
-        self.cellChanged.connect(self.currentCell)
-        self.show()
-
-    def currentCell(self):
-        if self.checkChange:
-            row = self.currentRow()
-            col = self.currentColumn()
-            value = self.item(row, col)
-            value = value.text()
+        self.openMadeSheet()
 
     def openMadeSheet(self):
-        self.checkChange = False
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
-        if path[0] != '':
-            with open(path[0], newline='') as csv_file:
-                self.setRowCount(0)
-                self.setColumnCount(10)
-                my_file = csv.reader(csv_file, delimiter=',', quotechar='|')
-                for row_data in my_file:
-                    row = self.rowCount()
-                    self.insertRow(row)
-                    if len(row_data) > 10:
-                        self.setColumnCount(len(row_data))
-                    for column, stuff in enumerate(row_data):
-                        item = QTableWidgetItem(stuff)
-                        self.setItem(row, column, item)
+        with open(path, "r") as fileInput:
+            for row in csv.reader(fileInput):
+                items = [
+                    QtGui.QStandardItem(field)
+                    for field in row
+                ]
+                self.model.appendRow(items)
 
-        self.checkChange = True
+#
+# class Table(QTableWidget):
+#     def __init__(self, rows, columns):
+#         super().__init__(rows, columns)
+#         self.checkChange = True
+#         self.initUi()
+#
+#     def initUi(self):
+#         self.cellChanged.connect(self.currentCell)
+#         self.show()
+#
+#     def currentCell(self):
+#         if self.checkChange:
+#             row = self.currentRow()
+#             col = self.currentColumn()
+#             value = self.item(row, col)
+#             value = value.text()
+#
+#     def openMadeSheet(self):
+#         self.checkChange = False
+#         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
+#         if path[0] != '':
+#             with open(path[0], newline='') as csv_file:
+#                 self.setRowCount(0)
+#                 self.setColumnCount(10)
+#                 my_file = csv.reader(csv_file, delimiter=',', quotechar='|')
+#                 for row_data in my_file:
+#                     row = self.rowCount()
+#                     self.insertRow(row)
+#                     if len(row_data) > 10:
+#                         self.setColumnCount(len(row_data))
+#                     for column, stuff in enumerate(row_data):
+#                         item = QTableWidgetItem(stuff)
+#                         self.setItem(row, column, item)
+#
+#         self.checkChange = True

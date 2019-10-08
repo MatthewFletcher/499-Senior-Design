@@ -1,11 +1,6 @@
-from PyQt5.QtWidgets import (QApplication, QTabWidget, QDialog,
-                             QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-                             QTextEdit, QLineEdit, QMainWindow, QFileDialog, QTabBar,
-                             QDesktopWidget)
+from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
 import sys
-import csv
-import os
 import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 

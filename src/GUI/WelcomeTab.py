@@ -28,7 +28,6 @@ class WelcomeTab(QMainWindow):
     def createGridLayout(self):
         self.label.setPixmap(self.pixmap2)
 
-        #self.labelText.setAlignment(Qt.AlignCenter)
         self.labelText.setStyleSheet("font: 18pt Tw Cen MT")
         self.labelText.setText("Welcome to the Stats Wiz! Here's all you need to know:\n\n"
                                "Data Tab:\nData can be manually entered into a table or uploaded from a CSV File.\n"
