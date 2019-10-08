@@ -90,7 +90,7 @@ class DataTab(QWidget):
         self.clearButton = QPushButton("Clear Table")
         self.clearButton.setDefault(True)
         self.clearButton.setFixedWidth(680)
-
+        self.clearButton.clicked.connect(self.clearButtonClicked)
 
         self.goButton = QPushButton("Submit Data")
         self.goButton.setDefault(True)
@@ -141,19 +141,24 @@ class DataTab(QWidget):
             self.endRow.setReadOnly(False)
             self.endCol.setReadOnly(False)
 
+# Calls openCSV() function when the
+# newCSVButton is clicked
+    def newCSVButtonClicked(self):
+        self.openCSV()
+
+    def clearButtonClicked(self):
+        self.clearTable()
+
 # Populates the table with data from a CSV File
 # when newCSVButton is clicked
-    def newCSVButtonClicked(self):
-        self.openMadeSheet()
-
-    def openMadeSheet(self):
+    def openCSV(self):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':
-            with open(path[0], newline='') as csv_file:
+            with open(path[0], newline='') as csvFile:
                 self.myTable.setRowCount(0)
                 self.myTable.setColumnCount(5)
-                my_file = csv.reader(csv_file, delimiter=',', quotechar='|')
-                for row_data in my_file:
+                myFile = csv.reader(csvFile, delimiter=',', quotechar='|')
+                for row_data in myFile:
                     row = self.myTable.rowCount()
                     self.myTable.insertRow(row)
                     if len(row_data) > 10:
@@ -162,39 +167,9 @@ class DataTab(QWidget):
                         item = QTableWidgetItem(stuff)
                         self.myTable.setItem(row, column, item)
 
-        #
-# class Table(QTableWidget):
-#     def __init__(self, rows, columns):
-#         super().__init__(rows, columns)
-#         self.checkChange = True
-#         self.initUi()
-#
-#     def initUi(self):
-#         self.cellChanged.connect(self.currentCell)
-#         self.show()
-#
-#     def currentCell(self):
-#         if self.checkChange:
-#             row = self.currentRow()
-#             col = self.currentColumn()
-#             value = self.item(row, col)
-#             value = value.text()
-#
-#     def openMadeSheet(self):
-#         self.checkChange = False
-#         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
-#         if path[0] != '':
-#             with open(path[0], newline='') as csv_file:
-#                 self.setRowCount(0)
-#                 self.setColumnCount(10)
-#                 my_file = csv.reader(csv_file, delimiter=',', quotechar='|')
-#                 for row_data in my_file:
-#                     row = self.rowCount()
-#                     self.insertRow(row)
-#                     if len(row_data) > 10:
-#                         self.setColumnCount(len(row_data))
-#                     for column, stuff in enumerate(row_data):
-#                         item = QTableWidgetItem(stuff)
-#                         self.setItem(row, column, item)
-#
-#         self.checkChange = True
+    def clearTable(self):
+        while self.myTable.rowCount() > 0:
+            self.myTable.removeRow(0)
+
+        self.myTable.setRowCount(400)
+        self.myTable.setColumnCount(400)
