@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels
 import csv
-import CSV_Wizard 
-import UserSelect
+import CSV_Wizard
+
+#hello
 
 # This function will graph the functional or interval data with no restrictions
 def graph(df):
