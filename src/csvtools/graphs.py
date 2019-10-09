@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import CSV_Wizard
 
-# This function will graph the frequency data as a normal x/y line graph.
-def frequency_xy(df):
+# This function will graph the frequency or interval data as a normal x/y line graph.
+def freqorint_xy(df):
     headers = list(df.columns.values)
 
     x = df[headers[1]]
@@ -15,8 +15,8 @@ def frequency_xy(df):
     plt.plot(x, y)
     plt.show()
 
-# This function will graph the frequency data as a horizontal bar graph
-def frequency_hbar(df):
+# This function will graph the frequency or interval data as a horizontal bar graph
+def freqorint_hbar(df):
     headers = list(df.columns.values)
     headers.pop(0)
     x = headers
@@ -27,7 +27,8 @@ def frequency_hbar(df):
     plt.barh(x,y)
     plt.show()
 
-def frequency_vbar(df):
+# This function will graph frequency or interval data as a vertical bar graph
+def freqorint_vbar(df):
     headers = list(df.columns.values)
     headers.pop(0)
     x = headers
@@ -38,18 +39,22 @@ def frequency_vbar(df):
     plt.bar(x,y)
     plt.show()
 
-# This function will graph the frequency data as a pie chart
-def frequency_pie(df):
-    headers = list(df.columns.values)
-
-    x = df[headers[1]]
-    y = df[headers[2]]
-    plt.xlabel(headers[1])
-    plt.ylabel(headers[2])
-
-    # Plot the points using matplotlib
-    plt.pie(x, y)
-    plt.show()
+# This function will graph the frequency or interval data as a pie chart
+# def frequency_pie(df):
+#     headers = list(df.columns.values)
+#
+#     x = df[headers[1]]
+#     y = df[headers[2]]
+#     explode = []
+#     plt.xlabel(headers[1])
+#     plt.ylabel(headers[2])
+#
+#     explode.append(0)
+#     colors = ['royalblue', 'periwinkle']
+#
+#     # Plot the points using matplotlib
+#     plt.pie(y, explode=explode, labels=x, colors=colors, autopct='%1.1f%%', shadow=False, startangle=0)
+#     plt.show()
 
 # This function will graph the ordinal data as a vertical bar graph
 def ordinal_vbar(df):
