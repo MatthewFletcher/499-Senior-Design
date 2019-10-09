@@ -3,12 +3,18 @@
 import numpy as np
 import statistics as s
 import math as ma
-import scipy.stats as st
 from optparse import OptionParser
 import inspect
 
-import StatisticsFortran as sf
-
+from sys import platform
+if platform == "linux" or platform == "linux2":
+    import StatisticsFortranLinux as sf
+elif platform == "darwin":
+    # OS X
+    import StatisticsFortranMac as sf
+elif platform == "win32":
+    sys.stderr.write("Windows not supported yet.\n")
+    exit(1)
 
 class Statistics:
     '''
