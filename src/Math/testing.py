@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 
-df = c.openFile("../../TestData/sat.csv")[0]
+df = c.openFile("/TestData/sat.csv")[0]
 
 r = s.Regression(df, x_col = 0, y_col = 4)
 
