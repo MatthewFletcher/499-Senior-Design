@@ -1,35 +1,29 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
-                             QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
-                             QGridLayout, QButtonGroup)
-from PyQt5.QtGui import QIcon
-import os
-import csv
-import sys
-import PyQt5
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QRadioButton,
+                             QGroupBox, QPushButton, QGridLayout)
 
 class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.createTableGroup()
+        self.createGraphGroup()
         self.createCustomGroup()
 
         self.layout = QGridLayout()
-        self.layout.addWidget(self.TableGroup, 0, 0, 0, 1)
+        self.layout.addWidget(self.GraphGroup, 0, 0, 0, 1)
         self.layout.addWidget(self.CustomGroup, 0, 1)
         self.setLayout(self.layout)
         self.show()
 
 # The left side of DataTab containing the Table
-    def createTableGroup(self):
-        self.TableGroup = QGroupBox()
+    def createGraphGroup(self):
+        self.GraphGroup = QGroupBox()
 
-        self.myTable = QTableWidget(400, 400)
+        self.myGraph = QTableWidget(400, 400)
 
-        self.TableGroup.setFixedWidth(1750)
+        self.GraphGroup.setFixedWidth(1750)
         self.layout = QVBoxLayout()
-        self.layout.addWidget(self.myTable)
-        self.TableGroup.setLayout(self.layout)
+        self.layout.addWidget(self.myGraph)
+        self.GraphGroup.setLayout(self.layout)
 
 # The right side of DataTab containing Radio Buttons and
 # text boxes for user input on how they want their graph
@@ -39,6 +33,7 @@ class GraphTab(QWidget):
 
         # Ask user what they'd like to graph
         self.graphLabel = QLabel("Pick the type of graph you want")
+        self.graphLabelhi = QLabel("hi")
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
@@ -52,11 +47,11 @@ class GraphTab(QWidget):
 
         # Layout
         self.layout = QGridLayout()
-        self.layout.addWidget(self.graphLabel)
-        self.layout.addWidget(self.vbarRadioButton)
-        self.layout.addWidget(self.hbarRadioButton)
-        self.layout.addWidget(self.pieRadioButton)
-        self.layout.addWidget(self.lineRadioButton)
+        self.layout.addWidget(self.graphLabel, 1, 0)
+        self.layout.addWidget(self.vbarRadioButton, 2, 0)
+        self.layout.addWidget(self.hbarRadioButton, 3, 0)
+        self.layout.addWidget(self.pieRadioButton, 4, 0)
+        self.layout.addWidget(self.lineRadioButton, 5, 0)
 
         self.layout.addWidget(self.newPNGButton)
         self.CustomGroup.setFixedWidth(700)
