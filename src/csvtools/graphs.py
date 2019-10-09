@@ -1,22 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
-import statsmodels
-import csv
 import CSV_Wizard
 
-#hello
-
-# This function will graph the functional or interval data with no restrictions
-def graph(df):
+# This function will graph the frequency data as a normal x/y line graph.
+def frequency_xy(df):
     headers = list(df.columns.values)
-    print(df)
-
-    #for title in headers:
 
     x = df[headers[1]]
     y = df[headers[2]]
-    plt.title("Frequency Data")
     plt.xlabel(headers[1])
     plt.ylabel(headers[2])
 
@@ -24,8 +15,58 @@ def graph(df):
     plt.plot(x, y)
     plt.show()
 
-# This function will graph the ordinal data with no restriction
-def ordinal(df):
+# This function will graph the frequency data as a horizontal bar graph
+def frequency_hbar(df):
+    headers = list(df.columns.values)
+    headers.pop(0)
+    x = headers
+    y = []
+    for header in headers:
+        y.append(df[header].sum())
+
+    plt.barh(x,y)
+    plt.show()
+
+def frequency_vbar(df):
+    headers = list(df.columns.values)
+    headers.pop(0)
+    x = headers
+    y = []
+    for header in headers:
+        y.append(df[header].sum())
+
+    plt.bar(x,y)
+    plt.show()
+
+# This function will graph the frequency data as a pie chart
+def frequency_pie(df):
+    headers = list(df.columns.values)
+
+    x = df[headers[1]]
+    y = df[headers[2]]
+    plt.xlabel(headers[1])
+    plt.ylabel(headers[2])
+
+    # Plot the points using matplotlib
+    plt.pie(x, y)
+    plt.show()
+
+# This function will graph the ordinal data as a vertical bar graph
+def ordinal_vbar(df):
+    headers = list(df.columns.values)
+    # Remove the Question # column
+    headers.pop(0)
+    x = headers
+    y = []
+
+    for header in headers:
+        y.append(df[header].sum())
+
+    plt.bar(x, y)
+    plt.show()
+
+# This function will graph the ordinal data as a horizontal bar graph
+def ordinal_hbar(df):
     headers = list(df.columns.values)
     # Remove the Question # column
     headers.pop(0)
@@ -34,12 +75,33 @@ def ordinal(df):
     for header in headers:
         y.append(df[header].sum())
 
-    plt.bar(x, y)
+    plt.barh(x, y)
     plt.show()
-    print(y)
 
+# This function will graph ordinal data as a pie chart
+def ordinal_pie(df):
+    headers = list(df.columns.values)
+    # Remove the Question # column
+    headers.pop(0)
+    x = headers
+    y = []
+    explode = []
+    for header in headers:
+        y.append(df[header].sum())
+        explode.append(0)
+
+    # Data to plot
+    colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender']
+
+    # Plot
+    plt.pie(y, explode=explode, labels=x, colors=colors,
+            autopct='%1.1f%%', shadow=False, startangle=0)
+    plt.axis('equal')
+    plt.show()
+
+# Testing purposes
 if __name__ == '__main__':
     myinfo = CSV_Wizard.openFile("../../TestData/OrdinalDataTest.csv")
     #contains numpy array
     d = myinfo[0]
-    ordinal(d)
+    ordinal_pie(d)
