@@ -4,4 +4,10 @@
 __pycache__/*
 __pycache__
 SprintReports/
+*.so
+.DS_Store
+.idea/
+src/.DS_Store 
+venv/
+
 
