@@ -1,11 +1,14 @@
-#!/usr/vin/env python3
+#!/usr/bin/env python3
 
 import numpy as np
 import statistics as s
 import math as ma
 from optparse import OptionParser
+import sys
 import inspect
 
+
+#Check which OS is being run
 from sys import platform
 if platform == "linux" or platform == "linux2":
     import StatisticsFortranLinux as sf
@@ -13,8 +16,10 @@ elif platform == "darwin":
     # OS X
     import StatisticsFortranMac as sf
 elif platform == "win32":
+    import StatisticsWindows as sf
     sys.stderr.write("Windows not supported yet.\n")
-    exit(1)
+    sys.exit(1)
+
 
 class Statistics:
     '''
@@ -54,8 +59,8 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        #return sf.mean(self.d)
-        return sum(self.d)/len(self.d) 
+        return sf.mean(self.d)
+        #return sum(self.d)/len(self.d) 
 
     def s_median(self):
         '''
@@ -81,7 +86,7 @@ class Statistics:
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
-        #return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
+        return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
         return sf.var(self.d)
         
 
@@ -123,29 +128,28 @@ class Regression:
         x = self.xcol
         y = self.ycol
         
+        try:
+            return sf.pearson(self.xcol, self.ycol)
+        except AttributeError:
+            x_mean = np.mean(x)
+            y_mean = np.mean(y)
+            def num(x,y):
+                numsum = 0
+                for m,n in zip(x,y):
+                    numsum += ((m-np.mean(x)) * (n - np.mean(y)))
+                return numsum
 
-        return sf.pearson(self.xcol, self.ycol)
-
-        x_mean = np.mean(x)
-        y_mean = np.mean(y)
-        def num(x,y):
-            numsum = 0
-            for m,n in zip(x,y):
-                numsum += ((m-np.mean(x)) * (n - np.mean(y)))
-            return numsum
-
-        def den(x,y):
-            x_sum = 0
-            y_sum = 0
-            
-            for m,n in zip(x,y):
-                x_sum += (m - x_mean)**2
-                y_sum += (n - y_mean)**2
-            den = ma.sqrt(x_sum * y_sum)
-            return den
+            def den(x,y):
+                x_sum = 0
+                y_sum = 0
+                
+                for m,n in zip(x,y):
+                    x_sum += (m - x_mean)**2
+                    y_sum += (n - y_mean)**2
+                den = ma.sqrt(x_sum * y_sum)
+                return den
         
-        return sf.pearson(self.xcol, self.ycol)
-        #return num(x,y)/den(x,y)
+            return num(x,y)/den(x,y)
 
 
     def r_linear(self):
@@ -164,27 +168,24 @@ class Regression:
         x = self.xcol
         y = self.ycol
 
-    
-        #Call subroutine
-        out = sf.linear(x,y)
+        try: 
+            #Call subroutine
+            out = sf.linear(x,y)
 
-        return {'slope': out[0], 'y_int': out[1]}
-        
-        #Save more typing, calculate standard deviation
-        x_std = np.std(self.xcol)
-        y_std = np.std(self.ycol)
+            return {'slope': out[0], 'y_int': out[1]}
+        except AttributeError: 
+            #Save more typing, calculate standard deviation
+            x_std = np.std(self.xcol)
+            y_std = np.std(self.ycol)
+            
+            #Calculate the y intercept
+            b = self.pearsonR() * y_std / x_std
 
-        
-        #Calculate the y intercept
-        b = self.pearsonR() * y_std / x_std
-
-        #Calculate the slope
-        m = sf.mean(y) - b * sf.mean(x)
-        #d['slope'] = m
-        #d['y_int'] = b
-
-
-        return d 
+            #Calculate the slope
+            m = self.mean(y) - b * self.mean(x)
+            d['slope'] = m
+            d['y_int'] = b
+            return d 
 
     def r_normal(self):
         '''
