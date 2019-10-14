@@ -1,5 +1,11 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QRadioButton,
-                             QGroupBox, QPushButton, QGridLayout)
+                             QGroupBox, QPushButton, QGridLayout, QSizePolicy)
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+import matplotlib as plt
+import random
+import graphs
+import CSV_Wizard
 
 class GraphTab(QWidget):
     def __init__(self):
@@ -18,7 +24,7 @@ class GraphTab(QWidget):
     def createGraphGroup(self):
         self.GraphGroup = QGroupBox()
 
-        self.myGraph = QTableWidget(400, 400)
+        self.myGraph = PlotCanvas(self, width=5, height=4)
 
         self.GraphGroup.setFixedWidth(1750)
         self.layout = QVBoxLayout()
@@ -33,7 +39,6 @@ class GraphTab(QWidget):
 
         # Ask user what they'd like to graph
         self.graphLabel = QLabel("Pick the type of graph you want")
-        self.graphLabelhi = QLabel("hi")
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
@@ -57,3 +62,136 @@ class GraphTab(QWidget):
         self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
 
+class PlotCanvas(FigureCanvas):
+
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+
+        FigureCanvas.__init__(self, fig)
+        self.setParent(parent)
+
+        FigureCanvas.setSizePolicy(self,
+                QSizePolicy.Expanding,
+                QSizePolicy.Expanding)
+        FigureCanvas.updateGeometry(self)
+        self.plot()
+
+
+    def plot(self):
+        myinfo = CSV_Wizard.openFile("../../TestData/IntervalDataTest.csv")
+        # contains numpy array
+        d = myinfo[0]
+        self.freqint_hbar(d)
+
+    def freqint_xy(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+
+        x = df[headers[1]]
+        y = df[headers[2]]
+        plot.set_xlabel(headers[1])
+        plot.set_ylabel(headers[2])
+
+        # Plot the points using matplotlib
+        plot.plot(x, y)
+        self.draw()
+
+    # This function will graph the frequency or interval data as a horizontal bar graph
+    def freqint_hbar(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+        headers.pop(0)
+        x = headers
+        y = []
+        for header in headers:
+            y.append(df[header].sum())
+
+        plot.barh(x, y)
+        self.draw()
+
+    # This function will graph frequency or interval data as a vertical bar graph
+    def freqint_vbar(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+        headers.pop(0)
+        x = headers
+        y = []
+        for header in headers:
+            y.append(df[header].sum())
+
+        plot.bar(x, y)
+        self.draw()
+
+    # This function will graph the frequency or interval data as a pie chart
+    def freqint_pie(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+        # Remove the Question # column
+        headers.pop(0)
+        x = headers
+        y = []
+        explode = []
+        for header in headers:
+            y.append(df[header].sum())
+            explode.append(0)
+
+        # Data to plot
+        colors = ['gold', 'yellowgreen']
+
+        # Plot
+        plot.pie(y, explode=explode, labels=x, colors=colors,
+                autopct='%1.1f%%', shadow=False, startangle=0)
+        plot.axis('equal')
+        self.draw()
+
+    # This function will graph the ordinal data as a vertical bar graph
+    def ordinal_vbar(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+        # Remove the Question # column
+        headers.pop(0)
+        x = headers
+        y = []
+
+        for header in headers:
+            y.append(df[header].sum())
+
+        plot.bar(x, y)
+        self.draw()
+
+    # This function will graph the ordinal data as a horizontal bar graph
+    def ordinal_hbar(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+        # Remove the Question # column
+        headers.pop(0)
+        x = headers
+        y = []
+        for header in headers:
+            y.append(df[header].sum())
+
+        plot.barh(x, y)
+        self.draw()
+
+    # This function will graph ordinal data as a pie chart
+    def ordinal_pie(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+        # Remove the Question # column
+        headers.pop(0)
+        x = headers
+        y = []
+        explode = []
+        for header in headers:
+            y.append(df[header].sum())
+            explode.append(0)
+
+        # Data to plot
+        colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender']
+
+        # Plot
+        plot.pie(y, explode=explode, labels=x, colors=colors,
+                autopct='%1.1f%%', shadow=False, startangle=0)
+        plot.axis('equal')
+        self.draw()
