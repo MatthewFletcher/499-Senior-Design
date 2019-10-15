@@ -111,13 +111,12 @@ subroutine pearson(arr_x, arr_y, n, output)
         numerator = numerator + ((xi - x_mean) * (yi - y_mean))
 
         !Looped Denominator calculation
-        x_sum = x_sum +  (xi - x_mean) * (xi - x_mean) 
-        y_sum = y_sum +  (yi - y_mean) * (yi - y_mean) 
+        x_sum = x_sum +  (xi - x_mean) **2
+        y_sum = y_sum +  (yi - y_mean) **2
     end do
    
     !Get square root and calculate final denom value
     output = numerator / SQRT(x_sum * y_sum)
-
     end subroutine
 
 subroutine linear(arr_x, arr_y, n, slope, y_int)
@@ -148,6 +147,9 @@ subroutine linear(arr_x, arr_y, n, slope, y_int)
     
     !Calculation of slope 
     slope = y_mean - y_int * x_mean
+
+    !write(*,*) "Y_int", y_int
+    !write(*,*) "slope", slope 
 
     end subroutine
 
@@ -190,10 +192,9 @@ subroutine binomial(p,n,x_suc,output)
 
             !######################################################
             real(8) function integrnorm(b)
-                real :: f
             real, intent(in) :: b
                 real :: integral
-                real :: idxa, idxb, delta, a
+                real :: idxa, idxb, delta
                 integer::i
                 real, parameter :: precisionfactor = 100
                 real, parameter :: start = -5
@@ -217,11 +218,9 @@ subroutine signtest(arr1, arr2, n, z_val)
 
     integer ::  n, i
     real(8), dimension(n)   ::  arr1, arr2
-    real(8) ::  p_val
     real(8) ::  diff
     integer ::  sig_ct, pos_ct, neg_ct, zer_ct
     real(8) ::  null_prob
-    real(8) ::  succ_ct
     real(8) ::  new_n
     real(8) ::  z_val
     real(8) ::  m,s
