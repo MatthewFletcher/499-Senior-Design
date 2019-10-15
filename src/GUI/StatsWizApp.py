@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
 import sys
-import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
+from . import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 
 class TabPage(QTabWidget):
@@ -17,7 +17,9 @@ class TabPage(QTabWidget):
         self.width = 2600
         self.height = 1300
 
-        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setFixedSize(self.size())
+
+        # self.setGeometry(self.left, self.top, self.width, self.height)
         self.show()
 
         self.tabWidget = QTabWidget()

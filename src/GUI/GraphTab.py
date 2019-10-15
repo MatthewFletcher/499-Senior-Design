@@ -4,8 +4,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib as plt
 import random
-import graphs
-import CSV_Wizard
+from src.csvtools import graphs
+from src.csvtools import CSV_Wizard
 
 class GraphTab(QWidget):
     def __init__(self):
