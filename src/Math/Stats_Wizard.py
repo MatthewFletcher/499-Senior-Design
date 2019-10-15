@@ -86,9 +86,10 @@ class Statistics:
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
-        return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
-        return sf.var(self.d)
-        
+        try:
+            return sf.var(self.d)
+        except AttributeError:
+            return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
 
     def s_stddev(self):
         '''
@@ -128,28 +129,34 @@ class Regression:
         x = self.xcol
         y = self.ycol
         
-        try:
-            return sf.pearson(self.xcol, self.ycol)
-        except AttributeError:
-            x_mean = np.mean(x)
-            y_mean = np.mean(y)
-            def num(x,y):
-                numsum = 0
-                for m,n in zip(x,y):
-                    numsum += ((m-np.mean(x)) * (n - np.mean(y)))
-                return numsum
+        s1 = sf.pearson(self.xcol, self.ycol)
+        return s1
+        #^^^^^^^^^^^^^^^^^# 
+        #FUNCTION ENDS HERE
 
-            def den(x,y):
-                x_sum = 0
-                y_sum = 0
-                
-                for m,n in zip(x,y):
-                    x_sum += (m - x_mean)**2
-                    y_sum += (n - y_mean)**2
-                den = ma.sqrt(x_sum * y_sum)
-                return den
-        
-            return num(x,y)/den(x,y)
+        x_mean = np.mean(x)
+        y_mean = np.mean(y)
+        def num(x,y):
+            numsum = 0
+            for m,n in zip(x,y):
+                numsum += ((m-np.mean(x)) * (n - np.mean(y)))
+            return numsum
+
+        def den(x,y):
+            x_sum = 0
+            y_sum = 0
+            
+            for m,n in zip(x,y):
+                x_sum += (m - x_mean)**2
+                y_sum += (n - y_mean)**2
+            den = ma.sqrt(x_sum * y_sum)
+            return den
+    
+        s2 =  num(x,y)/den(x,y)
+
+        print(f"{s1}\t{s2}")
+
+        return s1
 
 
     def r_linear(self):
@@ -171,8 +178,10 @@ class Regression:
         try: 
             #Call subroutine
             out = sf.linear(x,y)
-
-            return {'slope': out[0], 'y_int': out[1]}
+            print(f"Python tuple: {out}")
+            d =  {'slope': out[1], 'y_int': out[0]}
+            print(f"Python dict: {d}")
+            return d
         except AttributeError: 
             #Save more typing, calculate standard deviation
             x_std = np.std(self.xcol)
