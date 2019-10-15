@@ -178,9 +178,7 @@ class Regression:
         try: 
             #Call subroutine
             out = sf.linear(x,y)
-            print(f"Python tuple: {out}")
             d =  {'slope': out[1], 'y_int': out[0]}
-            print(f"Python dict: {d}")
             return d
         except AttributeError: 
             #Save more typing, calculate standard deviation
