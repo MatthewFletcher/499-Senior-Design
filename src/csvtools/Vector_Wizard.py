@@ -11,6 +11,7 @@ import CSV_Wizard as c
 import numpy as np
 import Stats_Wizard as s
 import pandas as pd
+import inspect
 
 def main():
     df=c.openFile("TestData/FrequencyDataTest.csv")[0]
@@ -18,6 +19,24 @@ def main():
     print("------")
     vectorSplit(df)
 
+def functionUse(ds):
+    '''
+    test list function are in ABC order
+    No issue
+    '''
+    print(ds.test_list())
+    #get all functions
+    func=ds.test_list()
+    method=func[0]
+    name=method[0]
+    addr=method[1]
+
+    method_to_call=getattr(ds,name)
+    result = method_to_call()
+    print("---")
+    print(result)
+
+    print(type(func[1]))
 
 def vectorSplit(df):
     '''
@@ -40,7 +59,8 @@ def vectorSplit(df):
     print(listarray[1])
     ds=s.Statistics(listarray[1])
     print(ds.s_mean())
-    print(ds.test_list())
+    functionUse(ds)
+
     return listarray
 def vectorS2I(listarray):
     '''
