@@ -36,6 +36,11 @@ def vectorSplit(df):
         listarray.append(df[headers[x]])
 
     listarray=vectorS2I(listarray)
+
+    print(listarray[1])
+    ds=s.Statistics(listarray[1])
+    print(ds.s_mean())
+    print(ds.test_list())
     return listarray
 def vectorS2I(listarray):
     '''
