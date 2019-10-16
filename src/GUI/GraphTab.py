@@ -1,11 +1,8 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QRadioButton,
-                             QGroupBox, QPushButton, QGridLayout, QSizePolicy)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,
+                             QGroupBox, QPushButton, QGridLayout, QSizePolicy, QButtonGroup)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-import matplotlib as plt
-import random
-from src.csvtools import graphs
-from src.csvtools import CSV_Wizard
+import CSV_Wizard
 
 class GraphTab(QWidget):
     def __init__(self):
@@ -31,7 +28,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.myGraph)
         self.GraphGroup.setLayout(self.layout)
 
-# The right side of DataTab containing Radio Buttons and
+# The right side of GraphTab containing Radio Buttons and
 # text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox()
@@ -39,11 +36,17 @@ class GraphTab(QWidget):
 
         # Ask user what they'd like to graph
         self.graphLabel = QLabel("Pick the type of graph you want")
+        self.typeGroup = QButtonGroup()
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
         self.lineRadioButton = QRadioButton("Line")
+        self.typeGroup.addButton(self.vbarRadioButton)
+        self.typeGroup.addButton(self.hbarRadioButton)
+        self.typeGroup.addButton(self.pieRadioButton)
+        self.typeGroup.addButton(self.lineRadioButton)
 
+        self.typeGroup.clicked.connect(self.process())
 
         # Buttons to let the user submit the data
         self.newPNGButton = QPushButton("Save PNG")
@@ -61,6 +64,16 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.newPNGButton)
         self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
+
+    def process(self):
+        if self.vbarRadioButton.isChecked() == True:
+            graph = PlotCanvas.verticalBarGraph()
+        elif self.hbarRadioButton.isChecked() == True:
+            graph2 = PlotCanvas.horizontalBarGraph()
+        elif self.pieRadioButton.isChecked() == True:
+            graph3 = PlotCanvas.ordinal_pie()
+        elif self.lineRadioButton.isChecked() == True;
+            graph4 = PlotCanvas.lineGraph()
 
 class PlotCanvas(FigureCanvas):
 
@@ -84,7 +97,7 @@ class PlotCanvas(FigureCanvas):
         d = myinfo[0]
         self.freqint_hbar(d)
 
-    def freqint_xy(self, df):
+    def lineGraph(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
 
@@ -98,7 +111,7 @@ class PlotCanvas(FigureCanvas):
         self.draw()
 
     # This function will graph the frequency or interval data as a horizontal bar graph
-    def freqint_hbar(self, df):
+    def horizontalBarGraph(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
         headers.pop(0)
@@ -111,7 +124,7 @@ class PlotCanvas(FigureCanvas):
         self.draw()
 
     # This function will graph frequency or interval data as a vertical bar graph
-    def freqint_vbar(self, df):
+    def verticalBarGraph(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
         headers.pop(0)
@@ -145,35 +158,6 @@ class PlotCanvas(FigureCanvas):
         plot.axis('equal')
         self.draw()
 
-    # This function will graph the ordinal data as a vertical bar graph
-    def ordinal_vbar(self, df):
-        plot = self.figure.add_subplot(111)
-        headers = list(df.columns.values)
-        # Remove the Question # column
-        headers.pop(0)
-        x = headers
-        y = []
-
-        for header in headers:
-            y.append(df[header].sum())
-
-        plot.bar(x, y)
-        self.draw()
-
-    # This function will graph the ordinal data as a horizontal bar graph
-    def ordinal_hbar(self, df):
-        plot = self.figure.add_subplot(111)
-        headers = list(df.columns.values)
-        # Remove the Question # column
-        headers.pop(0)
-        x = headers
-        y = []
-        for header in headers:
-            y.append(df[header].sum())
-
-        plot.barh(x, y)
-        self.draw()
-
     # This function will graph ordinal data as a pie chart
     def ordinal_pie(self, df):
         plot = self.figure.add_subplot(111)
@@ -195,3 +179,4 @@ class PlotCanvas(FigureCanvas):
                 autopct='%1.1f%%', shadow=False, startangle=0)
         plot.axis('equal')
         self.draw()
+

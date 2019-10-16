@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import CSV_Wizard
 
 # This function will graph the frequency or interval data as a normal x/y line graph.
-def freqorint_xy(df):
+def freqint_xy(df):
     headers = list(df.columns.values)
 
     x = df[headers[1]]
@@ -16,7 +16,7 @@ def freqorint_xy(df):
     plt.show()
 
 # This function will graph the frequency or interval data as a horizontal bar graph
-def freqorint_hbar(df):
+def freqint_hbar(df):
     headers = list(df.columns.values)
     headers.pop(0)
     x = headers
@@ -28,7 +28,7 @@ def freqorint_hbar(df):
     plt.show()
 
 # This function will graph frequency or interval data as a vertical bar graph
-def freqorint_vbar(df):
+def freqint_vbar(df):
     headers = list(df.columns.values)
     headers.pop(0)
     x = headers
@@ -40,7 +40,7 @@ def freqorint_vbar(df):
     plt.show()
 
 # This function will graph the frequency or interval data as a pie chart
-def frequency_pie(df):
+def freqint_pie(df):
     headers = list(df.columns.values)
     # Remove the Question # column
     headers.pop(0)
@@ -108,9 +108,10 @@ def ordinal_pie(df):
     plt.axis('equal')
     plt.show()
 
+
 # Testing purposes
 if __name__ == '__main__':
     myinfo = CSV_Wizard.openFile("../../TestData/IntervalDataTest.csv")
     #contains numpy array
     d = myinfo[0]
-    frequency_pie(d)
+    freqint_pie(d)
