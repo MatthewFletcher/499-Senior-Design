@@ -2,6 +2,9 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,
                              QGroupBox, QPushButton, QGridLayout, QSizePolicy, QButtonGroup)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from pathlib import Path
+import sys, os
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import CSV_Wizard
 
 class GraphTab(QWidget):
@@ -72,7 +75,7 @@ class GraphTab(QWidget):
             graph2 = PlotCanvas.horizontalBarGraph()
         elif self.pieRadioButton.isChecked() == True:
             graph3 = PlotCanvas.ordinal_pie()
-        elif self.lineRadioButton.isChecked() == True;
+        elif self.lineRadioButton.isChecked() == True:
             graph4 = PlotCanvas.lineGraph()
 
 class PlotCanvas(FigureCanvas):

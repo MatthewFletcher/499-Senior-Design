@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
 import sys
-from . import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
+import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 
 class TabPage(QTabWidget):

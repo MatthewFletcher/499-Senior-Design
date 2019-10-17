@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableW
                              QGridLayout, QButtonGroup)
 import os
 import csv
-from qtpy import QtGui
 
 
 # The DataTab class holds all the GUI for the DataTab
