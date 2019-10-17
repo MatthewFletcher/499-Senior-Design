@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from pathlib import Path
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import sys, os
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import CSV_Wizard
