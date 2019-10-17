@@ -98,7 +98,7 @@ class PlotCanvas(FigureCanvas):
         myinfo = CSV_Wizard.openFile("../../TestData/IntervalDataTest.csv")
         # contains numpy array
         d = myinfo[0]
-        self.freqint_hbar(d)
+        self.horizontalBarGraph(d)
 
     def lineGraph(self, df):
         plot = self.figure.add_subplot(111)
