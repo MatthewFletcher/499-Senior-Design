@@ -11,6 +11,8 @@ class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.buttonSize = 680
+
         self.createGraphGroup()
         self.createCustomGroup()
 
@@ -26,7 +28,7 @@ class GraphTab(QWidget):
 
         self.myGraph = PlotCanvas(self, width=5, height=4)
 
-        self.GraphGroup.setFixedWidth(1750)
+        #self.GraphGroup.setFixedWidth(1750)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myGraph)
         self.GraphGroup.setLayout(self.layout)
@@ -54,7 +56,7 @@ class GraphTab(QWidget):
         # Buttons to let the user submit the data
         self.newPNGButton = QPushButton("Save PNG")
         self.newPNGButton.setDefault(True)
-        self.newPNGButton.setFixedWidth(680)
+        self.newPNGButton.setFixedWidth(self.buttonSize)
 
         # Layout
         self.layout = QGridLayout()
@@ -65,7 +67,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.lineRadioButton, 5, 0)
 
         self.layout.addWidget(self.newPNGButton)
-        self.CustomGroup.setFixedWidth(700)
+        #self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
 
     def process(self):

@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
-                             QGridLayout, QButtonGroup)
+                             QGridLayout, QButtonGroup, QApplication)
 import os
+import sys
 import csv
 
 
@@ -9,6 +10,18 @@ import csv
 class DataTab(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.app = QApplication(sys.argv)
+        self.screen = self.app.primaryScreen()
+        self.size = self.screen.size()
+
+        self.tableWidth = self.size.width() * 0.65
+        self.customWidth = self.size.width() * 0.3
+
+        self.buttonSize = self.size.width() * 0.2
+        self.lineEditSize = self.size.width() * 0.05
+        self.rowSize = 400
+        self.columnSize = 400
 
         self.createTableGroup()
         self.createCustomGroup()
@@ -23,9 +36,9 @@ class DataTab(QWidget):
     def createTableGroup(self):
         self.TableGroup = QGroupBox()
 
-        self.myTable = QTableWidget(400, 400)
+        self.myTable = QTableWidget(self.rowSize, self.columnSize)
 
-        self.TableGroup.setFixedWidth(1750)
+        self.TableGroup.setFixedWidth(self.tableWidth)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myTable)
         self.TableGroup.setLayout(self.layout)
@@ -57,10 +70,10 @@ class DataTab(QWidget):
         self.beginCol = QLineEdit()
         self.endRow = QLineEdit()
         self.endCol = QLineEdit()
-        self.beginRow.setFixedWidth(150)
-        self.beginCol.setFixedWidth(150)
-        self.endRow.setFixedWidth(150)
-        self.endCol.setFixedWidth(150)
+        self.beginRow.setFixedWidth(self.lineEditSize)
+        self.beginCol.setFixedWidth(self.lineEditSize)
+        self.endRow.setFixedWidth(self.lineEditSize)
+        self.endCol.setFixedWidth(self.lineEditSize)
 
         # Have the QLineEdits only be editable if
         # selectionRadioButton is selected
@@ -83,21 +96,21 @@ class DataTab(QWidget):
         # Buttons to let the user submit the data
         self.newCSVButton = QPushButton("Import CSV")
         self.newCSVButton.setDefault(True)
-        self.newCSVButton.setFixedWidth(680)
+        self.newCSVButton.setFixedWidth(self.buttonSize)
         self.newCSVButton.clicked.connect(self.newCSVButtonClicked)
 
         self.clearButton = QPushButton("Clear Table")
         self.clearButton.setDefault(True)
-        self.clearButton.setFixedWidth(680)
+        self.clearButton.setFixedWidth(self.buttonSize)
         self.clearButton.clicked.connect(self.clearButtonClicked)
 
         self.goButton = QPushButton("Submit Data")
         self.goButton.setDefault(True)
-        self.goButton.setFixedWidth(680)
+        self.goButton.setFixedWidth(self.buttonSize)
 
         # Layout
         self.layout = QGridLayout()
-        self.layout.addWidget(self.graphLabel, 0, 0, 1, 4)
+        self.layout.addWidget(self.graphLabel, 0, 0, 1, 3)
         self.layout.addWidget(self.allRadioButton, 1, 0, 1, 3)
         self.layout.addWidget(self.selectionRadioButton, 2, 0, 1, 3)
         self.layout.addWidget(self.beginRowText, 3, 0)
@@ -119,7 +132,7 @@ class DataTab(QWidget):
         self.layout.addWidget(self.newCSVButton, 11, 0, 1, 3)
         self.layout.addWidget(self.clearButton, 12, 0, 1, 3)
         self.layout.addWidget(self.goButton, 13, 0, 1, 3)
-        self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setFixedWidth(self.customWidth)
         self.CustomGroup.setLayout(self.layout)
 
 # Changes the QLineEdits to be ReadOnly when
@@ -155,7 +168,7 @@ class DataTab(QWidget):
         if path[0] != '':
             with open(path[0], newline='') as csvFile:
                 self.myTable.setRowCount(0)
-                self.myTable.setColumnCount(5)
+                self.myTable.setColumnCount(self.columnSize)
                 myFile = csv.reader(csvFile, delimiter=',', quotechar='|')
                 for row_data in myFile:
                     row = self.myTable.rowCount()
@@ -171,5 +184,5 @@ class DataTab(QWidget):
         while self.myTable.rowCount() > 0:
             self.myTable.removeRow(0)
 
-        self.myTable.setRowCount(400)
-        self.myTable.setColumnCount(400)
+        self.myTable.setRowCount(self.rowSize)
+        self.myTable.setColumnCount(self.columnSize)
