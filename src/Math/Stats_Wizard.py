@@ -100,6 +100,13 @@ class Statistics:
         return sf.stddev(self.d)
         #return self.s_var() ** 0.5
 
+    def s_zscore(self):
+        '''
+        Calculates the z score of each item in the list 
+        '''
+
+        return list(sf.zscore(self.d))
+
     def test_list(self):
         '''
         Returns a list of all methods in the Statistics class
