@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import sys
 
-def selection(df,choice, pointA, pointB):
+def selection(df,choice=0, pointA, pointB):
     if(choice==1):
         newDF=modify(df,pointA, pointB)
         return newDF
