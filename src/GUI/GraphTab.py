@@ -49,7 +49,7 @@ class GraphTab(QWidget):
         self.typeGroup.addButton(self.pieRadioButton)
         self.typeGroup.addButton(self.lineRadioButton)
 
-        self.typeGroup.clicked.connect(self.process())
+        #self.typeGroup.clicked.connect(self.process())
 
         # Buttons to let the user submit the data
         self.newPNGButton = QPushButton("Save PNG")

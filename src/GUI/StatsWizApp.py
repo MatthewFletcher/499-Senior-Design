@@ -17,9 +17,7 @@ class TabPage(QTabWidget):
         self.width = 2600
         self.height = 1300
 
-        self.setFixedSize(self.size())
-
-        # self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setGeometry(self.left, self.top, self.width, self.height)
         self.show()
 
         self.tabWidget = QTabWidget()
