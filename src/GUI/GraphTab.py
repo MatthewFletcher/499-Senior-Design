@@ -53,16 +53,16 @@ class GraphTab(QWidget):
         #self.typeGroup.clicked.connect(self.process())
 
         # Buttons to let the user submit the data
-        # self.graphButton = QPushButton("Graph")
-        # self.graphButton.setDefault(True)
-        # self.graphButton.setFixedWidth(680)
+        self.graphButton = QPushButton("Graph")
+        self.graphButton.setDefault(True)
+        self.graphButton.setFixedWidth(680)
         # self.graphButton.clicked.connect(self.graphButtonClicked)
 
         # Button to let the user save the graph as a PNG file
-        # self.PNGButton = QPushButton("Save as PNG")
-        # self.PNGButton.setDefault(True)
-        # self.PNGButton.setFixedWidth(680)
-        # self.PNGButton.clicked.connect(self.PNGButtonClicked)
+        self.PNGButton = QPushButton("Save as PNG")
+        self.PNGButton.setDefault(True)
+        self.PNGButton.setFixedWidth(680)
+        self.PNGButton.clicked.connect(self.PNGButtonClicked)
 
         # Layout
         self.layout = QGridLayout()
@@ -72,24 +72,22 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.pieRadioButton, 4, 0)
         self.layout.addWidget(self.lineRadioButton, 5, 0)
 
-    #     self.layout.addWidget(self.graphButton)
-    #     self.CustomGroup.setFixedWidth(700)
-    #     self.CustomGroup.setLayout(self.layout)
-    #
-    #     self.layout.addWidget(self.PNGButton)
-    #     self.CustomGroup.setFixedWidth(700)
-    #     self.CustomGroup.setLayout(self.layout)
-    #
-    # # Call this function when the graph button is clicked
+        self.layout.addWidget(self.graphButton)
+        self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setLayout(self.layout)
+
+        self.layout.addWidget(self.PNGButton)
+        self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setLayout(self.layout)
+
+    # Call this function when the graph button is clicked
     # def graphButtonClicked(self):
-    #
-    # def PNGButtonClicked(self):
-    #     self.savePNG()
-    #
-    # # Populates the table with data from a CSV File
-    # # when newCSVButton is clicked
-    # def savePNG(self):
-    #     self.savefig('graph.png')
+
+    def PNGButtonClicked(self):
+        self.savePNG()
+
+    def savePNG(self):
+        self.savefig('graph.png')
 
     def process(self):
         if self.vbarRadioButton.isChecked() == True:
