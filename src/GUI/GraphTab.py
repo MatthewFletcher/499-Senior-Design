@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,
-                             QGroupBox, QPushButton, QGridLayout, QSizePolicy, QButtonGroup)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,QGroupBox,
+                             QPushButton, QGridLayout, QSizePolicy, QButtonGroup,
+                             QApplication)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from pathlib import Path
@@ -11,7 +12,13 @@ class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.app = QApplication(sys.argv)
+        self.screen = self.app.primaryScreen()
+        self.size = self.screen.size()
+
         self.buttonSize = 680
+        self.graphWidth = self.size.width() * 0.65
+        self.customWidth = self.size.width() * 0.3
 
         self.createGraphGroup()
         self.createCustomGroup()
@@ -28,7 +35,7 @@ class GraphTab(QWidget):
 
         self.myGraph = PlotCanvas(self, width=5, height=4)
 
-        #self.GraphGroup.setFixedWidth(1750)
+        self.GraphGroup.setFixedWidth(self.graphWidth)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myGraph)
         self.GraphGroup.setLayout(self.layout)
@@ -67,7 +74,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.lineRadioButton, 5, 0)
 
         self.layout.addWidget(self.newPNGButton)
-        #self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setFixedWidth(self.customWidth)
         self.CustomGroup.setLayout(self.layout)
 
     def process(self):
