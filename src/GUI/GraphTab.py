@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,
-                             QGroupBox, QPushButton, QGridLayout, QSizePolicy, QButtonGroup, QFileDialog)
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,QGroupBox,
+                             QPushButton, QGridLayout, QSizePolicy, QButtonGroup,
+                             QApplication)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
@@ -13,6 +14,14 @@ import random
 class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.app = QApplication(sys.argv)
+        self.screen = self.app.primaryScreen()
+        self.size = self.screen.size()
+
+        self.buttonSize = 680
+        self.graphWidth = self.size.width() * 0.65
+        self.customWidth = self.size.width() * 0.3
 
         self.createGraphGroup()
         self.createCustomGroup()
@@ -30,7 +39,7 @@ class GraphTab(QWidget):
         self.figure = plt.figure()
         self.myGraph = FigureCanvas(self.figure)
 
-        self.GraphGroup.setFixedWidth(1750)
+        self.GraphGroup.setFixedWidth(self.graphWidth)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myGraph)
         self.GraphGroup.setLayout(self.layout)
@@ -56,6 +65,7 @@ class GraphTab(QWidget):
         # self.pieRadioButton.setEnabled(False)
 
         # Buttons to let the user submit the data
+
         self.graphButton = QPushButton("Graph")
         self.graphButton.setDefault(True)
         self.graphButton.setFixedWidth(680)
@@ -74,7 +84,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.hbarRadioButton, 3, 0)
         self.layout.addWidget(self.pieRadioButton, 4, 0)
         self.layout.addWidget(self.lineRadioButton, 5, 0)
-
+        
         self.layout.addWidget(self.graphButton)
         self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
