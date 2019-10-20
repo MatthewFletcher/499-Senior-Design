@@ -1,7 +1,9 @@
-!https://notmatthancock.github.io/2017/02/10/calling-fortran-from-python.html
+!Author: Matt Fletcher
 
 !This file contains subroutines for the statistics and regressions functions
 !used in the Stats_Wizard.py program. 
+
+!https://notmatthancock.github.io/2017/02/10/calling-fortran-from-python.html
 
 subroutine mean(arr, n, output)
     integer ::  n, i
@@ -9,7 +11,7 @@ subroutine mean(arr, n, output)
     real(8) ::  output
 
     !f2py intent(in)    ::  arr
-    !f2py intent(hide), depend(arr) ::  n = shape(arr)
+    !f2py intent(hide)  ::  n = shape(arr)
     !f2py intent(out) output
     
     !Make deep copy of array  
@@ -38,7 +40,7 @@ subroutine var(arr, n, output)
     real(8) ::  mean_val, sum
 
     !f2py intent(in)    ::  arr
-    !f2py intent(hide), depend(arr) ::  n = shape(arr)
+    !f2py intent(hide) ::  n = shape(arr)
     !f2py intent(out) output
     
     !Make deep copy of array 
@@ -68,7 +70,7 @@ subroutine stddev(arr,n,output)
     real(8) ::  output
 
     !f2py intent(in)    ::  arr
-    !f2py intent(hide), depend(arr) ::  n = shape(arr)
+    !f2py intent(hide) ::  n = shape(arr)
     !f2py intent(out) output
     
     !Make deep copy of array 
@@ -78,6 +80,24 @@ subroutine stddev(arr,n,output)
     
     output = SQRT(output)
 
+    end subroutine
+
+subroutine zscore(arr, n, arr_out)
+    implicit none 
+    !f2py intent(in)    ::  arr
+    !f2py intent(hide) ::  n = shape(arr_x)
+    !f2py intent(out)   ::  arr_out
+
+    real(8) ::  mu, sig
+    real(8), dimension(n)   ::  arr, arr_out
+    
+    integer ::  i, n
+    call mean(arr, n, mu)
+    call stddev(arr, n, sig)
+
+    do i=1,N
+       arr_out(i) = (arr(i) - mu) / sig
+    end do 
     end subroutine
 
 subroutine pearson(arr_x, arr_y, n, output)
@@ -90,7 +110,7 @@ subroutine pearson(arr_x, arr_y, n, output)
     real(8) ::  output
 
     !f2py intent(in)    ::  arr
-    !f2py intent(hide), depend(arr_x) ::  n = shape(arr_x)
+    !f2py intent(hide) ::  n = shape(arr_x)
     !f2py intent(out) output
 
     !Set x and y array means 
@@ -111,13 +131,12 @@ subroutine pearson(arr_x, arr_y, n, output)
         numerator = numerator + ((xi - x_mean) * (yi - y_mean))
 
         !Looped Denominator calculation
-        x_sum = x_sum +  (xi - x_mean) * (xi - x_mean) 
-        y_sum = y_sum +  (yi - y_mean) * (yi - y_mean) 
+        x_sum = x_sum +  (xi - x_mean) **2
+        y_sum = y_sum +  (yi - y_mean) **2
     end do
    
     !Get square root and calculate final denom value
     output = numerator / SQRT(x_sum * y_sum)
-
     end subroutine
 
 subroutine linear(arr_x, arr_y, n, slope, y_int)
@@ -129,7 +148,7 @@ subroutine linear(arr_x, arr_y, n, slope, y_int)
     real(8) ::  p
     real(8) ::  slope, y_int
     !f2py intent(in)    ::  arr_x, arr_y
-    !f2py intent(hide), depend(arr_x) ::  n = shape(arr_x)
+    !f2py intent(hide) ::  n = shape(arr_x)
     !f2py intent(out) slope, y_int
     !Calculate mean
     call mean(arr_x,n,x_mean)
@@ -148,6 +167,9 @@ subroutine linear(arr_x, arr_y, n, slope, y_int)
     
     !Calculation of slope 
     slope = y_mean - y_int * x_mean
+
+    !write(*,*) "Y_int", y_int
+    !write(*,*) "slope", slope 
 
     end subroutine
 
@@ -176,52 +198,50 @@ subroutine binomial(p,n,x_suc,output)
    
     !calculate mu
     s = SQRT(n*p*q)
-
+    m = n * p
         
         contains
             !
             !######################################################
             !For any x, calculate the corresponding pdf value
-            real(8) function norm(x)
+            function norm(x) result(f)
             real :: f
             real,intent(in) :: x
                 f = 1/SQRT(2 * pi) * e ** ((-x**2)/2)
             end function
 
             !######################################################
-            real(8) function integrnorm(b)
-                real :: f
+            function integrnorm(b) result(integral)
             real, intent(in) :: b
                 real :: integral
-                real :: idxa, idxb, delta, a
+                real :: idxa, idxb, delta
                 integer::i
                 real, parameter :: precisionfactor = 100
                 real, parameter :: start = -5
                 delta = (b - start)/precisionfactor
                 integral = 0 
                 do i=-500,500
-                    idxa = norm(i/100.0)
-                    idxb = norm((i+1)/100.0)
+                    idxa = real(norm(i/100.0))
+                    idxb = real(norm((i+1)/100.0))
                     integral = integral + delta * (idxa + idxb)/2 
               end do
            end function 
 
     end subroutine
 
+
 subroutine signtest(arr1, arr2, n, z_val)
     implicit none 
 
     !f2py intent(in)    ::  arr_1, arr_2
-    !f2py intent(hide), depend(arr_x) ::  n = shape(arr_x)
+    !f2py intent(hide) ::  n = shape(arr_x)
     !f2py intent(out) z_val
 
     integer ::  n, i
     real(8), dimension(n)   ::  arr1, arr2
-    real(8) ::  p_val
     real(8) ::  diff
     integer ::  sig_ct, pos_ct, neg_ct, zer_ct
     real(8) ::  null_prob
-    real(8) ::  succ_ct
     real(8) ::  new_n
     real(8) ::  z_val
     real(8) ::  m,s
@@ -281,7 +301,7 @@ subroutine signtest(arr1, arr2, n, z_val)
     
     end subroutine
 
-subroutine rank(arr, n, outarr)
+subroutine rankarr(arr, n, outarr)
     !Takes in a 1D array, and computes the ranks
     implicit none 
     integer ::  n, i, j
@@ -334,15 +354,15 @@ subroutine spearman(arr1, arr2, n, rho)
     implicit none
 
     !f2py intent(in)    ::  arr1, arr2
-    !f2py intent(hide), depend(arr1) ::  n = shape(arr1)
+    !f2py intent(hide)  ::  n = shape(arr1)
     !f2py intent(out)   ::  rho
 
     real(8), dimension(n)   ::  arr1, arr2
     real(8), dimension(n)   ::  arr1r, arr2r, diff
     integer ::  n, i
     real(8) ::  rho, sum
-    call rank(arr1,n, arr1r)
-    call rank(arr2,n, arr2r)
+    call rankarr(arr1,n, arr1r)
+    call rankarr(arr2,n, arr2r)
 
     !Ranks are held in arr1r and arr2r
 
