@@ -30,7 +30,7 @@ def testPT(ptA,ptB):
     
 #Testing Data**
 print("Starting...\n")
-fn="TestData/FrequencyDataTest.csv"
+fn="../../TestData/FrequencyDataTest.csv"
 #fn="TestData/IntervalDataTest.csv"
 #fn="TestData/OrdinalDataTest.csv"
 f = open(fn)

@@ -6,7 +6,9 @@ import math as ma
 import scipy.stats as st
 from optparse import OptionParser
 import inspect
-
+from pathlib import Path
+import sys, os
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import CSV_Wizard as c
 import numpy as np
 #import Stats_Wizard as s
