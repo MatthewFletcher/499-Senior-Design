@@ -99,6 +99,14 @@ class Statistics:
         '''
         return sf.stddev(self.d)
         #return self.s_var() ** 0.5
+    
+    def s_varcoeff(self):
+        '''
+        Calculates the coefficient of variation of a vector
+        Parameters: None
+        Returns: Number
+        '''
+        return self.s_stddev() / self.s_mean()
 
     def s_zscore(self):
         '''
