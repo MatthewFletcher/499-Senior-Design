@@ -11,8 +11,8 @@ import numpy as np
 from pathlib import Path
 #TODO: GET A BETTER FIX
 #setting the working directory vs code
-#sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
-#sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
 
 import CSV_Wizard as c
 import Stats_Wizard as s
