@@ -4,17 +4,19 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,QGroupBo
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+import pandas as pd
 from pathlib import Path
 import sys, os
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import CSV_Wizard
-import random
-# import UserSelect
 
 class GraphTab(QWidget):
+    # df = []
+    # @staticmethod
+    # def setDF(dataframe):
+    #     df = [dataframe]
     def __init__(self):
         super().__init__()
-
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
@@ -95,9 +97,10 @@ class GraphTab(QWidget):
 
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
-        masterDF = CSV_Wizard.openFile("../../TestData/IntervalDataTest.csv")
-        # contains numpy array
+        masterDF = CSV_Wizard.openFile("../../TestData/OrdinalDataTest.csv")
         d = masterDF[0]
+        # d = GraphTab.df[0]
+        # print(d)
         self.figure.clear()
         if self.vbarRadioButton.isChecked() == True:
             self.verticalBarGraph(d)

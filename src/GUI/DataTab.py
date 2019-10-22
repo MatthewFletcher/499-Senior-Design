@@ -1,16 +1,18 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
                              QGridLayout, QButtonGroup, QApplication)
+from PyQt5.QtCore import Qt
 import os
 import sys
 import csv
-
+import pandas as pd
+from pathlib import Path
+import GraphTab
 
 # The DataTab class holds all the GUI for the DataTab
 class DataTab(QWidget):
     def __init__(self):
         super().__init__()
-
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
@@ -107,6 +109,8 @@ class DataTab(QWidget):
         self.goButton = QPushButton("Submit Data")
         self.goButton.setDefault(True)
         self.goButton.setFixedWidth(self.buttonSize)
+        self.goButton.clicked.connect(self.SubmitDataButtonClicked)
+
 
         # Layout
         self.layout = QGridLayout()
@@ -167,17 +171,34 @@ class DataTab(QWidget):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':
             with open(path[0], newline='') as csvFile:
-                self.myTable.setRowCount(0)
-                self.myTable.setColumnCount(self.columnSize)
                 myFile = csv.reader(csvFile, delimiter=',', quotechar='|')
+                headers = next(myFile)
+                self.myTable.setRowCount(0)
+                self.myTable.setColumnCount(len(headers))
+                self.myTable.setHorizontalHeaderLabels(headers)
                 for row_data in myFile:
                     row = self.myTable.rowCount()
                     self.myTable.insertRow(row)
                     if len(row_data) > 10:
                         self.myTable.setColumnCount(len(row_data))
                     for column, stuff in enumerate(row_data):
-                        item = QTableWidgetItem(stuff)
+                        item = QTableWidgetItem()
+                        item.setData(Qt.EditRole, stuff)
                         self.myTable.setItem(row, column, item)
+
+    def dataframe_generation_from_table(self):
+        number_of_rows = self.myTable.rowCount()
+        number_of_columns = self.myTable.columnCount()
+        header = []
+        for i in range(number_of_columns):
+            header.append(self.myTable.horizontalHeaderItem(i).text())
+        tmp_df = pd.DataFrame(columns=header, index=range(number_of_rows))
+
+        for i in range(number_of_rows):
+            for j in range(number_of_columns):
+                tmp_df.iloc[i, j] = self.myTable.takeItem(i, j).text()
+        # print(tmp_df)
+        return tmp_df
 
 # Clears the table and restores it to the original
     def clearTable(self):
@@ -186,3 +207,8 @@ class DataTab(QWidget):
 
         self.myTable.setRowCount(self.rowSize)
         self.myTable.setColumnCount(self.columnSize)
+
+    def SubmitDataButtonClicked(self):
+        # GraphTab.df = self.dataframe_generation_from_table()
+        GraphTab.setDF(self.dataframe_generation_from_table())
+        # print(GraphTab.df)
