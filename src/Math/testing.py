@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import sys, os
+from pathlib import Path
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import CSV_Wizard as c
 import numpy as np
 import Stats_Wizard as s
