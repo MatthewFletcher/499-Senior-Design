@@ -365,7 +365,6 @@ subroutine spearman(arr1, arr2, n, rho)
     call rankarr(arr2,n, arr2r)
 
     !Ranks are held in arr1r and arr2r
-
     !Calculate sum of square of rank differences
     diff = (arr1r-arr2r)**2
 
