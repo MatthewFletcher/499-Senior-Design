@@ -13,14 +13,9 @@ class WelcomeTab(QMainWindow):
         self.pixmap = QPixmap("StatsLogo1.png")
         self.pixmap2 = self.pixmap.scaled(600, 600)
         self.label = QLabel(self)
-        self.left = 0
-        self.top = 0
-        self.width = 1000
-        self.height = 1000
         self.initUi()
 
     def initUi(self):
-        self.setGeometry(self.left, self.top, self.width, self.height)
         self.createGridLayout()
 
         self.show()
