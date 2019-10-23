@@ -34,7 +34,7 @@ class DataTab(QWidget):
 
 # The left side of DataTab containing the Table
     def createTableGroup(self):
-        self.TableGroup = QGroupBox()
+        self.TableGroup = QGroupBox("Table")
 
         self.myTable = QTableWidget(self.rowSize, self.columnSize)
 
@@ -46,7 +46,7 @@ class DataTab(QWidget):
 # The right side of DataTab containing Radio Buttons and
 # text boxes for user input on how they want their graph
     def createCustomGroup(self):
-        self.CustomGroup = QGroupBox()
+        self.CustomGroup = QGroupBox("Options")
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
