@@ -186,7 +186,7 @@ class DataTab(QWidget):
                         item.setData(Qt.EditRole, stuff)
                         self.myTable.setItem(row, column, item)
 
-    def dataframe_generation_from_table(self):
+    def getDataFromTable(self):
         number_of_rows = self.myTable.rowCount()
         number_of_columns = self.myTable.columnCount()
         header = []
@@ -210,5 +210,5 @@ class DataTab(QWidget):
 
     def SubmitDataButtonClicked(self):
         # GraphTab.df = self.dataframe_generation_from_table()
-        GraphTab.setDF(self.dataframe_generation_from_table())
+        GraphTab.setDF(self.getDataFromTable())
         # print(GraphTab.df)
