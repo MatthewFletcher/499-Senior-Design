@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
-                             QGridLayout, QButtonGroup, QApplication)
+                             QGridLayout, QButtonGroup, QApplication, QAbstractItemView)
 from PyQt5.QtCore import Qt
 import os
 import sys
@@ -38,9 +38,8 @@ class DataTab(QWidget):
 # The left side of DataTab containing the Table
     def createTableGroup(self):
         self.TableGroup = QGroupBox()
-
         self.myTable = QTableWidget(self.rowSize, self.columnSize)
-
+        self.myTable.setSelectionMode(QAbstractItemView.ContiguousSelection)
         self.TableGroup.setFixedWidth(self.tableWidth)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myTable)
