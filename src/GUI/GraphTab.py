@@ -51,7 +51,7 @@ class GraphTab(QWidget):
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
-        self.graphLabel = QLabel("Pick the type of graph you want")
+        self.graphLabel = QLabel("What type of graph would you like?")
         self.typeGroup = QButtonGroup()
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
@@ -61,6 +61,7 @@ class GraphTab(QWidget):
         self.typeGroup.addButton(self.hbarRadioButton)
         self.typeGroup.addButton(self.pieRadioButton)
         self.typeGroup.addButton(self.lineRadioButton)
+        self.spaceLabel = QLabel("\n\n\n")
 
         # self.pieRadioButton.setEnabled(False)
 
@@ -84,6 +85,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.hbarRadioButton, 3, 0)
         self.layout.addWidget(self.pieRadioButton, 4, 0)
         self.layout.addWidget(self.lineRadioButton, 5, 0)
+        self.layout.addWidget(self.spaceLabel, 6, 0)
         
         self.layout.addWidget(self.graphButton)
         self.CustomGroup.setFixedWidth(700)
