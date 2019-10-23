@@ -11,12 +11,9 @@ sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import CSV_Wizard
 
 class GraphTab(QWidget):
-    # df = []
-    # @staticmethod
-    # def setDF(dataframe):
-    #     df = [dataframe]
     def __init__(self):
         super().__init__()
+        self.masterDF = None
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
@@ -65,10 +62,7 @@ class GraphTab(QWidget):
         self.typeGroup.addButton(self.lineRadioButton)
         self.spaceLabel = QLabel("\n\n\n")
 
-        # self.pieRadioButton.setEnabled(False)
-
         # Buttons to let the user submit the data
-
         self.graphButton = QPushButton("Graph")
         self.graphButton.setDefault(True)
         self.graphButton.setFixedWidth(680)
@@ -97,12 +91,23 @@ class GraphTab(QWidget):
         self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
 
+    def enableGraphType(self, dataType):
+        if dataType == "interval" or dataType == "frequency":
+            self.vbarRadioButton.setEnabled(True)
+            self.hbarRadioButton.setEnabled(True)
+            self.lineRadioButton.setEnabled(True)
+            self.pieRadioButton.setEnabled(True)
+        elif dataType == "ordinal":
+            self.vbarRadioButton.setEnabled(True)
+            self.hbarRadioButton.setEnabled(True)
+            self.lineRadioButton.setEnabled(False)
+            self.pieRadioButton.setEnabled(True)
+
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
-        masterDF = CSV_Wizard.openFile("../../TestData/OrdinalDataTest.csv")
-        d = masterDF[0]
-        # d = GraphTab.df[0]
-        # print(d)
+        # masterDF = CSV_Wizard.openFile("../../TestData/OrdinalDataTest.csv")
+        d = self.masterDF
+        print(d)
         self.figure.clear()
         if self.vbarRadioButton.isChecked() == True:
             self.verticalBarGraph(d)

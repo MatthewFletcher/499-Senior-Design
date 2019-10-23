@@ -6,8 +6,8 @@ import os
 import sys
 import csv
 import pandas as pd
+import UserSelect
 from pathlib import Path
-import GraphTab
 
 # The DataTab class holds all the GUI for the DataTab
 class DataTab(QWidget):
@@ -16,7 +16,8 @@ class DataTab(QWidget):
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
-
+        self.masterDF = None
+        self.dataType = None
         self.tableWidth = self.size.width() * 0.65
         self.customWidth = self.size.width() * 0.3
 
@@ -95,6 +96,8 @@ class DataTab(QWidget):
         self.typeGroup.addButton(self.ordinalRadioButton)
         self.typeGroup.addButton(self.frequencyRadioButton)
 
+        self.intervalRadioButton.setChecked(True)
+
         # Buttons to let the user submit the data
         self.newCSVButton = QPushButton("Import CSV")
         self.newCSVButton.setDefault(True)
@@ -106,11 +109,10 @@ class DataTab(QWidget):
         self.clearButton.setFixedWidth(self.buttonSize)
         self.clearButton.clicked.connect(self.clearButtonClicked)
 
-        self.goButton = QPushButton("Submit Data")
-        self.goButton.setDefault(True)
-        self.goButton.setFixedWidth(self.buttonSize)
-        self.goButton.clicked.connect(self.SubmitDataButtonClicked)
-
+        self.submitButton = QPushButton("Submit Data")
+        self.submitButton.setDefault(True)
+        self.submitButton.setFixedWidth(self.buttonSize)
+        # self.goButton.clicked.connect(self.SubmitDataButtonClicked)
 
         # Layout
         self.layout = QGridLayout()
@@ -135,9 +137,10 @@ class DataTab(QWidget):
 
         self.layout.addWidget(self.newCSVButton, 11, 0, 1, 3)
         self.layout.addWidget(self.clearButton, 12, 0, 1, 3)
-        self.layout.addWidget(self.goButton, 13, 0, 1, 3)
+        self.layout.addWidget(self.submitButton, 13, 0, 1, 3)
         self.CustomGroup.setFixedWidth(self.customWidth)
         self.CustomGroup.setLayout(self.layout)
+        self.allRadioButton.setChecked(True)
 
 # Changes the QLineEdits to be ReadOnly when
 # allRadioButtton is clicked
@@ -149,7 +152,7 @@ class DataTab(QWidget):
             self.endCol.setReadOnly(True)
 
 # Changes the QLineEdits to not be ReadOnly when
-# selectionRadioButtton is clicked
+# selectionRadioButton is clicked
     def selectionRadioButtonClicked(self, enabled):
         if enabled:
             self.beginRow.setReadOnly(False)
@@ -195,20 +198,34 @@ class DataTab(QWidget):
         tmp_df = pd.DataFrame(columns=header, index=range(number_of_rows))
 
         for i in range(number_of_rows):
-            for j in range(number_of_columns):
-                tmp_df.iloc[i, j] = self.myTable.takeItem(i, j).text()
+            tmp_df.iloc[i, 0] = self.myTable.takeItem(i, 0).text()
+            for j in range(1, number_of_columns):
+                tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
         # print(tmp_df)
-        return tmp_df
+        if self.allRadioButton.isChecked() == True:
+            return tmp_df
+        else:
+            x1 = int(self.beginRow.text())-1
+            y1 = int(self.beginCol.text())-1
+            x2 = int(self.endRow.text())-1
+            y2 = int(self.endCol.text())-1
+            ptA = [x1, y1]
+            ptB = [x2, y2]
+            print(UserSelect.selection(tmp_df, 1, ptA, ptB))
+            return UserSelect.selection(tmp_df, 1, ptA, ptB)
 
-# Clears the table and restores it to the original
+    def getDataType(self):
+        if self.intervalRadioButton.isChecked() == True:
+            return "interval"
+        elif self.ordinalRadioButton.isChecked() == True:
+            return "ordinal"
+        elif self.frequencyRadioButton.isChecked() == True:
+            return "frequency"
+
+    # Clears the table and restores it to the original
     def clearTable(self):
         while self.myTable.rowCount() > 0:
             self.myTable.removeRow(0)
 
         self.myTable.setRowCount(self.rowSize)
         self.myTable.setColumnCount(self.columnSize)
-
-    def SubmitDataButtonClicked(self):
-        # GraphTab.df = self.dataframe_generation_from_table()
-        GraphTab.setDF(self.getDataFromTable())
-        # print(GraphTab.df)
