@@ -1,13 +1,25 @@
-#!/usr/vin/env python3
+#!/usr/bin/env python3
 
 import numpy as np
 import statistics as s
 import math as ma
-import scipy.stats as st
 from optparse import OptionParser
+import sys
 import inspect
 
 #import StatisticsFortran as sf
+
+#Check which OS is being run
+from sys import platform
+if platform == "linux" or platform == "linux2":
+    import StatisticsFortranLinux as sf
+elif platform == "darwin":
+    # OS X
+    import StatisticsFortranMac as sf
+elif platform == "win32":
+    import StatisticsWindows as sf
+    sys.stderr.write("Windows not supported yet.\n")
+    sys.exit(1)
 
 
 class Statistics:
@@ -48,8 +60,8 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        #return sf.mean(self.d)
-        return sum(self.d)/len(self.d) 
+        return sf.mean(self.d)
+        #return sum(self.d)/len(self.d) 
 
     def s_median(self):
         '''
@@ -75,9 +87,16 @@ class Statistics:
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
+<<<<<<< HEAD
         return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
         #return sf.var(self.d)
         
+=======
+        try:
+            return sf.var(self.d)
+        except AttributeError:
+            return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
+>>>>>>> master
 
     def s_stddev(self):
         '''
@@ -87,6 +106,13 @@ class Statistics:
         '''
         #return sf.stddev(self.d)
         return self.s_var() ** 0.5
+
+    def s_zscore(self):
+        '''
+        Calculates the z score of each item in the list 
+        '''
+
+        return list(sf.zscore(self.d))
 
     def test_list(self):
         '''
@@ -117,8 +143,10 @@ class Regression:
         x = self.xcol
         y = self.ycol
         
-
-        return sf.pearson(self.xcol, self.ycol)
+        s1 = sf.pearson(self.xcol, self.ycol)
+        return s1
+        #^^^^^^^^^^^^^^^^^# 
+        #FUNCTION ENDS HERE
 
         x_mean = np.mean(x)
         y_mean = np.mean(y)
@@ -137,9 +165,12 @@ class Regression:
                 y_sum += (n - y_mean)**2
             den = ma.sqrt(x_sum * y_sum)
             return den
-        
-        return sf.pearson(self.xcol, self.ycol)
-        #return num(x,y)/den(x,y)
+    
+        s2 =  num(x,y)/den(x,y)
+
+        print(f"{s1}\t{s2}")
+
+        return s1
 
 
     def r_linear(self):
@@ -158,27 +189,24 @@ class Regression:
         x = self.xcol
         y = self.ycol
 
-    
-        #Call subroutine
-        out = sf.linear(x,y)
+        try: 
+            #Call subroutine
+            out = sf.linear(x,y)
+            d =  {'slope': out[1], 'y_int': out[0]}
+            return d
+        except AttributeError: 
+            #Save more typing, calculate standard deviation
+            x_std = np.std(self.xcol)
+            y_std = np.std(self.ycol)
+            
+            #Calculate the y intercept
+            b = self.pearsonR() * y_std / x_std
 
-        return {'slope': out[0], 'y_int': out[1]}
-        
-        #Save more typing, calculate standard deviation
-        x_std = np.std(self.xcol)
-        y_std = np.std(self.ycol)
-
-        
-        #Calculate the y intercept
-        b = self.pearsonR() * y_std / x_std
-
-        #Calculate the slope
-        m = sf.mean(y) - b * sf.mean(x)
-        #d['slope'] = m
-        #d['y_int'] = b
-
-
-        return d 
+            #Calculate the slope
+            m = self.mean(y) - b * self.mean(x)
+            d['slope'] = m
+            d['y_int'] = b
+            return d 
 
     def r_normal(self):
         '''

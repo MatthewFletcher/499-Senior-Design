@@ -18,7 +18,6 @@ ds = s.Statistics(df['high_GPA'])
 #y = df['univ_GPA']
 
 
-'''
 plt.scatter(x,y, c="blue", s = 0.5)
 
 x = np.linspace(min(x), max(x), 1000)
@@ -28,6 +27,3 @@ plt.scatter(x,y, color='orange', s = 0.5)
 
 
 plt.show()
-'''
-
-

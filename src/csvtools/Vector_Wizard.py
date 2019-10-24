@@ -5,7 +5,6 @@ import statistics as s
 import math as ma
 import scipy.stats as st
 from optparse import OptionParser
-
 import sys, os
 import numpy as np
 from pathlib import Path
