@@ -37,7 +37,8 @@ class DataTab(QWidget):
 
 # The left side of DataTab containing the Table
     def createTableGroup(self):
-        self.TableGroup = QGroupBox()
+        self.TableGroup = QGroupBox("Table")
+
         self.myTable = QTableWidget(self.rowSize, self.columnSize)
         self.myTable.setSelectionMode(QAbstractItemView.ContiguousSelection)
         self.TableGroup.setFixedWidth(self.tableWidth)
@@ -49,7 +50,7 @@ class DataTab(QWidget):
 # The right side of DataTab containing Radio Buttons and
 # text boxes for user input on how they want their graph
     def createCustomGroup(self):
-        self.CustomGroup = QGroupBox()
+        self.CustomGroup = QGroupBox("Options")
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
@@ -80,10 +81,10 @@ class DataTab(QWidget):
 
         # Have the QLineEdits only be editable if
         # selectionRadioButton is selected
-        self.beginRow.setReadOnly(True)
-        self.beginCol.setReadOnly(True)
-        self.endRow.setReadOnly(True)
-        self.endCol.setReadOnly(True)
+        self.beginRow.setEnabled(False)
+        self.beginCol.setEnabled(False)
+        self.endRow.setEnabled(False)
+        self.endCol.setEnabled(False)
 
         # Ask user what type of data it is 
         self.dataLabel = QLabel("What kind of data is it?")
@@ -145,19 +146,19 @@ class DataTab(QWidget):
 # allRadioButtton is clicked
     def allRadioButtonClicked(self, enabled):
         if enabled:
-            self.beginRow.setReadOnly(True)
-            self.beginCol.setReadOnly(True)
-            self.endRow.setReadOnly(True)
-            self.endCol.setReadOnly(True)
+            self.beginRow.setEnabled(False)
+            self.beginCol.setEnabled(False)
+            self.endRow.setEnabled(False)
+            self.endCol.setEnabled(False)
 
 # Changes the QLineEdits to not be ReadOnly when
 # selectionRadioButton is clicked
     def selectionRadioButtonClicked(self, enabled):
         if enabled:
-            self.beginRow.setReadOnly(False)
-            self.beginCol.setReadOnly(False)
-            self.endRow.setReadOnly(False)
-            self.endCol.setReadOnly(False)
+            self.beginRow.setEnabled(True)
+            self.beginCol.setEnabled(True)
+            self.endRow.setEnabled(True)
+            self.endCol.setEnabled(True)
 
 # Calls openCSV() function when the
 # newCSVButton is clicked
