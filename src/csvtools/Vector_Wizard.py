@@ -109,7 +109,7 @@ cola {mean:0} {max: 0}
 colb {etc..}
 '''     
 
-
+#'''
 def main():
     df=c.openFile("TestData/FrequencyDataTest.csv")[0]
     print(df)
@@ -122,5 +122,5 @@ def main():
     #gui-testlist is changed based on user choice   
     test.getFunctionsStat(funcpath)#-----
     
-
+#'''
 main()
