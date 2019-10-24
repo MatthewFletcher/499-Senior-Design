@@ -4,17 +4,16 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,QGroupBo
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+import pandas as pd
 from pathlib import Path
 import sys, os
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 import CSV_Wizard
-import random
-# import UserSelect
 
 class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
-
+        self.masterDF = None
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
@@ -51,7 +50,7 @@ class GraphTab(QWidget):
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
-        self.graphLabel = QLabel("Pick the type of graph you want")
+        self.graphLabel = QLabel("What kind of graph would you like?")
         self.typeGroup = QButtonGroup()
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
@@ -61,11 +60,9 @@ class GraphTab(QWidget):
         self.typeGroup.addButton(self.hbarRadioButton)
         self.typeGroup.addButton(self.pieRadioButton)
         self.typeGroup.addButton(self.lineRadioButton)
-
-        # self.pieRadioButton.setEnabled(False)
+        self.spaceLabel = QLabel("\n\n\n")
 
         # Buttons to let the user submit the data
-
         self.graphButton = QPushButton("Graph")
         self.graphButton.setDefault(True)
         self.graphButton.setFixedWidth(680)
@@ -84,6 +81,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.hbarRadioButton, 3, 0)
         self.layout.addWidget(self.pieRadioButton, 4, 0)
         self.layout.addWidget(self.lineRadioButton, 5, 0)
+        self.layout.addWidget(self.spaceLabel, 6, 0)
         
         self.layout.addWidget(self.graphButton)
         self.CustomGroup.setFixedWidth(700)
@@ -93,11 +91,23 @@ class GraphTab(QWidget):
         self.CustomGroup.setFixedWidth(700)
         self.CustomGroup.setLayout(self.layout)
 
+    def enableGraphType(self, dataType):
+        if dataType == "interval" or dataType == "frequency":
+            self.vbarRadioButton.setEnabled(True)
+            self.hbarRadioButton.setEnabled(True)
+            self.lineRadioButton.setEnabled(True)
+            self.pieRadioButton.setEnabled(True)
+        elif dataType == "ordinal":
+            self.vbarRadioButton.setEnabled(True)
+            self.hbarRadioButton.setEnabled(True)
+            self.lineRadioButton.setEnabled(False)
+            self.pieRadioButton.setEnabled(True)
+
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
-        masterDF = CSV_Wizard.openFile("../../TestData/IntervalDataTest.csv")
-        # contains numpy array
-        d = masterDF[0]
+        # masterDF = CSV_Wizard.openFile("../../TestData/OrdinalDataTest.csv")
+        d = self.masterDF
+        print(d)
         self.figure.clear()
         if self.vbarRadioButton.isChecked() == True:
             self.verticalBarGraph(d)
