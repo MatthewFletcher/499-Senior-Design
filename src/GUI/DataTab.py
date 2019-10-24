@@ -44,6 +44,7 @@ class DataTab(QWidget):
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myTable)
         self.TableGroup.setLayout(self.layout)
+        # self.myTable.clicked.connect(self.selectionChanged)
 
 # The right side of DataTab containing Radio Buttons and
 # text boxes for user input on how they want their graph
@@ -111,7 +112,6 @@ class DataTab(QWidget):
         self.submitButton = QPushButton("Submit Data")
         self.submitButton.setDefault(True)
         self.submitButton.setFixedWidth(self.buttonSize)
-        # self.goButton.clicked.connect(self.SubmitDataButtonClicked)
 
         # Layout
         self.layout = QGridLayout()
@@ -210,7 +210,6 @@ class DataTab(QWidget):
             y2 = int(self.endCol.text())-1
             ptA = [x1, y1]
             ptB = [x2, y2]
-            print(UserSelect.selection(tmp_df, 1, ptA, ptB))
             return UserSelect.selection(tmp_df, 1, ptA, ptB)
 
     def getDataType(self):
@@ -220,6 +219,10 @@ class DataTab(QWidget):
             return "ordinal"
         elif self.frequencyRadioButton.isChecked() == True:
             return "frequency"
+
+    # def selectionChanged(self):
+    #     selectionRange = self.myTable.selectedRanges()
+    #     for i in selectionRange:
 
     # Clears the table and restores it to the original
     def clearTable(self):
