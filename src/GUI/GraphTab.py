@@ -62,7 +62,6 @@ class GraphTab(QWidget):
         self.typeGroup.addButton(self.lineRadioButton)
         self.spaceLabel = QLabel("\n\n\n")
 
-
         # Buttons to let the user submit the data
         self.graphButton = QPushButton("Graph")
         self.graphButton.setDefault(True)
