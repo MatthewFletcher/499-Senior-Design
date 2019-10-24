@@ -31,9 +31,9 @@ class GraphTab(QWidget):
         self.setLayout(self.layout)
         self.show()
 
-# The left side of DataTab containing the Table
+# The left side of GraphTab containing the Graph
     def createGraphGroup(self):
-        self.GraphGroup = QGroupBox()
+        self.GraphGroup = QGroupBox("Graph")
 
         self.figure = plt.figure()
         self.myGraph = FigureCanvas(self.figure)
@@ -46,7 +46,7 @@ class GraphTab(QWidget):
 # The right side of GraphTab containing Radio Buttons and
 # text boxes for user input on how they want their graph
     def createCustomGroup(self):
-        self.CustomGroup = QGroupBox()
+        self.CustomGroup = QGroupBox("Options")
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
