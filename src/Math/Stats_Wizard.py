@@ -7,6 +7,7 @@ from optparse import OptionParser
 import sys
 import inspect
 
+#import StatisticsFortran as sf
 
 #Check which OS is being run
 from sys import platform
@@ -86,10 +87,16 @@ class Statistics:
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
+<<<<<<< HEAD
+        return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
+        #return sf.var(self.d)
+        
+=======
         try:
             return sf.var(self.d)
         except AttributeError:
             return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
+>>>>>>> master
 
     def s_stddev(self):
         '''
@@ -97,8 +104,8 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        return sf.stddev(self.d)
-        #return self.s_var() ** 0.5
+        #return sf.stddev(self.d)
+        return self.s_var() ** 0.5
 
     def s_zscore(self):
         '''

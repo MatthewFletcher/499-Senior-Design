@@ -38,7 +38,6 @@ class DataTab(QWidget):
 # The left side of DataTab containing the Table
     def createTableGroup(self):
         self.TableGroup = QGroupBox("Table")
-      
         self.myTable = QTableWidget(self.rowSize, self.columnSize)
         self.myTable.setSelectionMode(QAbstractItemView.ContiguousSelection)
         self.TableGroup.setFixedWidth(self.tableWidth)
