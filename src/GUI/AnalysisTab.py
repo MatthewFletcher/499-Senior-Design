@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout, QLabel, QGroupBox,
-                             QListView)
+                             QListView, QPushButton)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys
@@ -66,9 +66,12 @@ class AnalysisTab(QWidget):
             item.setCheckState(check)
             self.model.appendRow(item)
 
+        self.analyzeIntervalButton = QPushButton("Analyze")
+
         self.intervalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
-        self.layout.addWidget(self.intervalAnalysis)
+        self.layout.addWidget(self.intervalAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.analyzeIntervalButton, 1, 1)
         self.ChooseIntervalGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing the buttons for
@@ -91,9 +94,12 @@ class AnalysisTab(QWidget):
             item.setCheckState(check)
             self.model.appendRow(item)
 
+        self.analyzeOrdinalButton = QPushButton("Analyze")
+
         self.intervalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
-        self.layout.addWidget(self.ordinalAnalysis)
+        self.layout.addWidget(self.ordinalAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.analyzeOrdinalButton, 1, 1)
         self.ChooseOrdinalGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing the buttons for
@@ -116,7 +122,10 @@ class AnalysisTab(QWidget):
             item.setCheckState(check)
             self.model.appendRow(item)
 
+        self.analyzeFrequencyButton = QPushButton("Analyze")
+
         self.intervalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
-        self.layout.addWidget(self.frequencyAnalysis)
+        self.layout.addWidget(self.frequencyAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.analyzeFrequencyButton, 1, 1)
         self.ChooseFrequencyGroup.setLayout(self.layout)
