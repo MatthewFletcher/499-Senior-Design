@@ -96,7 +96,7 @@ class AnalysisTab(QWidget):
 
         self.analyzeOrdinalButton = QPushButton("Analyze")
 
-        self.intervalAnalysis.setModel(self.model)
+        self.ordinalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
         self.layout.addWidget(self.ordinalAnalysis, 0, 0, 0, 1)
         self.layout.addWidget(self.analyzeOrdinalButton, 1, 1)
@@ -124,7 +124,7 @@ class AnalysisTab(QWidget):
 
         self.analyzeFrequencyButton = QPushButton("Analyze")
 
-        self.intervalAnalysis.setModel(self.model)
+        self.frequencyAnalysis.setModel(self.model)
         self.layout = QGridLayout()
         self.layout.addWidget(self.frequencyAnalysis, 0, 0, 0, 1)
         self.layout.addWidget(self.analyzeFrequencyButton, 1, 1)
