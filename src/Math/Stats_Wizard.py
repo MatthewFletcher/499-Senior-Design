@@ -87,16 +87,10 @@ class Statistics:
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
-<<<<<<< HEAD
-        return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
-        #return sf.var(self.d)
-        
-=======
         try:
             return sf.var(self.d)
         except AttributeError:
             return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
->>>>>>> master
 
     def s_stddev(self):
         '''
