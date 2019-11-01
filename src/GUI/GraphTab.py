@@ -118,7 +118,7 @@ class GraphTab(QWidget):
         elif self.lineRadioButton.isChecked() == True:
             self.lineGraph(d)
         elif self.scatterRadioButton.isChecked() == True:
-            self.scatterPlot()
+            self.scatterPlot(d)
 
         self.myGraph.draw()
         self.repaint()
@@ -213,15 +213,14 @@ class GraphTab(QWidget):
         plot.axis('equal')
 
     # This function will graph the data as a scatter plot
-    # def scatterPlot(self, df):
-    #     plot = self.figure.add_subplot(111)
-    #     headers = list(df.columns.values)
-    #     headers.pop(0)
-    #     x = headers
-    #     y = []
-    #     colors = (1, 2, 3)
-    #     for header in headers:
-    #         y.append(df[header].sum())
-    #
-    #     plot.scatter(x, y, c=colors)
+    def scatterPlot(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+
+        x = df[headers[1]]
+        y = df[headers[2]]
+        plot.set_xlabel(headers[1])
+        plot.set_ylabel(headers[2])
+        colors = (1, 2, 3)
+        plot.scatter(x, y)
 

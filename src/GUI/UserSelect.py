@@ -16,6 +16,7 @@ def modify(df, pointA, pointB):
     #get data specified
     row=[i for i in np.arange(ptA[0],ptB[0]+1)]
     col=[i for i in np.arange(ptA[1],ptB[1]+1)]
+    col.insert(0, 0)
     newDF=df.iloc[row,col]
     return newDF
 
