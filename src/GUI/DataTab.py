@@ -96,8 +96,6 @@ class DataTab(QWidget):
         self.typeGroup.addButton(self.ordinalRadioButton)
         self.typeGroup.addButton(self.frequencyRadioButton)
 
-        self.intervalRadioButton.setChecked(True)
-
         # Buttons to let the user submit the data
         self.newCSVButton = QPushButton("Import CSV")
         self.newCSVButton.setDefault(True)
@@ -139,7 +137,6 @@ class DataTab(QWidget):
         self.layout.addWidget(self.submitButton, 13, 0, 1, 3)
         self.CustomGroup.setFixedWidth(self.customWidth)
         self.CustomGroup.setLayout(self.layout)
-        self.allRadioButton.setChecked(True)
 
 # Changes the QLineEdits to be ReadOnly when
 # allRadioButtton is clicked
@@ -225,6 +222,9 @@ class DataTab(QWidget):
     def clearTable(self):
         while self.myTable.rowCount() > 0:
             self.myTable.removeRow(0)
+
+        for i in range(0, self.rowSize):
+            self.myTable.setHorizontalHeaderItem(i, QTableWidgetItem("{0}".format(i+1)))
 
         self.myTable.setRowCount(self.rowSize)
         self.myTable.setColumnCount(self.columnSize)
