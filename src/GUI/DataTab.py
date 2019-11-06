@@ -197,17 +197,18 @@ class DataTab(QWidget):
             tmp_df.iloc[i, 0] = self.myTable.takeItem(i, 0).text()
             for j in range(1, number_of_columns):
                 tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
-        # print(tmp_df)
         if self.allRadioButton.isChecked() == True:
-            return tmp_df
+            ptA = [0,1]
+            ptB = [number_of_rows-1, number_of_columns-1]
+            return UserSelect.selection(tmp_df, ptA, ptB, 1)
         else:
             x1 = int(self.beginRow.text())-1
-            y1 = int(self.beginCol.text())-1
+            y1 = int(self.beginCol.text())
             x2 = int(self.endRow.text())-1
-            y2 = int(self.endCol.text())-1
+            y2 = int(self.endCol.text())
             ptA = [x1, y1]
             ptB = [x2, y2]
-            return UserSelect.selection(tmp_df, 1, ptA, ptB)
+            return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
         if self.intervalRadioButton.isChecked() == True:
@@ -216,10 +217,6 @@ class DataTab(QWidget):
             return "ordinal"
         elif self.frequencyRadioButton.isChecked() == True:
             return "frequency"
-
-    # def selectionChanged(self):
-    #     selectionRange = self.myTable.selectedRanges()
-    #     for i in selectionRange:
 
     # Clears the table and restores it to the original
     def clearTable(self):
