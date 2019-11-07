@@ -2,11 +2,15 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout, QLabel, QGroupB
                              QListView, QPushButton)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
-import sys
+import sys, os
+from pathlib import Path
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
+import Stats_Wizard as s
 
-intervalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
-ordinalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
-frequencyList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+# intervalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+# ordinalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+# frequencyList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
 
 class AnalysisTab(QWidget):
     def __init__(self):
@@ -59,7 +63,8 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        for test, function in intervalList:
+        # for test, function in intervalList:
+        for test, function in s.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -87,7 +92,8 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        for test, function in ordinalList:
+        # for test, function in ordinalList:
+        for test, function in s.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -115,7 +121,8 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        for test, function in frequencyList:
+        # for test, function in frequencyList:
+        for test, function in s.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked

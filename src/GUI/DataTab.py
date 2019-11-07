@@ -196,7 +196,8 @@ class DataTab(QWidget):
         for i in range(number_of_rows):
             tmp_df.iloc[i, 0] = self.myTable.takeItem(i, 0).text()
             for j in range(1, number_of_columns):
-                tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
+                #tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
+                tmp_df.iloc[i, j] = int(self.myTable.currentItem().text())
         if self.allRadioButton.isChecked() == True:
             ptA = [0,1]
             ptB = [number_of_rows-1, number_of_columns-1]
