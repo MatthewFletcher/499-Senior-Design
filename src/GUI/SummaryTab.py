@@ -1,5 +1,7 @@
-from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QGridLayout, QPushButton, QGroupBox)
+from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QGridLayout,
+                             QPushButton, QGroupBox, QPlainTextEdit)
 import sys
+import logging
 
 
 class SummaryTab(QWidget):
@@ -22,22 +24,25 @@ class SummaryTab(QWidget):
         self.setLayout(self.layout)
         self.show()
 
-    # The left side of AnalysisTab containing the textbox
-    # where the analysis will be shown
+    # The left side of SummaryTab containing the textbox
+    # where the summary will be shown
     def createSummaryTextGroup(self):
         self.SummaryTextGroup = QGroupBox("Summary")
         self.SummaryTextGroup.setFixedWidth(self.textWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
-        # Here is where the analysis will go
+        # Here is where the summary will go
         self.analysis = QLabel()
 
+        # self.log_handler = TextLogger()
+        # logging.getLogger().addHandler(self.log_handler)
+
         self.layout = QGridLayout()
-        self.layout.addWidget(self.analysis)
+        self.layout.addWidget(self.log_handler)
         self.SummaryTextGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing the buttons for
-    # analysis
+    # summaryTab
     def createSaveTextGroup(self):
         self.SaveTextGroup = QGroupBox("Save Analysis")
         self.SaveTextGroup.setFixedWidth(self.saveWidth)
@@ -51,3 +56,17 @@ class SummaryTab(QWidget):
         self.layout.addWidget(self.spaceLabel)
         self.layout.addWidget(self.SaveButton)
         self.SaveTextGroup.setLayout(self.layout)
+
+# class TextLogger(logging.Handler):
+#     def __init__(self):
+#         super().__init__()
+#
+#         self.log = QPlainTextEdit()
+#         self.log.setReadOnly(True)
+#
+#     def emit(self, record):
+#         msg = self.format(record)
+#         self.widget.textCursor().appendPlainText(msg)
+#
+#     def write(self, m):
+#         pass

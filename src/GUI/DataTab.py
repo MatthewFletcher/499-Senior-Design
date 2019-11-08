@@ -197,7 +197,7 @@ class DataTab(QWidget):
             tmp_df.iloc[i, 0] = self.myTable.takeItem(i, 0).text()
             for j in range(1, number_of_columns):
                 tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
-        if self.allRadioButton.isChecked() == True:
+        if self.allRadioButton.isChecked():
             ptA = [0,1]
             ptB = [number_of_rows-1, number_of_columns-1]
             return UserSelect.selection(tmp_df, ptA, ptB, 1)
@@ -211,11 +211,11 @@ class DataTab(QWidget):
             return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
-        if self.intervalRadioButton.isChecked() == True:
+        if self.intervalRadioButton.isChecked():
             return "interval"
-        elif self.ordinalRadioButton.isChecked() == True:
+        elif self.ordinalRadioButton.isChecked():
             return "ordinal"
-        elif self.frequencyRadioButton.isChecked() == True:
+        elif self.frequencyRadioButton.isChecked():
             return "frequency"
 
     # Clears the table and restores it to the original

@@ -66,13 +66,13 @@ class GraphTab(QWidget):
         # Buttons to let the user submit the data
         self.graphButton = QPushButton("Graph")
         self.graphButton.setDefault(True)
-        self.graphButton.setFixedWidth(680)
+        self.graphButton.setFixedWidth(self.buttonSize)
         self.graphButton.clicked.connect(self.graphButtonClicked)
 
         # Button to let the user save the graph as a PNG file
         self.PNGButton = QPushButton("Save as PNG")
         self.PNGButton.setDefault(True)
-        self.PNGButton.setFixedWidth(680)
+        self.PNGButton.setFixedWidth(self.buttonSize)
         self.PNGButton.clicked.connect(self.PNGButtonClicked)
 
         # Layout
@@ -86,11 +86,11 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.spaceLabel, 7, 0)
 
         self.layout.addWidget(self.graphButton)
-        self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setFixedWidth(self.buttonSize)
         self.CustomGroup.setLayout(self.layout)
 
         self.layout.addWidget(self.PNGButton)
-        self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setFixedWidth(self.buttonSize)
         self.CustomGroup.setLayout(self.layout)
 
     def enableGraphType(self, dataType):

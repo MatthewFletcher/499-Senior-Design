@@ -72,6 +72,10 @@ class AnalysisTab(QWidget):
             self.model.appendRow(item)
 
         self.analyzeIntervalButton = QPushButton("Analyze")
+        self.analyzeIntervalButton.setEnabled(False)
+
+        # if DataTab.getDataType() != "interval":
+        #     self.analyzeIntervalButton.setEnabled(True)
 
         self.intervalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
@@ -101,6 +105,10 @@ class AnalysisTab(QWidget):
             self.model.appendRow(item)
 
         self.analyzeOrdinalButton = QPushButton("Analyze")
+        self.analyzeOrdinalButton.setEnabled(False)
+
+        # if DataTab.getDataType() != "ordinal":
+        #     self.analyzeIntervalButton.setEnabled(True)
 
         self.ordinalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
@@ -130,6 +138,10 @@ class AnalysisTab(QWidget):
             self.model.appendRow(item)
 
         self.analyzeFrequencyButton = QPushButton("Analyze")
+        self.analyzeFrequencyButton.setEnabled(False)
+
+        # if DataTab.getDataType() != "frequency":
+        #     self.analyzeIntervalButton.setEnabled(True)
 
         self.frequencyAnalysis.setModel(self.model)
         self.layout = QGridLayout()
