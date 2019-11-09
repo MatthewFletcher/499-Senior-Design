@@ -144,7 +144,7 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.barh(x, y)
+        plot.barh(x, y, color=['orange', 'darkkhaki'])
 
     # # This function will graph the data as a normal distribution curve
     # def NDCGraph(self, df):
@@ -172,7 +172,7 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.bar(x, y)
+        plot.bar(x, y, color=['lightcoral', 'steelblue'])
 
     # This function will graph the frequency or interval data as a pie chart
     def freqint_pie(self, df):
@@ -188,7 +188,7 @@ class GraphTab(QWidget):
             explode.append(0)
 
         # Data to plot
-        colors = ['gold', 'yellowgreen']
+        colors = ['gold', 'navyblue']
 
         # Plot
         plot.pie(y, explode=explode, labels=x, colors=colors,
@@ -225,6 +225,5 @@ class GraphTab(QWidget):
         y = df[headers[2]]
         plot.set_xlabel(headers[1])
         plot.set_ylabel(headers[2])
-        colors = (4, 5, 6)
         plot.scatter(x, y)
 
