@@ -53,12 +53,12 @@ class GraphTab(QWidget):
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
-        # self.lineRadioButton = QRadioButton("Line")
+        self.NDCRadioButton = QRadioButton("Normal Distribution Curve")
         self.scatterRadioButton = QRadioButton("Scatter plot")
         self.typeGroup.addButton(self.vbarRadioButton)
         self.typeGroup.addButton(self.hbarRadioButton)
         self.typeGroup.addButton(self.pieRadioButton)
-        # self.typeGroup.addButton(self.lineRadioButton)
+        self.typeGroup.addButton(self.NDCRadioButton)
         self.typeGroup.addButton(self.scatterRadioButton)
         self.spaceLabel = QLabel("\n\n\n")
 
@@ -80,7 +80,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.vbarRadioButton, 2, 0)
         self.layout.addWidget(self.hbarRadioButton, 3, 0)
         self.layout.addWidget(self.pieRadioButton, 4, 0)
-        # self.layout.addWidget(self.lineRadioButton, 5, 0)
+        self.layout.addWidget(self.NDCRadioButton, 5, 0)
         self.layout.addWidget(self.scatterRadioButton, 6, 0)
         self.layout.addWidget(self.spaceLabel, 7, 0)
         
@@ -96,12 +96,12 @@ class GraphTab(QWidget):
         if dataType == "interval" or dataType == "frequency":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            # self.lineRadioButton.setEnabled(True)
+            self.NDCRadioButton.setEnabled(True)
             self.pieRadioButton.setEnabled(True)
         elif dataType == "ordinal":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            # self.lineRadioButton.setEnabled(False)
+            self.NDCRadioButton.setEnabled(True)
             self.pieRadioButton.setEnabled(True)
             self.scatterRadioButton.setEnabled(False)
 
@@ -115,8 +115,8 @@ class GraphTab(QWidget):
             self.horizontalBarGraph(d)
         elif self.pieRadioButton.isChecked() == True:
             self.ordinal_pie(d)
-        # elif self.lineRadioButton.isChecked() == True:
-        #     self.lineGraph(d)
+        # elif self.NDCRadioButton.isChecked() == True:
+        #     self.NDCGraph(d)
         elif self.scatterRadioButton.isChecked() == True:
             self.scatterPlot(d)
 
@@ -145,6 +145,10 @@ class GraphTab(QWidget):
             y.append(df[header].sum())
 
         plot.barh(x, y)
+
+    # # This function will graph the data as a normal distribution curve
+    # def NDCGraph(self, df):
+
 
     # def lineGraph(self, df):
     #     plot = self.figure.add_subplot(111)
