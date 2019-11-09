@@ -53,12 +53,12 @@ class GraphTab(QWidget):
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
-        self.lineRadioButton = QRadioButton("Line")
+        # self.lineRadioButton = QRadioButton("Line")
         self.scatterRadioButton = QRadioButton("Scatter plot")
         self.typeGroup.addButton(self.vbarRadioButton)
         self.typeGroup.addButton(self.hbarRadioButton)
         self.typeGroup.addButton(self.pieRadioButton)
-        self.typeGroup.addButton(self.lineRadioButton)
+        # self.typeGroup.addButton(self.lineRadioButton)
         self.typeGroup.addButton(self.scatterRadioButton)
         self.spaceLabel = QLabel("\n\n\n")
 
@@ -80,7 +80,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.vbarRadioButton, 2, 0)
         self.layout.addWidget(self.hbarRadioButton, 3, 0)
         self.layout.addWidget(self.pieRadioButton, 4, 0)
-        self.layout.addWidget(self.lineRadioButton, 5, 0)
+        # self.layout.addWidget(self.lineRadioButton, 5, 0)
         self.layout.addWidget(self.scatterRadioButton, 6, 0)
         self.layout.addWidget(self.spaceLabel, 7, 0)
         
@@ -96,12 +96,12 @@ class GraphTab(QWidget):
         if dataType == "interval" or dataType == "frequency":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            self.lineRadioButton.setEnabled(True)
+            # self.lineRadioButton.setEnabled(True)
             self.pieRadioButton.setEnabled(True)
         elif dataType == "ordinal":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            self.lineRadioButton.setEnabled(False)
+            # self.lineRadioButton.setEnabled(False)
             self.pieRadioButton.setEnabled(True)
             self.scatterRadioButton.setEnabled(False)
 
@@ -115,8 +115,8 @@ class GraphTab(QWidget):
             self.horizontalBarGraph(d)
         elif self.pieRadioButton.isChecked() == True:
             self.ordinal_pie(d)
-        elif self.lineRadioButton.isChecked() == True:
-            self.lineGraph(d)
+        # elif self.lineRadioButton.isChecked() == True:
+        #     self.lineGraph(d)
         elif self.scatterRadioButton.isChecked() == True:
             self.scatterPlot(d)
 
@@ -129,7 +129,7 @@ class GraphTab(QWidget):
     def saveFileDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "",
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save Image", "",
                                                   "All Files (*);;PNG Files (*.png)", options=options)
         if fileName:
             self.figure.savefig(fileName)
@@ -146,17 +146,17 @@ class GraphTab(QWidget):
 
         plot.barh(x, y)
 
-    def lineGraph(self, df):
-        plot = self.figure.add_subplot(111)
-        headers = list(df.columns.values)
-
-        x = df[headers[1]]
-        y = df[headers[2]]
-        plot.set_xlabel(headers[1])
-        plot.set_ylabel(headers[2])
-
-        # Plot the points using matplotlib
-        plot.plot(x, y)
+    # def lineGraph(self, df):
+    #     plot = self.figure.add_subplot(111)
+    #     headers = list(df.columns.values)
+    #
+    #     x = df[headers[1]]
+    #     y = df[headers[2]]
+    #     plot.set_xlabel(headers[1])
+    #     plot.set_ylabel(headers[2])
+    #
+    #     # Plot the points using matplotlib
+    #     plot.plot(x, y)
 
     # This function will graph the data as a vertical bar graph
     def verticalBarGraph(self, df):
@@ -221,6 +221,6 @@ class GraphTab(QWidget):
         y = df[headers[2]]
         plot.set_xlabel(headers[1])
         plot.set_ylabel(headers[2])
-        colors = (1, 2, 3)
+        colors = (4, 5, 6)
         plot.scatter(x, y)
 
