@@ -38,7 +38,7 @@ class SummaryTab(QWidget):
         # logging.getLogger().addHandler(self.log_handler)
 
         self.layout = QGridLayout()
-        self.layout.addWidget(self.log_handler)
+        # self.layout.addWidget(self.log_handler)
         self.SummaryTextGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing the buttons for
