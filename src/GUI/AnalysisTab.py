@@ -4,19 +4,27 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
+
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
+
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
+
+
 # import DataTab
 import Stats_Wizard as s
 
 # intervalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
 # ordinalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
 # frequencyList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+import logging
 
 class AnalysisTab(QWidget):
     def __init__(self):
+        
         super().__init__()
-
+        logging.info('Mean: 22') #note: logs need to happen after everything is initilized.
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
@@ -71,6 +79,7 @@ class AnalysisTab(QWidget):
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
+            
 
         self.analyzeIntervalButton = QPushButton("Analyze")
         self.analyzeIntervalButton.setEnabled(False)
