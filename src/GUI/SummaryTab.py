@@ -7,15 +7,8 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 import sys
 import os
 import logging
-import logging.handlers
-import datetime
-import random
-import time
-from PyQt5 import QtCore, QtGui, QtWidgets
-Signal=QtCore.pyqtSignal
-Slot=QtCore.pyqtSlot
-#logger=logging.getLogger(__name__)
-
+#logging.info('') e.g. to log 
+#note: logs need to happen after everything is initilized.
 
 class SummaryTab(QWidget):
     def __init__(self):
@@ -54,21 +47,19 @@ class SummaryTab(QWidget):
         
         #Create Handler to display text in gui
         self.logTextBox=QPlainTextEditLogger(self.analysis)
-        self.logTextBox.setFormatter(logging.Formatter("%(name)s- %(levelname)s -%(message)s"))
+        self.logTextBox.setFormatter(logging.Formatter("%(levelname)s -%(message)s"))
         logging.getLogger().addHandler(self.logTextBox)
-        logging.getLogger().setLevel(logging.INFO) #just need analysis results not tooo detailed.
-
-        #
+        logging.getLogger().setLevel(logging.INFO) #just need analysis results not too much detailed.
+        
+        
         #Example of logging text.
         for x in range(60):
             logging.info('testing: display text %d',x)
 
-        self.widgetText=self.logTextBox.getTexttoFile()
-
-        
+            
         self.layout = QGridLayout()
-        self.layout.addWidget(self.analysis)#example)
-        self.layout.addWidget(self.logTextBox.widget)#self.log_handler)
+        self.layout.addWidget(self.analysis)
+        self.layout.addWidget(self.logTextBox.widget)
         self.SummaryTextGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing the buttons for
@@ -80,22 +71,14 @@ class SummaryTab(QWidget):
 
         self.spaceLabel = QLabel("\n\n\n\n")
 
-        self.SaveButton = QPushButton("Download")
+        self.SaveButton = QPushButton("Save")
         self.SaveButton.setDefault(True)
         #self.SaveButton.setFixedWidth(self.buttonSize)
-        self.SaveButton.clicked.connect(self.TxtButtonClicked)
+        self.SaveButton.clicked.connect(self.SaveButtonClicked)
 
         self.ClearButtoon = QPushButton("Clear")
         self.ClearButtoon.setDefault(True)
-        self.ClearButtoon.clicked.connect(self.ClrButtonClicked)
-
-        """
-        # Button to let the user save the graph as a PNG file
-        self.PNGButton = QPushButton("Save as PNG")
-        self.PNGButton.setDefault(True)
-        self.PNGButton.setFixedWidth(self.buttonSize)
-        self.PNGButton.clicked.connect(self.PNGButtonClicked)
-        """
+        self.ClearButtoon.clicked.connect(self.ClearButtonClicked)
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.spaceLabel)
@@ -103,21 +86,20 @@ class SummaryTab(QWidget):
         self.layout.addWidget(self.ClearButtoon)
         self.SaveTextGroup.setLayout(self.layout)
         
-    def TxtButtonClicked(self):
+    def SaveButtonClicked(self):
         self.saveFileDialog()
 
     def saveFileDialog(self):
         options = QFileDialog.Options()
         options |=  QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()","","All Files(*);;Text Files (*.txt)",options=options)
-        msg=self.widgetText
-        print(msg)
+        msg=self.logTextBox.getTexttoFile()
+        #print(msg, '\n\n')
         if fileName:
-            
             file= open(fileName, "w")
             file.write(msg)
             file.close()
-    def ClrButtonClicked(self):
+    def ClearButtonClicked(self):
         self.logTextBox.deleteTextinGUI()
 
     
@@ -136,8 +118,7 @@ class QPlainTextEditLogger(logging.Handler):
         return self.widget.toPlainText()
     def deleteTextinGUI(self):
         self.widget.clear()
-    # def write(self, m):
-    #     pass
+
 
     
 """

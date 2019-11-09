@@ -8,6 +8,7 @@ import pandas as pd
 from pathlib import Path
 import sys, os
 
+import logging
 
 class GraphTab(QWidget):
     def __init__(self):
@@ -108,6 +109,7 @@ class GraphTab(QWidget):
 
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
+        logging.info('Graphing has been selected')
         d = self.masterDF
         self.figure.clear()
         if self.vbarRadioButton.isChecked() == True:
@@ -120,11 +122,13 @@ class GraphTab(QWidget):
             self.lineGraph(d)
         elif self.scatterRadioButton.isChecked() == True:
             self.scatterPlot(d)
+        logging.info('GraphTab: Data has been graphed')
 
         self.myGraph.draw()
         self.repaint()
 
     def PNGButtonClicked(self):
+        logging.info('Saving graph as PNG')
         self.saveFileDialog()
 
     def saveFileDialog(self):
