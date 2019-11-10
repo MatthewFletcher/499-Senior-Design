@@ -24,7 +24,6 @@ class AnalysisTab(QWidget):
     def __init__(self):
         
         super().__init__()
-        logging.info('Mean: 22') #note: logs need to happen after everything is initilized.
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()

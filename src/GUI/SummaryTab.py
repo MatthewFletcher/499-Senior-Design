@@ -47,12 +47,14 @@ class SummaryTab(QWidget):
         
         #Create Handler to display text in gui
         self.logTextBox=QPlainTextEditLogger(self.analysis)
-        self.logTextBox.setFormatter(logging.Formatter("%(levelname)s -%(message)s"))
+        self.logTextBox.setFormatter(logging.Formatter("%(levelname)s %(filename)s -%(message)s"))
         logging.getLogger().addHandler(self.logTextBox)
         logging.getLogger().setLevel(logging.INFO) #just need analysis results not too much detailed.
+        logging.getLogger().propagate=False
         
         
         #Example of logging text.
+        #TODO: Remove log test loop
         for x in range(60):
             logging.info('testing: display text %d',x)
 
@@ -65,11 +67,11 @@ class SummaryTab(QWidget):
     # The right side of AnalysisTab containing the buttons for
     # summaryTab
     def createSaveTextGroup(self):
-        self.SaveTextGroup = QGroupBox("Save Analysis")
+        self.SaveTextGroup = QGroupBox("Options")
         self.SaveTextGroup.setFixedWidth(self.saveWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
-
-        self.spaceLabel = QLabel("\n\n\n\n")
+        self.infoLabel= QLabel("Analysis Summary Report Log")
+        self.spaceLabel = QLabel("\n\n\n")
 
         self.SaveButton = QPushButton("Save")
         self.SaveButton.setDefault(True)
@@ -81,6 +83,7 @@ class SummaryTab(QWidget):
         self.ClearButtoon.clicked.connect(self.ClearButtonClicked)
 
         self.layout = QGridLayout()
+        self.layout.addWidget(self.infoLabel)
         self.layout.addWidget(self.spaceLabel)
         self.layout.addWidget(self.SaveButton)
         self.layout.addWidget(self.ClearButtoon)
@@ -94,7 +97,6 @@ class SummaryTab(QWidget):
         options |=  QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()","","All Files(*);;Text Files (*.txt)",options=options)
         msg=self.logTextBox.getTexttoFile()
-        #print(msg, '\n\n')
         if fileName:
             file= open(fileName, "w")
             file.write(msg)
