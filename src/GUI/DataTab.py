@@ -1,20 +1,24 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
-                             QGridLayout, QButtonGroup, QApplication)
+                             QGridLayout, QButtonGroup, QApplication, QAbstractItemView)
+from PyQt5.QtCore import Qt
 import os
 import sys
 import csv
-
+import pandas as pd
+import UserSelect
+from pathlib import Path
+import logging
 
 # The DataTab class holds all the GUI for the DataTab
 class DataTab(QWidget):
     def __init__(self):
         super().__init__()
-
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
-
+        self.masterDF = None
+        self.dataType = None
         self.tableWidth = self.size.width() * 0.65
         self.customWidth = self.size.width() * 0.3
 
@@ -34,19 +38,19 @@ class DataTab(QWidget):
 
 # The left side of DataTab containing the Table
     def createTableGroup(self):
-        self.TableGroup = QGroupBox()
-
+        self.TableGroup = QGroupBox("Table")
         self.myTable = QTableWidget(self.rowSize, self.columnSize)
-
+        self.myTable.setSelectionMode(QAbstractItemView.ContiguousSelection)
         self.TableGroup.setFixedWidth(self.tableWidth)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myTable)
         self.TableGroup.setLayout(self.layout)
+        # self.myTable.clicked.connect(self.selectionChanged)
 
 # The right side of DataTab containing Radio Buttons and
 # text boxes for user input on how they want their graph
     def createCustomGroup(self):
-        self.CustomGroup = QGroupBox()
+        self.CustomGroup = QGroupBox("Options")
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
@@ -77,10 +81,10 @@ class DataTab(QWidget):
 
         # Have the QLineEdits only be editable if
         # selectionRadioButton is selected
-        self.beginRow.setReadOnly(True)
-        self.beginCol.setReadOnly(True)
-        self.endRow.setReadOnly(True)
-        self.endCol.setReadOnly(True)
+        self.beginRow.setEnabled(False)
+        self.beginCol.setEnabled(False)
+        self.endRow.setEnabled(False)
+        self.endCol.setEnabled(False)
 
         # Ask user what type of data it is 
         self.dataLabel = QLabel("What kind of data is it?")
@@ -104,9 +108,9 @@ class DataTab(QWidget):
         self.clearButton.setFixedWidth(self.buttonSize)
         self.clearButton.clicked.connect(self.clearButtonClicked)
 
-        self.goButton = QPushButton("Submit Data")
-        self.goButton.setDefault(True)
-        self.goButton.setFixedWidth(self.buttonSize)
+        self.submitButton = QPushButton("Submit Data")
+        self.submitButton.setDefault(True)
+        self.submitButton.setFixedWidth(self.buttonSize)
 
         # Layout
         self.layout = QGridLayout()
@@ -131,7 +135,7 @@ class DataTab(QWidget):
 
         self.layout.addWidget(self.newCSVButton, 11, 0, 1, 3)
         self.layout.addWidget(self.clearButton, 12, 0, 1, 3)
-        self.layout.addWidget(self.goButton, 13, 0, 1, 3)
+        self.layout.addWidget(self.submitButton, 13, 0, 1, 3)
         self.CustomGroup.setFixedWidth(self.customWidth)
         self.CustomGroup.setLayout(self.layout)
 
@@ -139,50 +143,98 @@ class DataTab(QWidget):
 # allRadioButtton is clicked
     def allRadioButtonClicked(self, enabled):
         if enabled:
-            self.beginRow.setReadOnly(True)
-            self.beginCol.setReadOnly(True)
-            self.endRow.setReadOnly(True)
-            self.endCol.setReadOnly(True)
+            self.beginRow.setEnabled(False)
+            self.beginCol.setEnabled(False)
+            self.endRow.setEnabled(False)
+            self.endCol.setEnabled(False)
 
 # Changes the QLineEdits to not be ReadOnly when
-# selectionRadioButtton is clicked
+# selectionRadioButton is clicked
     def selectionRadioButtonClicked(self, enabled):
         if enabled:
-            self.beginRow.setReadOnly(False)
-            self.beginCol.setReadOnly(False)
-            self.endRow.setReadOnly(False)
-            self.endCol.setReadOnly(False)
+            self.beginRow.setEnabled(True)
+            self.beginCol.setEnabled(True)
+            self.endRow.setEnabled(True)
+            self.endCol.setEnabled(True)
 
 # Calls openCSV() function when the
 # newCSVButton is clicked
     def newCSVButtonClicked(self):
+        logging.info('Import CSV Button Selected')
         self.openCSV()
+        
 
     def clearButtonClicked(self):
+        logging.info('Clear Data Button Selected')
         self.clearTable()
+    
 
 # Populates the table with data from a CSV File
 # when newCSVButton is clicked
     def openCSV(self):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':
+            logging.info("Opening the CSV file")
             with open(path[0], newline='') as csvFile:
-                self.myTable.setRowCount(0)
-                self.myTable.setColumnCount(self.columnSize)
                 myFile = csv.reader(csvFile, delimiter=',', quotechar='|')
+                headers = next(myFile)
+                self.myTable.setRowCount(0)
+                self.myTable.setColumnCount(len(headers))
+                self.myTable.setHorizontalHeaderLabels(headers)
                 for row_data in myFile:
                     row = self.myTable.rowCount()
                     self.myTable.insertRow(row)
                     if len(row_data) > 10:
                         self.myTable.setColumnCount(len(row_data))
                     for column, stuff in enumerate(row_data):
-                        item = QTableWidgetItem(stuff)
+                        item = QTableWidgetItem()
+                        item.setData(Qt.EditRole, stuff)
                         self.myTable.setItem(row, column, item)
 
-# Clears the table and restores it to the original
+    def getDataFromTable(self):
+        number_of_rows = self.myTable.rowCount()
+        number_of_columns = self.myTable.columnCount()
+        header = []
+        for i in range(number_of_columns):
+            header.append(self.myTable.horizontalHeaderItem(i).text())
+        tmp_df = pd.DataFrame(columns=header, index=range(number_of_rows))
+
+        for i in range(number_of_rows):
+            tmp_df.iloc[i, 0] = self.myTable.takeItem(i, 0).text()
+            for j in range(1, number_of_columns):
+                tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
+        if self.allRadioButton.isChecked():
+            logging.info('User Selection on Dataset')
+            ptA = [0,1]
+            ptB = [number_of_rows-1, number_of_columns-1]
+            return UserSelect.selection(tmp_df, ptA, ptB, 1)
+        else:
+            x1 = int(self.beginRow.text())-1
+            y1 = int(self.beginCol.text())
+            x2 = int(self.endRow.text())-1
+            y2 = int(self.endCol.text())
+            ptA = [x1, y1]
+            ptB = [x2, y2]
+            return UserSelect.selection(tmp_df, ptA, ptB, 1)
+
+    def getDataType(self):
+        if self.intervalRadioButton.isChecked():
+            return "interval"
+        elif self.ordinalRadioButton.isChecked():
+            return "ordinal"
+        elif self.frequencyRadioButton.isChecked():
+            return "frequency"
+
+    # Clears the table and restores it to the original
     def clearTable(self):
+        logging.info('clearing the dataset table')
         while self.myTable.rowCount() > 0:
             self.myTable.removeRow(0)
 
+        for i in range(0, self.rowSize):
+            self.myTable.setHorizontalHeaderItem(i, QTableWidgetItem("{0}".format(i+1)))
+
         self.myTable.setRowCount(self.rowSize)
         self.myTable.setColumnCount(self.columnSize)
+
+

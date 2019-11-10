@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import sys
 
-def selection(df,choice, pointA, pointB):
+def selection(df, pointA, pointB, choice=0):
     if(choice==1):
         newDF=modify(df,pointA, pointB)
         return newDF
@@ -16,6 +16,7 @@ def modify(df, pointA, pointB):
     #get data specified
     row=[i for i in np.arange(ptA[0],ptB[0]+1)]
     col=[i for i in np.arange(ptA[1],ptB[1]+1)]
+    col.insert(0, 0)
     newDF=df.iloc[row,col]
     return newDF
 
@@ -29,27 +30,27 @@ def testPT(ptA,ptB):
     return ptA, ptB
     
 #Testing Data**
-print("Starting...\n")
-fn="../../TestData/FrequencyDataTest.csv"
+# print("Starting...\n")
+#fn="../../TestData/FrequencyDataTest.csv"
 #fn="TestData/IntervalDataTest.csv"
 #fn="TestData/OrdinalDataTest.csv"
-f = open(fn)
-myinfo = pd.read_csv(f)
-print(myinfo)
-
-print("\n\ntype: "+ str(type(myinfo)))
-print("modify-----\n\n\n")
+#f = open(fn)
+#myinfo = pd.read_csv(f)
+# print(myinfo)
+#
+# print("\n\ntype: "+ str(type(myinfo)))
+# print("modify-----\n\n\n")
 
 #Jada plans to use list var.
 #[row, col]
-ptA=[3,1]#default pointA
-ptB=[5,2]#default pointB ...todo remove later
+#ptA=[3,1]#default pointA
+#ptB=[5,2]#default pointB ...todo remove later
 
 #if 1-to specify data
 #else-use all data so no change
-test=selection(myinfo, 1, ptA, ptB)
+#test=selection(myinfo, 1, ptA, ptB)
 
-print(test)
-print("\n\ntype: "+ str(type(test)))
-print("End--\n")
+# print(test)
+# print("\n\ntype: "+ str(type(test)))
+# print("End--\n")
 #**Testing Data

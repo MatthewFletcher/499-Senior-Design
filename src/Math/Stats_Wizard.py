@@ -7,6 +7,7 @@ from optparse import OptionParser
 import sys
 import inspect
 
+#import StatisticsFortran as sf
 
 #Check which OS is being run
 from sys import platform
@@ -98,7 +99,6 @@ class Statistics:
         Returns: Number
         '''
         return sf.stddev(self.d)
-        #return self.s_var() ** 0.5
     
     def s_varcoeff(self):
         '''
@@ -106,7 +106,7 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        return self.s_stddev() / self.s_mean()
+        return sf.stddev(self.d)
 
     def s_zscore(self):
         '''
