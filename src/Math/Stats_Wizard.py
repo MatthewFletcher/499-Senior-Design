@@ -17,10 +17,10 @@ elif platform == "darwin":
     # OS X
     import StatisticsFortranMac as sf
 elif platform == "win32":
-    import StatisticsWindows as sf
-    sys.stderr.write("Windows not supported yet.\n")
+    import StatisticsFortranWindows as sf
+else:
+    sys.stderr.write("ERROR: Unsupported platform\\n")
     sys.exit(1)
-
 
 class Statistics:
     '''
@@ -98,8 +98,15 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        #return sf.stddev(self.d)
-        return self.s_var() ** 0.5
+        return sf.stddev(self.d)
+    
+    def s_varcoeff(self):
+        '''
+        Calculates the coefficient of variation of a vector
+        Parameters: None
+        Returns: Number
+        '''
+        return sf.stddev(self.d)
 
     def s_zscore(self):
         '''
@@ -234,18 +241,3 @@ class Regression:
         '''
         return sf.spearman(self.xcol, self.ycol)
 
-    def makeDistributionList(self):
-        return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
-                if m[0].startswith('r_')]
-
-    def getBestDistribution(self):
-        mles = []
-
-        for distribution in distributions:
-            pars = distribution.fit(df)
-            mle = distribution.nnlf(pars, df)
-            mles.append(mle)
-
-        results = [(distribution.name, mle) for distribution, mle in zip(distributions, mles)]
-        best_fit = sorted(zip(distributions, mles), key=lambda d: d[1])[0]
-        print("Best fit reached using {}, MLE value: {}".format(best_fit[0].name, best_fit[1]))
