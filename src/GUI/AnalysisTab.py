@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout, QLabel, QGroupBox,
-                             QListView)
+                             QListView, QPushButton)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys
@@ -16,15 +16,19 @@ class AnalysisTab(QWidget):
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
 
-        self.textWidth = self.size.width() * 0.45
-        self.chooseWidth = self.size.width() * 0.49
+        self.textWidth = self.size.width() * 0.55
+        self.chooseWidth = self.size.width() * 0.4
 
         self.createTextGroup()
-        self.createChooseGroup()
+        self.createChooseIntervalGroup()
+        self.createChooseOrdinalGroup()
+        self.createChooseFrequencyGroup()
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.TextGroup, 0, 0, 0, 1)
-        self.layout.addWidget(self.ChooseGroup, 0, 1)
+        self.layout.addWidget(self.ChooseIntervalGroup, 0, 1)
+        self.layout.addWidget(self.ChooseOrdinalGroup, 1, 1)
+        self.layout.addWidget(self.ChooseFrequencyGroup, 2, 1)
         self.setLayout(self.layout)
         self.show()
 
@@ -44,16 +48,14 @@ class AnalysisTab(QWidget):
 
     # The right side of AnalysisTab containing the buttons for
     # analysis
-    def createChooseGroup(self):
-        self.ChooseGroup = QGroupBox("Tests")
-        self.ChooseGroup.setFixedWidth(self.chooseWidth)
+    def createChooseIntervalGroup(self):
+        self.ChooseIntervalGroup = QGroupBox("Tests for Interval Data")
+        self.ChooseIntervalGroup.setFixedWidth(self.chooseWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # List widgets where users will choose what analysis
         # they would like ran on their data
         self.intervalAnalysis = QListView()
-        self.ordinalAnalysis = QListView()
-        self.frequencyAnalysis = QListView()
 
         self.model = QStandardItemModel()
 
@@ -64,7 +66,66 @@ class AnalysisTab(QWidget):
             item.setCheckState(check)
             self.model.appendRow(item)
 
+        self.analyzeIntervalButton = QPushButton("Analyze")
+
         self.intervalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
-        self.layout.addWidget(self.intervalAnalysis)
-        self.ChooseGroup.setLayout(self.layout)
+        self.layout.addWidget(self.intervalAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.analyzeIntervalButton, 1, 1)
+        self.ChooseIntervalGroup.setLayout(self.layout)
+
+    # The right side of AnalysisTab containing the buttons for
+    # analysis
+    def createChooseOrdinalGroup(self):
+        self.ChooseOrdinalGroup = QGroupBox("Tests for Ordinal Data")
+        self.ChooseOrdinalGroup.setFixedWidth(self.chooseWidth)
+        self.setStyleSheet("font: 15pt Tw Cen MT")
+
+        # List widgets where users will choose what analysis
+        # they would like ran on their data
+        self.ordinalAnalysis = QListView()
+
+        self.model = QStandardItemModel()
+
+        for test, function in ordinalList:
+            item = QStandardItem(test)
+            item.setCheckable(True)
+            check = Qt.Unchecked
+            item.setCheckState(check)
+            self.model.appendRow(item)
+
+        self.analyzeOrdinalButton = QPushButton("Analyze")
+
+        self.ordinalAnalysis.setModel(self.model)
+        self.layout = QGridLayout()
+        self.layout.addWidget(self.ordinalAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.analyzeOrdinalButton, 1, 1)
+        self.ChooseOrdinalGroup.setLayout(self.layout)
+
+    # The right side of AnalysisTab containing the buttons for
+    # analysis
+    def createChooseFrequencyGroup(self):
+        self.ChooseFrequencyGroup = QGroupBox("Tests for Frequency Data")
+        self.ChooseFrequencyGroup.setFixedWidth(self.chooseWidth)
+        self.setStyleSheet("font: 15pt Tw Cen MT")
+
+        # List widgets where users will choose what analysis
+        # they would like ran on their data
+        self.frequencyAnalysis = QListView()
+
+        self.model = QStandardItemModel()
+
+        for test, function in frequencyList:
+            item = QStandardItem(test)
+            item.setCheckable(True)
+            check = Qt.Unchecked
+            item.setCheckState(check)
+            self.model.appendRow(item)
+
+        self.analyzeFrequencyButton = QPushButton("Analyze")
+
+        self.frequencyAnalysis.setModel(self.model)
+        self.layout = QGridLayout()
+        self.layout.addWidget(self.frequencyAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.analyzeFrequencyButton, 1, 1)
+        self.ChooseFrequencyGroup.setLayout(self.layout)

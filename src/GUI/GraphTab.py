@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 import sys, os
-sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
-import CSV_Wizard
 
 class GraphTab(QWidget):
     def __init__(self):
@@ -55,11 +53,13 @@ class GraphTab(QWidget):
         self.vbarRadioButton = QRadioButton("Vertical bar")
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
-        self.lineRadioButton = QRadioButton("Line")
+        self.NDCRadioButton = QRadioButton("Normal Distribution Curve")
+        self.scatterRadioButton = QRadioButton("Scatter plot")
         self.typeGroup.addButton(self.vbarRadioButton)
         self.typeGroup.addButton(self.hbarRadioButton)
         self.typeGroup.addButton(self.pieRadioButton)
-        self.typeGroup.addButton(self.lineRadioButton)
+        self.typeGroup.addButton(self.NDCRadioButton)
+        self.typeGroup.addButton(self.scatterRadioButton)
         self.spaceLabel = QLabel("\n\n\n")
 
         # Buttons to let the user submit the data
@@ -80,8 +80,9 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.vbarRadioButton, 2, 0)
         self.layout.addWidget(self.hbarRadioButton, 3, 0)
         self.layout.addWidget(self.pieRadioButton, 4, 0)
-        self.layout.addWidget(self.lineRadioButton, 5, 0)
-        self.layout.addWidget(self.spaceLabel, 6, 0)
+        self.layout.addWidget(self.NDCRadioButton, 5, 0)
+        self.layout.addWidget(self.scatterRadioButton, 6, 0)
+        self.layout.addWidget(self.spaceLabel, 7, 0)
         
         self.layout.addWidget(self.graphButton)
         self.CustomGroup.setFixedWidth(700)
@@ -95,19 +96,18 @@ class GraphTab(QWidget):
         if dataType == "interval" or dataType == "frequency":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            self.lineRadioButton.setEnabled(True)
+            self.NDCRadioButton.setEnabled(True)
             self.pieRadioButton.setEnabled(True)
         elif dataType == "ordinal":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            self.lineRadioButton.setEnabled(False)
+            self.NDCRadioButton.setEnabled(True)
             self.pieRadioButton.setEnabled(True)
+            self.scatterRadioButton.setEnabled(False)
 
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
-        # masterDF = CSV_Wizard.openFile("../../TestData/OrdinalDataTest.csv")
         d = self.masterDF
-        print(d)
         self.figure.clear()
         if self.vbarRadioButton.isChecked() == True:
             self.verticalBarGraph(d)
@@ -115,8 +115,10 @@ class GraphTab(QWidget):
             self.horizontalBarGraph(d)
         elif self.pieRadioButton.isChecked() == True:
             self.ordinal_pie(d)
-        elif self.lineRadioButton.isChecked() == True:
-            self.lineGraph(d)
+        # elif self.NDCRadioButton.isChecked() == True:
+        #     self.NDCGraph(d)
+        elif self.scatterRadioButton.isChecked() == True:
+            self.scatterPlot(d)
 
         self.myGraph.draw()
         self.repaint()
@@ -127,12 +129,12 @@ class GraphTab(QWidget):
     def saveFileDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "",
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save Image", "",
                                                   "All Files (*);;PNG Files (*.png)", options=options)
         if fileName:
             self.figure.savefig(fileName)
 
-    # This function will graph the frequency or interval data as a horizontal bar graph
+    # This function will graph the data as a horizontal bar graph
     def horizontalBarGraph(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
@@ -142,21 +144,25 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.barh(x, y)
+        plot.barh(x, y, color=['orange', 'darkkhaki'])
 
-    def lineGraph(self, df):
-        plot = self.figure.add_subplot(111)
-        headers = list(df.columns.values)
+    # # This function will graph the data as a normal distribution curve
+    # def NDCGraph(self, df):
 
-        x = df[headers[1]]
-        y = df[headers[2]]
-        plot.set_xlabel(headers[1])
-        plot.set_ylabel(headers[2])
 
-        # Plot the points using matplotlib
-        plot.plot(x, y)
+    # def lineGraph(self, df):
+    #     plot = self.figure.add_subplot(111)
+    #     headers = list(df.columns.values)
+    #
+    #     x = df[headers[1]]
+    #     y = df[headers[2]]
+    #     plot.set_xlabel(headers[1])
+    #     plot.set_ylabel(headers[2])
+    #
+    #     # Plot the points using matplotlib
+    #     plot.plot(x, y)
 
-    # This function will graph frequency or interval data as a vertical bar graph
+    # This function will graph the data as a vertical bar graph
     def verticalBarGraph(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
@@ -166,7 +172,7 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.bar(x, y)
+        plot.bar(x, y, color=['lightcoral', 'steelblue'])
 
     # This function will graph the frequency or interval data as a pie chart
     def freqint_pie(self, df):
@@ -182,7 +188,7 @@ class GraphTab(QWidget):
             explode.append(0)
 
         # Data to plot
-        colors = ['gold', 'yellowgreen']
+        colors = ['gold', 'navyblue']
 
         # Plot
         plot.pie(y, explode=explode, labels=x, colors=colors,
@@ -210,4 +216,14 @@ class GraphTab(QWidget):
                 autopct='%1.1f%%', shadow=False, startangle=0)
         plot.axis('equal')
 
+    # This function will graph the data as a scatter plot
+    def scatterPlot(self, df):
+        plot = self.figure.add_subplot(111)
+        headers = list(df.columns.values)
+
+        x = df[headers[1]]
+        y = df[headers[2]]
+        plot.set_xlabel(headers[1])
+        plot.set_ylabel(headers[2])
+        plot.scatter(x, y)
 
