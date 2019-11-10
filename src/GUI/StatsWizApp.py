@@ -15,12 +15,24 @@ class TabPage(QTabWidget):
         # Creating the tabs here to have a reference
         self.dataTab = DataTab.DataTab()
         self.graphTab = GraphTab.GraphTab()
+        self.analysisTab = AnalysisTab.AnalysisTab()
+        self.summaryTab = SummaryTab.SummaryTab()
         self.tabWidget = QTabWidget()
         self.tabWidget.addTab(WelcomeTab.WelcomeTab(), "Welcome")
         self.tabWidget.addTab(self.dataTab, "Data Input")
         self.tabWidget.addTab(self.graphTab, "Graph")
-        self.tabWidget.addTab(AnalysisTab.AnalysisTab(), "Analysis")
-        self.tabWidget.addTab(SummaryTab.SummaryTab(), "Summary")
+        self.tabWidget.addTab(self.analysisTab, "Analysis")
+        self.tabWidget.addTab(self.summaryTab, "Summary")
+
+        self.dataTab.intervalRadioButton.toggled.connect(
+            self.analysisTab.analyzeIntervalButton.setEnabled
+        )
+        self.dataTab.ordinalRadioButton.toggled.connect(
+            self.analysisTab.analyzeOrdinalButton.setEnabled
+        )
+        self.dataTab.frequencyRadioButton.toggled.connect(
+            self.analysisTab.analyzeFrequencyButton.setEnabled
+        )
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.tabWidget)

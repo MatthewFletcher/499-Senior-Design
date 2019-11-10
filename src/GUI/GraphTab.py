@@ -110,15 +110,15 @@ class GraphTab(QWidget):
     def graphButtonClicked(self):
         d = self.masterDF
         self.figure.clear()
-        if self.vbarRadioButton.isChecked() == True:
+        if self.vbarRadioButton.isChecked():
             self.verticalBarGraph(d)
-        elif self.hbarRadioButton.isChecked() == True:
+        elif self.hbarRadioButton.isChecked():
             self.horizontalBarGraph(d)
-        elif self.pieRadioButton.isChecked() == True:
+        elif self.pieRadioButton.isChecked():
             self.ordinal_pie(d)
-        elif self.lineRadioButton.isChecked() == True:
+        elif self.lineRadioButton.isChecked():
             self.lineGraph(d)
-        elif self.scatterRadioButton.isChecked() == True:
+        elif self.scatterRadioButton.isChecked():
             self.scatterPlot(d)
 
         self.myGraph.draw()
