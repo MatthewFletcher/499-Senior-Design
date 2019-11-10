@@ -6,12 +6,7 @@ import sys, os
 from pathlib import Path
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
-import DataTab
 import Stats_Wizard as s
-
-# intervalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
-# ordinalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
-# frequencyList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
 
 class AnalysisTab(QWidget):
     def __init__(self):
@@ -74,9 +69,7 @@ class AnalysisTab(QWidget):
 
         self.analyzeIntervalButton = QPushButton("Analyze")
         self.analyzeIntervalButton.setEnabled(False)
-
-        # if DataTab.getDataType() != "interval":
-        #     self.analyzeIntervalButton.setEnabled(True)
+        self.analyzeIntervalButton.clicked.connect(self.intervalButtonClicked)
 
         self.intervalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
@@ -107,9 +100,7 @@ class AnalysisTab(QWidget):
 
         self.analyzeOrdinalButton = QPushButton("Analyze")
         self.analyzeOrdinalButton.setEnabled(False)
-
-        # if DataTab.getDataType() != "ordinal":
-        #     self.analyzeIntervalButton.setEnabled(True)
+        self.analyzeOrdinalButton.clicked.connect(self.ordinalButtonClicked)
 
         self.ordinalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
@@ -140,12 +131,19 @@ class AnalysisTab(QWidget):
 
         self.analyzeFrequencyButton = QPushButton("Analyze")
         self.analyzeFrequencyButton.setEnabled(False)
-
-        # if DataTab.getDataType() != "frequency":
-        #     self.analyzeIntervalButton.setEnabled(True)
+        self.analyzeFrequencyButton.clicked.connect(self.frequencyButtonClicked)
 
         self.frequencyAnalysis.setModel(self.model)
         self.layout = QGridLayout()
         self.layout.addWidget(self.frequencyAnalysis, 0, 0, 0, 1)
         self.layout.addWidget(self.analyzeFrequencyButton, 1, 1)
         self.ChooseFrequencyGroup.setLayout(self.layout)
+
+    def intervalButtonClicked(self):
+        y=0
+
+    def ordinalButtonClicked(self):
+        y = 0
+
+    def frequencyButtonClicked(self):
+        y=0
