@@ -15,7 +15,7 @@ sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 
 sys.path.append('../')
-import StatisticsFortran as sf
+import StatisticsFortranMac as sf
 
 
 class Statistics:
