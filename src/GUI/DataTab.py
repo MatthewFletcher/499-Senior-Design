@@ -236,3 +236,5 @@ class DataTab(QWidget):
 
         self.myTable.setRowCount(self.rowSize)
         self.myTable.setColumnCount(self.columnSize)
+
+
