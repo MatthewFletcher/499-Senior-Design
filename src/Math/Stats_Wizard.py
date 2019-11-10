@@ -17,9 +17,9 @@ elif platform == "darwin":
     import StatisticsFortranMac as sf
 elif platform == "win32":
     import StatisticsFortranWindows as sf
-    sys.stderr.write("Windows not supported yet.\n")
+else:
+    sys.stderr.write("ERROR: Unsupported platform\\n")
     sys.exit(1)
-
 
 class Statistics:
     '''
