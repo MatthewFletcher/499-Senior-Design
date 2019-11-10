@@ -1,3 +1,4 @@
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
 import sys
@@ -29,8 +30,16 @@ class TabPage(QTabWidget):
     # This function is being called when the user clicks the "Submit Data" in the data tab.
     # This is a method of passing data from the data tab to the graph tab.
     def setDF(self, df):
-        self.graphTab.masterDF = self.dataTab.getDataFromTable()
-        self.graphTab.enableGraphType(self.dataTab.getDataType())
+        if (self.dataTab.allRadioButton.isChecked() == "False"
+            and self.dataTab.selectionRadioButton.isChecked() == "False") \
+                or (self.dataTab.intervalRadioButton.isChecked() == "False"
+                    and self.dataTab.frequencyRadioButton.isChecked() == "False"
+                    and self.dataTab.ordinalRadioButton.isChecked() == "False"):
+            error_dialog = QtWidgets.QErrorMessage()
+            error_dialog.showMessage('Error!\nCannot submit data without selecting one option of each category')
+        else:
+            self.graphTab.masterDF = self.dataTab.getDataFromTable()
+            self.graphTab.enableGraphType(self.dataTab.getDataType())
 
 def runStatsWiz():
     app = QApplication(sys.argv)
