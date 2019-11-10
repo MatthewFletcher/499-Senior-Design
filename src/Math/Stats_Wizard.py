@@ -241,18 +241,3 @@ class Regression:
         '''
         return sf.spearman(self.xcol, self.ycol)
 
-    def makeDistributionList(self):
-        return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
-                if m[0].startswith('r_')]
-
-    def getBestDistribution(self):
-        mles = []
-
-        for distribution in distributions:
-            pars = distribution.fit(df)
-            mle = distribution.nnlf(pars, df)
-            mles.append(mle)
-
-        results = [(distribution.name, mle) for distribution, mle in zip(distributions, mles)]
-        best_fit = sorted(zip(distributions, mles), key=lambda d: d[1])[0]
-        print("Best fit reached using {}, MLE value: {}".format(best_fit[0].name, best_fit[1]))
