@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton,QGroupBox,
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupBox,
                              QPushButton, QGridLayout, QSizePolicy, QButtonGroup,
                              QApplication, QFileDialog)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 import sys, os
+
+import logging
 
 class GraphTab(QWidget):
     def __init__(self):
@@ -29,7 +31,7 @@ class GraphTab(QWidget):
         self.setLayout(self.layout)
         self.show()
 
-# The left side of GraphTab containing the Graph
+    # The left side of GraphTab containing the Graph
     def createGraphGroup(self):
         self.GraphGroup = QGroupBox("Graph")
 
@@ -41,8 +43,8 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.myGraph)
         self.GraphGroup.setLayout(self.layout)
 
-# The right side of GraphTab containing Radio Buttons and
-# text boxes for user input on how they want their graph
+    # The right side of GraphTab containing Radio Buttons and
+    # text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox("Options")
         self.setStyleSheet("font: 15pt Tw Cen MT")
@@ -65,13 +67,13 @@ class GraphTab(QWidget):
         # Buttons to let the user submit the data
         self.graphButton = QPushButton("Graph")
         self.graphButton.setDefault(True)
-        self.graphButton.setFixedWidth(680)
+        self.graphButton.setFixedWidth(self.buttonSize)
         self.graphButton.clicked.connect(self.graphButtonClicked)
 
         # Button to let the user save the graph as a PNG file
         self.PNGButton = QPushButton("Save as PNG")
         self.PNGButton.setDefault(True)
-        self.PNGButton.setFixedWidth(680)
+        self.PNGButton.setFixedWidth(self.buttonSize)
         self.PNGButton.clicked.connect(self.PNGButtonClicked)
 
         # Layout
@@ -83,13 +85,13 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.NDCRadioButton, 5, 0)
         self.layout.addWidget(self.scatterRadioButton, 6, 0)
         self.layout.addWidget(self.spaceLabel, 7, 0)
-        
+
         self.layout.addWidget(self.graphButton)
-        self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setFixedWidth(self.buttonSize)
         self.CustomGroup.setLayout(self.layout)
 
         self.layout.addWidget(self.PNGButton)
-        self.CustomGroup.setFixedWidth(700)
+        self.CustomGroup.setFixedWidth(self.buttonSize)
         self.CustomGroup.setLayout(self.layout)
 
     def enableGraphType(self, dataType):
@@ -107,6 +109,7 @@ class GraphTab(QWidget):
 
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
+        logging.info('Graphing has been selected')
         d = self.masterDF
         self.figure.clear()
         if self.vbarRadioButton.isChecked() == True:
@@ -119,11 +122,13 @@ class GraphTab(QWidget):
         #     self.NDCGraph(d)
         elif self.scatterRadioButton.isChecked() == True:
             self.scatterPlot(d)
+        logging.info('GraphTab: Data has been graphed')
 
         self.myGraph.draw()
         self.repaint()
 
     def PNGButtonClicked(self):
+        logging.info('Saving graph as PNG')
         self.saveFileDialog()
 
     def saveFileDialog(self):
@@ -192,7 +197,7 @@ class GraphTab(QWidget):
 
         # Plot
         plot.pie(y, explode=explode, labels=x, colors=colors,
-                autopct='%1.1f%%', shadow=False, startangle=0)
+                 autopct='%1.1f%%', shadow=False, startangle=0)
         plot.axis('equal')
 
     # This function will graph ordinal data as a pie chart
@@ -213,7 +218,7 @@ class GraphTab(QWidget):
 
         # Plot
         plot.pie(y, explode=explode, labels=x, colors=colors,
-                autopct='%1.1f%%', shadow=False, startangle=0)
+                 autopct='%1.1f%%', shadow=False, startangle=0)
         plot.axis('equal')
 
     # This function will graph the data as a scatter plot
@@ -226,4 +231,3 @@ class GraphTab(QWidget):
         plot.set_xlabel(headers[1])
         plot.set_ylabel(headers[2])
         plot.scatter(x, y)
-

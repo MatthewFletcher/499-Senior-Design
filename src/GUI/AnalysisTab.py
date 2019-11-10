@@ -2,16 +2,28 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout, QLabel, QGroupB
                              QListView, QPushButton)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
-import sys
+import sys, os
+from pathlib import Path
 
-intervalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
-ordinalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
-frequencyList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
+
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
+
+
+# import DataTab
+import Stats_Wizard as s
+
+# intervalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+# ordinalList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+# frequencyList = (("mean", "hello"), ("medium", "hello"), ("mode", "hello"))
+import logging
 
 class AnalysisTab(QWidget):
     def __init__(self):
+        
         super().__init__()
-
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
@@ -59,14 +71,20 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        for test, function in intervalList:
+        # for test, function in intervalList:
+        for test, function in s.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
+            
 
         self.analyzeIntervalButton = QPushButton("Analyze")
+        self.analyzeIntervalButton.setEnabled(False)
+
+        # if DataTab.getDataType() != "interval":
+        #     self.analyzeIntervalButton.setEnabled(True)
 
         self.intervalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
@@ -87,7 +105,8 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        for test, function in ordinalList:
+        # for test, function in ordinalList:
+        for test, function in s.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -95,6 +114,10 @@ class AnalysisTab(QWidget):
             self.model.appendRow(item)
 
         self.analyzeOrdinalButton = QPushButton("Analyze")
+        self.analyzeOrdinalButton.setEnabled(False)
+
+        # if DataTab.getDataType() != "ordinal":
+        #     self.analyzeIntervalButton.setEnabled(True)
 
         self.ordinalAnalysis.setModel(self.model)
         self.layout = QGridLayout()
@@ -115,7 +138,8 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        for test, function in frequencyList:
+        # for test, function in frequencyList:
+        for test, function in s.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -123,6 +147,10 @@ class AnalysisTab(QWidget):
             self.model.appendRow(item)
 
         self.analyzeFrequencyButton = QPushButton("Analyze")
+        self.analyzeFrequencyButton.setEnabled(False)
+
+        # if DataTab.getDataType() != "frequency":
+        #     self.analyzeIntervalButton.setEnabled(True)
 
         self.frequencyAnalysis.setModel(self.model)
         self.layout = QGridLayout()
