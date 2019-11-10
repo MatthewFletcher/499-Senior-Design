@@ -10,8 +10,8 @@ import Stats_Wizard as s
 
 class AnalysisTab(QWidget):
     def __init__(self):
+        
         super().__init__()
-
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
@@ -66,6 +66,7 @@ class AnalysisTab(QWidget):
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
+            
 
         self.analyzeIntervalButton = QPushButton("Analyze")
         self.analyzeIntervalButton.setEnabled(False)
