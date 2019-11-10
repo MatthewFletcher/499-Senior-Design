@@ -13,13 +13,16 @@ from pathlib import Path
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
 
+sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
+
 import CSV_Wizard as c
 import Stats_Wizard as s
 import pandas as pd
 import inspect
 
 #class: ds, function
-class DataframeFunction:
+class DataOneVector:
     def __init__(self, d):
         self.d = self.vectorSplit(d)
 
@@ -107,19 +110,29 @@ class DataframeFunction:
 cola {mean:0} {max: 0}
 colb {etc..}
 '''     
+class DataTwoVector():
+    def __init__(self, d):
+        self.d = d
+    def Running(self):
+        print('inside')
+        r=s.Regression(self.d)
+        print(r.makeDistributionList())
+        r.r_linear()
 
 #'''
 def main():
     df=c.openFile("TestData/FrequencyDataTest.csv")[0]
     print(df)
     print("------")
-    test=DataframeFunction(df)#----
+    test=DataOneVector(df)#----
     #if gui side needs to receive the testlist this(below) need to happen
     ds=s.Statistics(0)
     funcpath=ds.test_list()
     #ds.test_list() 
     #gui-testlist is changed based on user choice   
-    test.getFunctionsStat(funcpath)#-----
+    #test.getFunctionsStat(funcpath)#-----
+    test2=DataTwoVector(df)
+    test2.Running()
     
 #'''
 main()

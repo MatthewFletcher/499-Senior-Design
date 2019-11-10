@@ -31,11 +31,11 @@ def testPT(ptA,ptB):
     
 #Testing Data**
 # print("Starting...\n")
-fn="../../TestData/FrequencyDataTest.csv"
+#fn="../../TestData/FrequencyDataTest.csv"
 #fn="TestData/IntervalDataTest.csv"
 #fn="TestData/OrdinalDataTest.csv"
-f = open(fn)
-myinfo = pd.read_csv(f)
+#f = open(fn)
+#myinfo = pd.read_csv(f)
 # print(myinfo)
 #
 # print("\n\ntype: "+ str(type(myinfo)))
@@ -43,12 +43,12 @@ myinfo = pd.read_csv(f)
 
 #Jada plans to use list var.
 #[row, col]
-ptA=[3,1]#default pointA
-ptB=[5,2]#default pointB ...todo remove later
+#ptA=[3,1]#default pointA
+#ptB=[5,2]#default pointB ...todo remove later
 
 #if 1-to specify data
 #else-use all data so no change
-test=selection(myinfo, 1, ptA, ptB)
+#test=selection(myinfo, 1, ptA, ptB)
 
 # print(test)
 # print("\n\ntype: "+ str(type(test)))

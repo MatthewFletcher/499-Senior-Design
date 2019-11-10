@@ -1,8 +1,29 @@
+# #!/usr/vin/env python3
+
 import pandas as pd
 import numpy as np
-import sys
+import sys, os
 import matplotlib.pyplot as plt
+from pathlib import Path
+print('look')
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
 
+sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
+
+import CSV_Wizard as c
+import Stats_Wizard as s
+import inspect
+
+def main():
+    df=c.openFile("TestData/FrequencyDataTest.csv")[0]
+    print('try')
+
+
+main()
+
+"""
  #dont use function literally add and divide
  #list vector
 def mean(df):
@@ -79,3 +100,4 @@ print(test)
 print("\n\ntype: "+ str(type(test)))
 print("End--\n")
 # #**Testing Data
+"""

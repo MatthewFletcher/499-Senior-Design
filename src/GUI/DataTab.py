@@ -8,6 +8,7 @@ import csv
 import pandas as pd
 import UserSelect
 from pathlib import Path
+import logging
 
 # The DataTab class holds all the GUI for the DataTab
 class DataTab(QWidget):
@@ -159,16 +160,21 @@ class DataTab(QWidget):
 # Calls openCSV() function when the
 # newCSVButton is clicked
     def newCSVButtonClicked(self):
+        logging.info('Import CSV Button Selected')
         self.openCSV()
+        
 
     def clearButtonClicked(self):
+        logging.info('Clear Data Button Selected')
         self.clearTable()
+    
 
 # Populates the table with data from a CSV File
 # when newCSVButton is clicked
     def openCSV(self):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':
+            logging.info("Opening the CSV file")
             with open(path[0], newline='') as csvFile:
                 myFile = csv.reader(csvFile, delimiter=',', quotechar='|')
                 headers = next(myFile)
@@ -197,7 +203,8 @@ class DataTab(QWidget):
             tmp_df.iloc[i, 0] = self.myTable.takeItem(i, 0).text()
             for j in range(1, number_of_columns):
                 tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
-        if self.allRadioButton.isChecked() == True:
+        if self.allRadioButton.isChecked():
+            logging.info('User Selection on Dataset')
             ptA = [0,1]
             ptB = [number_of_rows-1, number_of_columns-1]
             return UserSelect.selection(tmp_df, ptA, ptB, 1)
@@ -211,15 +218,16 @@ class DataTab(QWidget):
             return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
-        if self.intervalRadioButton.isChecked() == True:
+        if self.intervalRadioButton.isChecked():
             return "interval"
-        elif self.ordinalRadioButton.isChecked() == True:
+        elif self.ordinalRadioButton.isChecked():
             return "ordinal"
-        elif self.frequencyRadioButton.isChecked() == True:
+        elif self.frequencyRadioButton.isChecked():
             return "frequency"
 
     # Clears the table and restores it to the original
     def clearTable(self):
+        logging.info('clearing the dataset table')
         while self.myTable.rowCount() > 0:
             self.myTable.removeRow(0)
 
