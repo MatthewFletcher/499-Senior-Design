@@ -8,6 +8,7 @@ import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 class TabPage(QTabWidget):
     def __init__(self):
+        
         super().__init__()
         self.setStyleSheet('font: 15pt Tw Cen MT')
         self.setWindowTitle("Stats Wiz")
