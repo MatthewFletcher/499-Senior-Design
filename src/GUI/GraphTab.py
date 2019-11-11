@@ -18,7 +18,7 @@ class GraphTab(QWidget):
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
 
-        self.buttonSize = 680
+        self.buttonSize = self.size.width() * 0.2
         self.graphWidth = self.size.width() * 0.65
         self.customWidth = self.size.width() * 0.3
 
@@ -47,6 +47,7 @@ class GraphTab(QWidget):
     # text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox("Options")
+        self.CustomGroup.setFixedWidth(self.customWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
@@ -87,11 +88,7 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.spaceLabel, 7, 0)
 
         self.layout.addWidget(self.graphButton)
-        self.CustomGroup.setFixedWidth(self.buttonSize)
-        self.CustomGroup.setLayout(self.layout)
-
         self.layout.addWidget(self.PNGButton)
-        self.CustomGroup.setFixedWidth(self.buttonSize)
         self.CustomGroup.setLayout(self.layout)
 
     def enableGraphType(self, dataType):
