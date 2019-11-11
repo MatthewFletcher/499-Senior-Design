@@ -10,17 +10,19 @@ import inspect
 #import StatisticsFortran as sf
 
 #Check which OS is being run
+
 from sys import platform
+print(f"Platform: {platform}")
 if platform == "linux" or platform == "linux2":
     import StatisticsFortranLinux as sf
 elif platform == "darwin":
     # OS X
     import StatisticsFortranMac as sf
 elif platform == "win32":
-    import StatisticsWindows as sf
-    sys.stderr.write("Windows not supported yet.\n")
+    import StatisticsFortranWindows as sf
+else:
+    sys.stderr.write("ERROR: Unsupported platform\\n")
     sys.exit(1)
-
 
 class Statistics:
     '''
@@ -87,16 +89,10 @@ class Statistics:
         Returns: Number
         '''
         #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
-<<<<<<< HEAD
-        return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
-        #return sf.var(self.d)
-        
-=======
         try:
             return sf.var(self.d)
         except AttributeError:
             return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
->>>>>>> master
 
     def s_stddev(self):
         '''
@@ -104,8 +100,15 @@ class Statistics:
         Parameters: None
         Returns: Number
         '''
-        #return sf.stddev(self.d)
-        return self.s_var() ** 0.5
+        return sf.stddev(self.d)
+    
+    def s_varcoeff(self):
+        '''
+        Calculates the coefficient of variation of a vector
+        Parameters: None
+        Returns: Number
+        '''
+        return sf.stddev(self.d)
 
     def s_zscore(self):
         '''
@@ -240,18 +243,3 @@ class Regression:
         '''
         return sf.spearman(self.xcol, self.ycol)
 
-    def makeDistributionList(self):
-        return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod)
-                if m[0].startswith('r_')]
-
-    def getBestDistribution(self):
-        mles = []
-
-        for distribution in distributions:
-            pars = distribution.fit(df)
-            mle = distribution.nnlf(pars, df)
-            mles.append(mle)
-
-        results = [(distribution.name, mle) for distribution, mle in zip(distributions, mles)]
-        best_fit = sorted(zip(distributions, mles), key=lambda d: d[1])[0]
-        print("Best fit reached using {}, MLE value: {}".format(best_fit[0].name, best_fit[1]))
