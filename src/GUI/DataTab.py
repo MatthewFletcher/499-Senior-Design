@@ -10,7 +10,10 @@ import UserSelect
 from pathlib import Path
 import logging
 
-# The DataTab class holds all the GUI for the DataTab
+# The DataTab class holds the GUI for the DataTab, which consists of two sections:
+# the TableGroup and the CustomGroup. The TableGroup deals with the table, which
+# contains the user's data. The CustomGroup has the user select different
+# options based on their data and what they would like graphed.
 class DataTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -19,9 +22,11 @@ class DataTab(QWidget):
         self.size = self.screen.size()
         self.masterDF = None
         self.dataType = None
+
+        # These numbers are arbitrary and seemed
+        # to have the best balance
         self.tableWidth = self.size.width() * 0.65
         self.customWidth = self.size.width() * 0.3
-
         self.buttonSize = self.size.width() * 0.29
         self.lineEditSize = self.size.width() * 0.067
         self.rowSize = 400
@@ -47,8 +52,8 @@ class DataTab(QWidget):
         self.TableGroup.setLayout(self.layout)
         # self.myTable.clicked.connect(self.selectionChanged)
 
-# The right side of DataTab containing Radio Buttons and
-# text boxes for user input on how they want their graph
+    # The right side of DataTab containing Radio Buttons and
+    # text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox("Options")
         self.setStyleSheet("font: 15pt Tw Cen MT")
@@ -141,8 +146,8 @@ class DataTab(QWidget):
         self.CustomGroup.setFixedWidth(self.customWidth)
         self.CustomGroup.setLayout(self.layout)
 
-# Changes the QLineEdits to be ReadOnly when
-# allRadioButtton is clicked
+    # Changes the QLineEdits to be ReadOnly when
+    # allRadioButtton is clicked
     def allRadioButtonClicked(self, enabled):
         if enabled:
             self.beginRow.setEnabled(False)
@@ -150,8 +155,8 @@ class DataTab(QWidget):
             self.endRow.setEnabled(False)
             self.endCol.setEnabled(False)
 
-# Changes the QLineEdits to not be ReadOnly when
-# selectionRadioButton is clicked
+    # Changes the QLineEdits to not be ReadOnly when
+    # selectionRadioButton is clicked
     def selectionRadioButtonClicked(self, enabled):
         if enabled:
             self.beginRow.setEnabled(True)
@@ -159,8 +164,8 @@ class DataTab(QWidget):
             self.endRow.setEnabled(True)
             self.endCol.setEnabled(True)
 
-# Calls openCSV() function when the
-# newCSVButton is clicked
+    # Calls openCSV() function when the
+    # newCSVButton is clicked
     def newCSVButtonClicked(self):
         logging.info('Import CSV Button Selected')
         self.openCSV()
@@ -171,8 +176,8 @@ class DataTab(QWidget):
         self.clearTable()
     
 
-# Populates the table with data from a CSV File
-# when newCSVButton is clicked
+    # Populates the table with data from a CSV File
+    # when newCSVButton is clicked
     def openCSV(self):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':

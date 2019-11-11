@@ -25,6 +25,9 @@ class TabPage(QTabWidget):
         self.tabWidget.addTab(self.analysisTab, "Analysis")
         self.tabWidget.addTab(self.summaryTab, "Summary")
 
+        # This checks to see which of the data type radio buttons on the DataTab
+        # are checked. If the interval radio button is checked, then the only
+        # button available on AnalysisTab is for the interval data type
         self.dataTab.intervalRadioButton.toggled.connect(
             self.analysisTab.analyzeIntervalButton.setEnabled
         )
