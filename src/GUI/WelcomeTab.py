@@ -19,8 +19,8 @@ class WelcomeTab(QWidget):
         self.size=self.screen.size()
         self.buttonSize=680
 
-        self.logoWidth=self.size.width() *0.30
-        self.infoWidth=self.size.width()*0.75
+        self.logoWidth=self.size.width() *0.33
+        self.infoWidth=self.size.width()*0.67
         
         self.createLogoGroup()
         self.createInfoGroup()
@@ -36,7 +36,7 @@ class WelcomeTab(QWidget):
 
     def createLogoGroup(self):
         self.pixmap=QPixmap("src\GUI\StatsLogo1.png")
-        self.pixmap2=self.pixmap.scaled(500,500)
+        self.pixmap2=self.pixmap.scaled(600,600)
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
         self.label=QLabel(self)
@@ -51,8 +51,6 @@ class WelcomeTab(QWidget):
         self.infoLabel=QLabel(self)
         self.infoLabel.setStyleSheet("font: 20pt Tw Cen MT")
         self.infoLabel.setText("Welcome to the Stats Wiz? Here's all you need to know:")
-        
-
           
         window =CollapsibleDialog()
 
