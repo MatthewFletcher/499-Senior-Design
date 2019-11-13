@@ -24,6 +24,7 @@ else:
     sys.stderr.write("ERROR: Unsupported platform\\n")
     sys.exit(1)
 
+
 class Statistics:
     '''
         This class consists of all tests that require only 1 vector.
