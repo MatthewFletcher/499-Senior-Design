@@ -11,7 +11,11 @@ class TabPage(QTabWidget):
         super().__init__()
         self.setStyleSheet('font: 15pt Tw Cen MT')
         self.setWindowTitle("Stats Wiz")
-        self.setWindowIcon(QIcon("StatsLogo1.png"))
+        
+        #Get directory name of this file
+        
+        #Get icon name from the generated absolute path
+        self.setWindowIcon(QIcon(os.path.join((os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
         self.show()
         # Creating the tabs here to have a reference
         self.dataTab = DataTab.DataTab()
