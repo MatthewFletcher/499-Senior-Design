@@ -57,6 +57,7 @@ class DataTab(QWidget):
         self.graphLabel = QLabel("How much do you want graphed?")
         self.graphGroup = QButtonGroup()
         self.allRadioButton = QRadioButton("Graph everything")
+        self.allRadioButton.setChecked(True)
         self.selectionRadioButton = QRadioButton("Let me pick what to graph")
         self.graphGroup.addButton(self.allRadioButton)
         self.graphGroup.addButton(self.selectionRadioButton)
@@ -91,6 +92,7 @@ class DataTab(QWidget):
         self.newLine = QLabel("\n")
         self.typeGroup = QButtonGroup()
         self.intervalRadioButton = QRadioButton("Interval")
+        self.intervalRadioButton.setChecked(True)
         self.ordinalRadioButton = QRadioButton("Ordinal")
         self.frequencyRadioButton = QRadioButton("Frequency")
         self.typeGroup.addButton(self.intervalRadioButton)
@@ -200,9 +202,9 @@ class DataTab(QWidget):
         tmp_df = pd.DataFrame(columns=header, index=range(number_of_rows))
 
         for i in range(number_of_rows):
-            tmp_df.iloc[i, 0] = self.myTable.takeItem(i, 0).text()
+            tmp_df.iloc[i, 0] = self.myTable.item(i, 0).text()
             for j in range(1, number_of_columns):
-                tmp_df.iloc[i, j] = int(self.myTable.takeItem(i, j).text())
+                tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
         if self.allRadioButton.isChecked():
             logging.info('User Selection on Dataset')
             ptA = [0,1]
