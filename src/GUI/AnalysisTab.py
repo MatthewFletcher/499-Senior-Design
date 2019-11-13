@@ -4,9 +4,10 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
-sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
 import Stats_Wizard as s
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
+
 
 class AnalysisTab(QWidget):
     def __init__(self):
