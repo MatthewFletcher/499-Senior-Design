@@ -4,6 +4,7 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
+
 sys.path.append(str(Path(os.path.abspath(__file__)).joinpath("../../Math").resolve()))
 import Stats_Wizard as s
 
