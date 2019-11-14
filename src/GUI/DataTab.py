@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
                              QGridLayout, QButtonGroup, QApplication, QAbstractItemView,
-                             QErrorMessage)
+                             QMessageBox)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 import os
@@ -246,7 +246,9 @@ class DataTab(QWidget):
         self.myTable.setColumnCount(self.columnSize)
 
     def errorMessage(self):
-        error = QErrorMessage(self)
+        error = QMessageBox()
         error.setWindowTitle("Error")
         error.setWindowIcon(QIcon("StatsLogo1.png"))
-        error.showMessage("You haven't entered any information in the table!")
+        error.setText("You haven't entered any information in the table!")
+        error.setStandardButtons(QMessageBox.Ok)
+        error.exec()
