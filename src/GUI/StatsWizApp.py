@@ -46,9 +46,12 @@ class TabPage(QTabWidget):
     # This function is being called when the user clicks the "Submit Data" in the data tab.
     # This is a method of passing data from the data tab to the graph tab.
     def setDF(self, df):
-        self.graphTab.masterDF = self.dataTab.getDataFromTable()
-        self.graphTab.enableGraphType(self.dataTab.getDataType())
-        self.analysisTab.enableAnalysis(self.dataTab.getDataType())
+        if not df:
+            self.dataTab.errorMessage()
+        else:
+            self.graphTab.masterDF = self.dataTab.getDataFromTable()
+            self.graphTab.enableGraphType(self.dataTab.getDataType())
+            self.analysisTab.enableAnalysis(self.dataTab.getDataType())
 
 
 def runStatsWiz():

@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
-                             QGridLayout, QButtonGroup, QApplication, QAbstractItemView)
+                             QGridLayout, QButtonGroup, QApplication, QAbstractItemView,
+                             QErrorMessage)
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 import os
 import sys
 import csv
@@ -9,6 +11,7 @@ import pandas as pd
 import UserSelect
 from pathlib import Path
 import logging
+
 
 # The DataTab class holds the GUI for the DataTab, which consists of two sections:
 # the TableGroup and the CustomGroup. The TableGroup deals with the table, which
@@ -41,7 +44,7 @@ class DataTab(QWidget):
         self.setLayout(self.layout)
         self.show()
 
-# The left side of DataTab containing the Table
+    # The left side of DataTab containing the Table
     def createTableGroup(self):
         self.TableGroup = QGroupBox("Table")
         self.myTable = QTableWidget(self.rowSize, self.columnSize)
@@ -169,12 +172,10 @@ class DataTab(QWidget):
     def newCSVButtonClicked(self):
         logging.info('Import CSV Button Selected')
         self.openCSV()
-        
 
     def clearButtonClicked(self):
         logging.info('Clear Data Button Selected')
         self.clearTable()
-    
 
     # Populates the table with data from a CSV File
     # when newCSVButton is clicked
@@ -212,13 +213,13 @@ class DataTab(QWidget):
                 tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
         if self.allRadioButton.isChecked():
             logging.info('User Selection on Dataset')
-            ptA = [0,1]
-            ptB = [number_of_rows-1, number_of_columns-1]
+            ptA = [0, 1]
+            ptB = [number_of_rows - 1, number_of_columns - 1]
             return UserSelect.selection(tmp_df, ptA, ptB, 1)
         else:
-            x1 = int(self.beginRow.text())-1
+            x1 = int(self.beginRow.text()) - 1
             y1 = int(self.beginCol.text())
-            x2 = int(self.endRow.text())-1
+            x2 = int(self.endRow.text()) - 1
             y2 = int(self.endCol.text())
             ptA = [x1, y1]
             ptB = [x2, y2]
@@ -239,9 +240,13 @@ class DataTab(QWidget):
             self.myTable.removeRow(0)
 
         for i in range(0, self.rowSize):
-            self.myTable.setHorizontalHeaderItem(i, QTableWidgetItem("{0}".format(i+1)))
+            self.myTable.setHorizontalHeaderItem(i, QTableWidgetItem("{0}".format(i + 1)))
 
         self.myTable.setRowCount(self.rowSize)
         self.myTable.setColumnCount(self.columnSize)
 
-
+    def errorMessage(self):
+        error = QErrorMessage(self)
+        error.setWindowTitle("Error")
+        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.showMessage("You haven't entered any information in the table!")
