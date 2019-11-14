@@ -147,6 +147,22 @@ class AnalysisTab(QWidget):
         self.layout.addWidget(self.analyzeFrequencyButton, 1, 1)
         self.ChooseFrequencyGroup.setLayout(self.layout)
 
+    # Change the types of tests available depending on which
+    # data type radio button is selected on DataTab
+    def enableAnalysis(self, dataType):
+        if dataType == "interval":
+            self.analyzeIntervalButton.setEnabled(True)
+            self.analyzeOrdinalButton.setEnabled(False)
+            self.analyzeFrequencyButton.setEnabled(False)
+        elif dataType == "frequency":
+            self.analyzeIntervalButton.setEnabled(False)
+            self.analyzeOrdinalButton.setEnabled(True)
+            self.analyzeFrequencyButton.setEnabled(False)
+        elif dataType == "ordinal":
+            self.analyzeIntervalButton.setEnabled(False)
+            self.analyzeOrdinalButton.setEnabled(False)
+            self.analyzeFrequencyButton.setEnabled(True)
+
     # Placeholders
     def intervalButtonClicked(self):
         y = 0

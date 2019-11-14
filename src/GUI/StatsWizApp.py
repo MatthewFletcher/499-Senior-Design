@@ -28,15 +28,15 @@ class TabPage(QTabWidget):
         # This checks to see which of the data type radio buttons on the DataTab
         # are checked. If the interval radio button is checked, then the only
         # button available on AnalysisTab is for the interval data type
-        self.dataTab.intervalRadioButton.toggled.connect(
-            self.analysisTab.analyzeIntervalButton.setEnabled
-        )
-        self.dataTab.ordinalRadioButton.toggled.connect(
-            self.analysisTab.analyzeOrdinalButton.setEnabled
-        )
-        self.dataTab.frequencyRadioButton.toggled.connect(
-            self.analysisTab.analyzeFrequencyButton.setEnabled
-        )
+        # self.dataTab.intervalRadioButton.toggled.connect(
+        #     self.analysisTab.analyzeIntervalButton.setEnabled
+        # )
+        # self.dataTab.ordinalRadioButton.toggled.connect(
+        #     self.analysisTab.analyzeOrdinalButton.setEnabled
+        # )
+        # self.dataTab.frequencyRadioButton.toggled.connect(
+        #     self.analysisTab.analyzeFrequencyButton.setEnabled
+        # )
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.tabWidget)
@@ -48,6 +48,8 @@ class TabPage(QTabWidget):
     def setDF(self, df):
         self.graphTab.masterDF = self.dataTab.getDataFromTable()
         self.graphTab.enableGraphType(self.dataTab.getDataType())
+        self.analysisTab.enableAnalysis(self.dataTab.getDataType())
+
 
 def runStatsWiz():
     app = QApplication(sys.argv)
