@@ -2,10 +2,12 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupBox,
                              QPushButton, QGridLayout, QSizePolicy, QButtonGroup,
                              QApplication, QFileDialog, QPlainTextEdit, QDialog, QTextEdit, QListView, QLabel ,QTreeWidget,QTreeWidgetItem,QVBoxLayout,
-                             QHBoxLayout,QFrame )
+                             QHBoxLayout,QFrame, )
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtGui import QPixmap
-from PyQt5 import QtCore, QtGui, QtWidgets
+
+from PyQt5 import QtCore, QtGui, QtWidgets 
+from PyQt5.QtCore import Qt
 import sys
 import os
 from pathlib import Path
@@ -54,7 +56,7 @@ class WelcomeTab(QWidget):
         self.infoLabel.setText("Welcome to the Stats Wiz? Here's all you need to know:")
           
         window =CollapsibleDialog() #this create the Collapsible Dialog handler
-
+        
         self.layout=QGridLayout()
         self.layout.addWidget(self.infoLabel)
         self.layout.addWidget(window)
@@ -104,6 +106,11 @@ class CollapsibleDialog(QDialog):
         for (title, widget) in self.sections:
             button1 = self.add_button(title)
             section1 = self.add_widget(button1, widget)
+            section1.setFlags(section1.flags() & ~Qt.ItemIsSelectable)#deactivate label being selectable
+            section1.setFlags(section1.flags() & ~Qt.ItemIsEnabled)
+            section1.setFlags(section1.flags() & Qt.NoFocus)
+            #section1.setFlags(section1 & QAbstractItemView.NoFocus)
+            section1.setSelected(False)
             button1.addChild(section1)
 
     def define_sections(self):
@@ -115,7 +122,9 @@ class CollapsibleDialog(QDialog):
         #    self.labelText = QLabel(self)
         widget = QFrame(self.tree)
         layout = QHBoxLayout(widget)
+        
         infoD=QLabel(self)
+        
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
         infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n"
                                "The rest of the capabilities will be dependent upon the type of data you entered\n"
@@ -205,10 +214,14 @@ class CollapsibleDialog(QDialog):
         #
         section = QTreeWidgetItem(button)
         section.setDisabled(False)
+        section.setFlags(section.flags() & ~Qt.ItemIsSelectable)
+        section.setFlags(section.flags() & ~Qt.ItemIsEnabled)
+        section.setFlags(section.flags() & Qt.NoFocus)
+        section.setSelected(False)
         self.tree.setItemWidget(section, 0, widget)
         return section
 
-#TODO: WelcomeTab: CollapsibleBoxDoesnt do anything            
+#TODO: WelcomeTab: CollapsibleBoxDoesnt do anything delete          
 # class CollapsibleBox(QtWidgets.QWidget):
 #         def __init__(self, title='', parent=None):
 #             super(CollapsibleBox, self).__init__(parent)
