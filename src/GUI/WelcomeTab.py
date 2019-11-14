@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os
-
+from pathlib import Path
 
 class WelcomeTab(QWidget):
     def __init__(self):
@@ -20,7 +20,7 @@ class WelcomeTab(QWidget):
         self.buttonSize=680
 
         self.logoWidth=self.size.width() *0.33
-        self.infoWidth=self.size.width()*0.67
+        self.infoWidth=self.size.width()*0.65
         
         self.createLogoGroup()
         self.createInfoGroup()
@@ -33,9 +33,9 @@ class WelcomeTab(QWidget):
         self.show()
 
         
-
+    #Left side for the picture
     def createLogoGroup(self):
-        self.pixmap=QPixmap("src\GUI\StatsLogo1.png")
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
         self.pixmap2=self.pixmap.scaled(600,600)
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
@@ -45,20 +45,21 @@ class WelcomeTab(QWidget):
         self.layout.addWidget(self.label)
         self.logoGroup.setLayout(self.layout)
 
+    #Right side for the Expanding Label
     def createInfoGroup(self):
         self.infoGroup = QGroupBox("")
         self.infoGroup.setFixedWidth(self.infoWidth)
         self.infoLabel=QLabel(self)
-        self.infoLabel.setStyleSheet("font: 20pt Tw Cen MT")
+        self.infoLabel.setStyleSheet("font: 15pt Tw Cen MT")
         self.infoLabel.setText("Welcome to the Stats Wiz? Here's all you need to know:")
           
-        window =CollapsibleDialog()
+        window =CollapsibleDialog() #this create the Collapsible Dialog handler
 
         self.layout=QGridLayout()
         self.layout.addWidget(self.infoLabel)
         self.layout.addWidget(window)
-
         self.infoGroup.setLayout(self.layout)
+
 
 class LabelExpandButton(QPushButton):
     #
@@ -87,7 +88,7 @@ class CollapsibleDialog(QDialog):
         super().__init__()
         self.tree=QTreeWidget()
         self.tree.setHeaderHidden(True)
-        layout=QHBoxLayout()
+        layout=QVBoxLayout()
         layout.addWidget(self.tree)
         self.setLayout(layout)
         self.tree.setIndentation(0)
@@ -109,16 +110,25 @@ class CollapsibleDialog(QDialog):
         #reimplement this to define all your sections
         #and add them as (title, widget) tuples to self.sections
         #
-        style =QLabel().setStyleSheet("font: 30pt Tw Cen MT")
+        style =QLabel().setStyleSheet("font: 15pt Tw Cen MT")
         
         #    self.labelText = QLabel(self)
         widget = QFrame(self.tree)
         layout = QHBoxLayout(widget)
         infoD=QLabel(self)
-        infoD.setStyleSheet("font: 20pt Tw Cen MT")
+        infoD.setStyleSheet("font: 15pt Tw Cen MT")
         infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n"
                                "The rest of the capabilities will be dependent upon the type of data you entered\n"
-                               "(ordinal, interval, or frequency).")
+                               "(ordinal, interval, or frequency).\n\n"
+                               "[Data]"
+                               "\nChoice to Graph Everything\n"
+                                "Specify certain rows and columns to perform analyses on.\n"    
+                               "\n[Type]\n"
+                               "Please specify if Data is Interval, Ordinal, or Frequency.\n\n"
+                               "[Buttons]\n"
+                               "Import CSV: Use a CSV file that already exist.\n"
+                               "Clear Table: Remove the data completely from table.\n"
+                               "Submit Data: Pass the data you plan to use for analysis.")
         # titleD=QLabel(self)
         # titleD.setStyleSheet("font 20pt Tw Cen MT")
         # titleD.setText("DataTab")
@@ -130,10 +140,17 @@ class CollapsibleDialog(QDialog):
         widget = QFrame(self.tree)
         layout = QHBoxLayout(widget)
         infoG=QLabel(self)
-        infoG.setStyleSheet("font: 20pt Tw Cen MT")
-        infoG.setText("Our application will graph your data with your choice of "
-                               "graph-\nHorizontal bar chart, vertical bar chart, pie chart, normal distribution "
-                               "curve, or X-Y graph.")
+        infoG.setStyleSheet("font: 15pt Tw Cen MT")
+        infoG.setText("The graph will be selectable by the user for display.\n\n"
+                               "[Selection]\n"
+                               "Vertical Bar\n"
+                               "Horizontal Bar\n"
+                               "Pie Chart\n"
+                                "Normal Distribution Curve\n"
+                                "Scatter Plot\n\n"
+                                "[Buttons]\n"
+                                "Graph: Proceeds to graph data based on graph selection\n"
+                                "Save as PNG: To save the graph generated as PNG")
 
         layout.addWidget(infoG)
         title = "GraphTab"
@@ -142,12 +159,21 @@ class CollapsibleDialog(QDialog):
         widget = QFrame(self.tree)
         layout = QHBoxLayout(widget)
         infoA=QLabel(self)
-        infoA.setStyleSheet("font: 20pt Tw Cen MT")
-        infoA.setText("We can run the following statistical analyses on your data-\nmean, "
-                               "median, mode, standard deviation, variance, coefficient of variance,\npercentiles, "
-                               "probability distribution, binomial distribution,\nleast square line, X^2 (Chi Square), "
-                               "correlation coefficient, sign test,\nrank sum test, and Spearman rank correlation "
-                               "coefficient.")
+        infoA.setStyleSheet("font: 15pt Tw Cen MT")
+        infoA.setText("Apply Statistical Analysis if it is meaningful for the type of data.\n"
+                                "May select more than one statistical test for any specified set of data.\n"
+                                "The following statistical analyses on your data-\n\n"
+                               "[Interval Data Test]\n"
+                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
+                               "[Ordinal Data Test]\n"
+                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
+                               "[Frequency Data Test]\n"
+                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"    
+                               "[Analyze]\n"
+                                "Proceed to apply the Statistical Analysis that would be applied.")
         layout.addWidget(infoA)
         title = "AnalysisTab"
 
@@ -155,8 +181,11 @@ class CollapsibleDialog(QDialog):
         widget = QFrame(self.tree)
         layout = QHBoxLayout(widget)
         infoS=QLabel(self)
-        infoS.setStyleSheet("font: 20pt Tw Cen MT")
-        infoS.setText("Here you can see a summary of all you did to your data.")
+        infoS.setStyleSheet("font: 15pt Tw Cen MT")
+        infoS.setText("See a summary of all the results of all Statistical Analysis you did to your data.\n\n"
+                        "[Options]\n"
+                        "Save: User to save the Summary Report as text file.\n"
+                        "Clear: User to clear the Summary Report Log.")
         layout.addWidget(infoS)
         title = "SummaryTab"
         self.sections.append((title, widget))
@@ -179,7 +208,7 @@ class CollapsibleDialog(QDialog):
         self.tree.setItemWidget(section, 0, widget)
         return section
 
-            
+#TODO: WelcomeTab: CollapsibleBoxDoesnt do anything            
 # class CollapsibleBox(QtWidgets.QWidget):
 #         def __init__(self, title='', parent=None):
 #             super(CollapsibleBox, self).__init__(parent)
