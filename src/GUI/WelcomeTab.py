@@ -111,6 +111,8 @@ class CollapsibleDialog(QDialog):
             section1.setFlags(section1.flags() & Qt.NoFocus)
             #section1.setFlags(section1 & QAbstractItemView.NoFocus)
             section1.setSelected(False)
+            section1.setSelected(True)
+            section1.setSelected(False)
             button1.addChild(section1)
 
     def define_sections(self):
@@ -217,6 +219,8 @@ class CollapsibleDialog(QDialog):
         section.setFlags(section.flags() & ~Qt.ItemIsSelectable)
         section.setFlags(section.flags() & ~Qt.ItemIsEnabled)
         section.setFlags(section.flags() & Qt.NoFocus)
+        section.setSelected(False)
+        section.setSelected(True)
         section.setSelected(False)
         self.tree.setItemWidget(section, 0, widget)
         return section
