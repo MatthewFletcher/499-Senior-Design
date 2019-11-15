@@ -211,7 +211,6 @@ class CollapsibleDialog(QDialog):
         item = QTreeWidgetItem()
         self.tree.addTopLevelItem(item)
         self.tree.setItemWidget(item, 0, LabelExpandButton(item, text = title))
-        self.tree.
         return item
 
     def add_widget(self, button, widget):
