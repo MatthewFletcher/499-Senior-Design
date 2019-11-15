@@ -79,7 +79,7 @@ class LabelExpandButton(QPushButton):
             self.section.setExpanded(False)
         elif not self.section.isExpanded():
             self.section.setExpanded(True)
-            self.section.setFlags(section1.flags() & Qt.NoFocus)
+            self.section.setFlags(self.section.flags() & Qt.NoFocus)
         else: #close it no matter want just in case it goes wrong
             self.section.setExpanded(False)
             
