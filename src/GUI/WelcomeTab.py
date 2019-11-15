@@ -15,7 +15,7 @@ from pathlib import Path
 class WelcomeTab(QWidget):
     def __init__(self):
         super().__init__()
-        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+        #QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
         self.app =QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size=self.screen.size()
@@ -38,7 +38,7 @@ class WelcomeTab(QWidget):
     #Left side for the picture
     def createLogoGroup(self):
         self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
-        self.pixmap2=self.pixmap.scaled(300,300)
+        self.pixmap2=self.pixmap.scaled(600,600)
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
         self.label=QLabel(self)
@@ -53,7 +53,7 @@ class WelcomeTab(QWidget):
         self.infoGroup.setFixedWidth(self.infoWidth)
         self.infoLabel=QLabel(self)
         self.infoLabel.setStyleSheet("font: 15pt Tw Cen MT")
-        self.infoLabel.setText("Welcome to the Stats Wiz? Here's all you need to know:")
+        self.infoLabel.setText("Welcome to the Stats Wiz!! Here's all you need to know:")
           
         window =CollapsibleDialog() #this create the Collapsible Dialog handler
         
@@ -79,10 +79,8 @@ class LabelExpandButton(QPushButton):
             self.section.setExpanded(False)
         elif not self.section.isExpanded():
             self.section.setExpanded(True)
-            self.section.setFlags(self.section.flags() & Qt.NoFocus)
         else: #close it no matter want just in case it goes wrong
             self.section.setExpanded(False)
-            
 
 class CollapsibleDialog(QDialog):
     #
@@ -108,7 +106,6 @@ class CollapsibleDialog(QDialog):
         for (title, widget) in self.sections:
             button1 = self.add_button(title)
             section1 = self.add_widget(button1, widget)
-            section1.setFlags(section1.flags() & Qt.AA_EnableHighDpiScaling)
             section1.setFlags(section1.flags() & ~Qt.ItemIsSelectable)#deactivate label being selectable
             section1.setFlags(section1.flags() & ~Qt.ItemIsEnabled)
             section1.setFlags(section1.flags() & Qt.NoFocus)
@@ -219,7 +216,6 @@ class CollapsibleDialog(QDialog):
         #
         section = QTreeWidgetItem(button)
         section.setDisabled(False)
-        section.setFlags(section.flags() & Qt.AA_EnableHighDpiScaling)
         section.setFlags(section.flags() & ~Qt.ItemIsSelectable)
         section.setFlags(section.flags() & ~Qt.ItemIsEnabled)
         section.setFlags(section.flags() & Qt.NoFocus)
