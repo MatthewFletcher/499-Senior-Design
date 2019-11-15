@@ -6,10 +6,11 @@ import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 class TabPage(QTabWidget):
     def __init__(self):
+        
         super().__init__()
         self.setStyleSheet('font: 15pt Tw Cen MT')
         self.setWindowTitle("Stats Wiz")
-        self.setWindowIcon(QIcon("StatsLogo1.png"))
+        self.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
         self.show()
         # Creating the tabs here to have a reference
         self.dataTab = DataTab.DataTab()
