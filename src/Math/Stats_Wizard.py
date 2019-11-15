@@ -12,7 +12,6 @@ import inspect
 #Check which OS is being run
 
 from sys import platform
-print(f"Platform: {platform}")
 if platform == "linux" or platform == "linux2":
     import StatisticsFortranLinux as sf
 elif platform == "darwin":
