@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupBox,
-                             QPushButton, QGridLayout, QSizePolicy, QButtonGroup,
-                             QApplication, QFileDialog)
+                             QPushButton, QGridLayout, QButtonGroup, QApplication,
+                             QFileDialog)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt

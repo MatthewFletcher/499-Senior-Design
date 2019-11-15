@@ -1,8 +1,6 @@
-from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
-import sys, os
-from pathlib import Path
+import sys
 import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 
@@ -34,13 +32,6 @@ class TabPage(QTabWidget):
     # This is a method of passing data from the data tab to the graph tab.
     def setDF(self):
         hasData = True
-        # try:
-        #     print(f"DATA IS NONE: {self.dataTab.getDataFromTable()}")
-        # except BaseException as e:
-        #     hasData = False
-        #     print("No data in table")
-        #     print(f"ERROR CAUGHT: {e}")
-
         try:
             self.dataTab.getDataFromTable()
         except BaseException as e:
