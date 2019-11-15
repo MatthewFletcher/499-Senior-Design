@@ -1,17 +1,16 @@
-from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
-import sys, os
-from pathlib import Path
+import sys
 import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 
 class TabPage(QTabWidget):
     def __init__(self):
+        
         super().__init__()
         self.setStyleSheet('font: 15pt Tw Cen MT')
         self.setWindowTitle("Stats Wiz")
-        self.setWindowIcon(QIcon("StatsLogo1.png"))
+        self.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
         self.show()
         # Creating the tabs here to have a reference
         self.dataTab = DataTab.DataTab()
@@ -25,16 +24,6 @@ class TabPage(QTabWidget):
         self.tabWidget.addTab(self.analysisTab, "Analysis")
         self.tabWidget.addTab(self.summaryTab, "Summary")
 
-        self.dataTab.intervalRadioButton.toggled.connect(
-            self.analysisTab.analyzeIntervalButton.setEnabled
-        )
-        self.dataTab.ordinalRadioButton.toggled.connect(
-            self.analysisTab.analyzeOrdinalButton.setEnabled
-        )
-        self.dataTab.frequencyRadioButton.toggled.connect(
-            self.analysisTab.analyzeFrequencyButton.setEnabled
-        )
-
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.tabWidget)
         self.setLayout(self.layout)
@@ -42,9 +31,20 @@ class TabPage(QTabWidget):
 
     # This function is being called when the user clicks the "Submit Data" in the data tab.
     # This is a method of passing data from the data tab to the graph tab.
-    def setDF(self, df):
-        self.graphTab.masterDF = self.dataTab.getDataFromTable()
-        self.graphTab.enableGraphType(self.dataTab.getDataType())
+    def setDF(self):
+        hasData = True
+        try:
+            self.dataTab.getDataFromTable()
+        except BaseException as e:
+            hasData = False
+
+        if hasData is False:
+            self.dataTab.errorMessage()
+        else:
+            self.graphTab.masterDF = self.dataTab.getDataFromTable()
+            self.graphTab.enableGraphType(self.dataTab.getDataType())
+            self.analysisTab.enableAnalysis(self.dataTab.getDataType())
+
 
 def runStatsWiz():
     app = QApplication(sys.argv)

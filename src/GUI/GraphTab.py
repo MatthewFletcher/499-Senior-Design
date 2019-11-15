@@ -1,15 +1,17 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupBox,
-                             QPushButton, QGridLayout, QSizePolicy, QButtonGroup,
-                             QApplication, QFileDialog)
+                             QPushButton, QGridLayout, QButtonGroup, QApplication,
+                             QFileDialog)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 import sys, os
-
 import logging
 
+# The GraphTab class holds the GUI for the GraphTab, which consists of two sections:
+# the GraphGroup and the CustomGroup. The GraphGroup contains the graph. The CustomGroup
+# allows the user to choose which type of graph they would like.
 class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -18,7 +20,9 @@ class GraphTab(QWidget):
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
 
-        self.buttonSize = 680
+        # These numbers are arbitrary and seemed
+        # to have the best balance
+        self.buttonSize = self.size.width() * 0.29
         self.graphWidth = self.size.width() * 0.65
         self.customWidth = self.size.width() * 0.3
 
@@ -47,6 +51,7 @@ class GraphTab(QWidget):
     # text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox("Options")
+        self.CustomGroup.setFixedWidth(self.customWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
@@ -88,13 +93,11 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.spaceLabel, 7, 0)
 
         self.layout.addWidget(self.graphButton)
-        self.CustomGroup.setFixedWidth(self.buttonSize)
-        self.CustomGroup.setLayout(self.layout)
-
         self.layout.addWidget(self.PNGButton)
-        self.CustomGroup.setFixedWidth(self.buttonSize)
         self.CustomGroup.setLayout(self.layout)
 
+    # Change the types of graphs available depending on which
+    # data type radio button is selected on DataTab
     def enableGraphType(self, dataType):
         if dataType == "interval" or dataType == "frequency":
             self.vbarRadioButton.setEnabled(True)
@@ -130,10 +133,12 @@ class GraphTab(QWidget):
         self.myGraph.draw()
         self.repaint()
 
+    # Calls the function to save a PNG
     def PNGButtonClicked(self):
         logging.info('Saving graph as PNG')
         self.saveFileDialog()
 
+    # Saves a PNG to the computer of the graph
     def saveFileDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog

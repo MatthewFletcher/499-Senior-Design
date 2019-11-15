@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
                              QLineEdit, QFileDialog, QRadioButton, QGroupBox, QPushButton,
-                             QGridLayout, QButtonGroup, QApplication, QAbstractItemView)
+                             QGridLayout, QButtonGroup, QApplication, QAbstractItemView,
+                             QMessageBox)
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 import os
 import sys
 import csv
@@ -10,7 +12,11 @@ import UserSelect
 from pathlib import Path
 import logging
 
-# The DataTab class holds all the GUI for the DataTab
+
+# The DataTab class holds the GUI for the DataTab, which consists of two sections:
+# the TableGroup and the CustomGroup. The TableGroup deals with the table, which
+# contains the user's data. The CustomGroup has the user select different
+# options based on their data and what they would like graphed.
 class DataTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -19,9 +25,11 @@ class DataTab(QWidget):
         self.size = self.screen.size()
         self.masterDF = None
         self.dataType = None
+
+        # These numbers are arbitrary and seemed
+        # to have the best balance
         self.tableWidth = self.size.width() * 0.65
         self.customWidth = self.size.width() * 0.3
-
         self.buttonSize = self.size.width() * 0.29
         self.lineEditSize = self.size.width() * 0.067
         self.rowSize = 400
@@ -36,7 +44,7 @@ class DataTab(QWidget):
         self.setLayout(self.layout)
         self.show()
 
-# The left side of DataTab containing the Table
+    # The left side of DataTab containing the Table
     def createTableGroup(self):
         self.TableGroup = QGroupBox("Table")
         self.myTable = QTableWidget(self.rowSize, self.columnSize)
@@ -47,8 +55,8 @@ class DataTab(QWidget):
         self.TableGroup.setLayout(self.layout)
         # self.myTable.clicked.connect(self.selectionChanged)
 
-# The right side of DataTab containing Radio Buttons and
-# text boxes for user input on how they want their graph
+    # The right side of DataTab containing Radio Buttons and
+    # text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox("Options")
         self.setStyleSheet("font: 15pt Tw Cen MT")
@@ -141,8 +149,8 @@ class DataTab(QWidget):
         self.CustomGroup.setFixedWidth(self.customWidth)
         self.CustomGroup.setLayout(self.layout)
 
-# Changes the QLineEdits to be ReadOnly when
-# allRadioButtton is clicked
+    # Changes the QLineEdits to be ReadOnly when
+    # allRadioButtton is clicked
     def allRadioButtonClicked(self, enabled):
         if enabled:
             self.beginRow.setEnabled(False)
@@ -150,8 +158,8 @@ class DataTab(QWidget):
             self.endRow.setEnabled(False)
             self.endCol.setEnabled(False)
 
-# Changes the QLineEdits to not be ReadOnly when
-# selectionRadioButton is clicked
+    # Changes the QLineEdits to not be ReadOnly when
+    # selectionRadioButton is clicked
     def selectionRadioButtonClicked(self, enabled):
         if enabled:
             self.beginRow.setEnabled(True)
@@ -159,20 +167,18 @@ class DataTab(QWidget):
             self.endRow.setEnabled(True)
             self.endCol.setEnabled(True)
 
-# Calls openCSV() function when the
-# newCSVButton is clicked
+    # Calls openCSV() function when the
+    # newCSVButton is clicked
     def newCSVButtonClicked(self):
         logging.info('Import CSV Button Selected')
         self.openCSV()
-        
 
     def clearButtonClicked(self):
         logging.info('Clear Data Button Selected')
         self.clearTable()
-    
 
-# Populates the table with data from a CSV File
-# when newCSVButton is clicked
+    # Populates the table with data from a CSV File
+    # when newCSVButton is clicked
     def openCSV(self):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':
@@ -207,13 +213,13 @@ class DataTab(QWidget):
                 tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
         if self.allRadioButton.isChecked():
             logging.info('User Selection on Dataset')
-            ptA = [0,1]
-            ptB = [number_of_rows-1, number_of_columns-1]
+            ptA = [0, 1]
+            ptB = [number_of_rows - 1, number_of_columns - 1]
             return UserSelect.selection(tmp_df, ptA, ptB, 1)
         else:
-            x1 = int(self.beginRow.text())-1
+            x1 = int(self.beginRow.text()) - 1
             y1 = int(self.beginCol.text())
-            x2 = int(self.endRow.text())-1
+            x2 = int(self.endRow.text()) - 1
             y2 = int(self.endCol.text())
             ptA = [x1, y1]
             ptB = [x2, y2]
@@ -234,9 +240,15 @@ class DataTab(QWidget):
             self.myTable.removeRow(0)
 
         for i in range(0, self.rowSize):
-            self.myTable.setHorizontalHeaderItem(i, QTableWidgetItem("{0}".format(i+1)))
+            self.myTable.setHorizontalHeaderItem(i, QTableWidgetItem("{0}".format(i + 1)))
 
         self.myTable.setRowCount(self.rowSize)
         self.myTable.setColumnCount(self.columnSize)
 
-
+    def errorMessage(self):
+        error = QMessageBox()
+        error.setWindowTitle("Error")
+        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setText("You haven't entered any information in the table!")
+        error.setStandardButtons(QMessageBox.Ok)
+        error.exec()
