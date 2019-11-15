@@ -15,7 +15,7 @@ from pathlib import Path
 class WelcomeTab(QWidget):
     def __init__(self):
         super().__init__()
-        Qt.AA_EnableHighDpiScaling
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
         self.app =QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size=self.screen.size()
