@@ -38,7 +38,7 @@ class WelcomeTab(QWidget):
     #Left side for the picture
     def createLogoGroup(self):
         self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
-        self.pixmap2=self.pixmap.scaled(300,30)
+        self.pixmap2=self.pixmap.scaled(300,300)
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
         self.label=QLabel(self)
