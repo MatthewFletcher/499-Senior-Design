@@ -79,8 +79,10 @@ class LabelExpandButton(QPushButton):
             self.section.setExpanded(False)
         elif not self.section.isExpanded():
             self.section.setExpanded(True)
+            self.section.setFlags(section1.flags() & Qt.NoFocus)
         else: #close it no matter want just in case it goes wrong
             self.section.setExpanded(False)
+            
 
 class CollapsibleDialog(QDialog):
     #
@@ -209,6 +211,7 @@ class CollapsibleDialog(QDialog):
         item = QTreeWidgetItem()
         self.tree.addTopLevelItem(item)
         self.tree.setItemWidget(item, 0, LabelExpandButton(item, text = title))
+        self.tree.
         return item
 
     def add_widget(self, button, widget):
