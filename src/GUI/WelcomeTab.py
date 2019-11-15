@@ -15,14 +15,14 @@ from pathlib import Path
 class WelcomeTab(QWidget):
     def __init__(self):
         super().__init__()
-    
+        Qt.AA_EnableHighDpiScaling
         self.app =QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size=self.screen.size()
         self.buttonSize=680
 
         self.logoWidth=self.size.width() *0.33
-        self.infoWidth=self.size.width()*0.65
+        self.infoWidth=self.size.width()*0.60
         
         self.createLogoGroup()
         self.createInfoGroup()
