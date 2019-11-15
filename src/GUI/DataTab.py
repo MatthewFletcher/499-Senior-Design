@@ -200,30 +200,39 @@ class DataTab(QWidget):
                         self.myTable.setItem(row, column, item)
 
     def getDataFromTable(self):
-        number_of_rows = self.myTable.rowCount()
-        number_of_columns = self.myTable.columnCount()
-        header = []
-        for i in range(number_of_columns):
-            header.append(self.myTable.horizontalHeaderItem(i).text())
-        tmp_df = pd.DataFrame(columns=header, index=range(number_of_rows))
-
-        for i in range(number_of_rows):
-            tmp_df.iloc[i, 0] = self.myTable.item(i, 0).text()
-            for j in range(1, number_of_columns):
-                tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
-        if self.allRadioButton.isChecked():
-            logging.info('User Selection on Dataset')
-            ptA = [0, 1]
-            ptB = [number_of_rows - 1, number_of_columns - 1]
-            return UserSelect.selection(tmp_df, ptA, ptB, 1)
+        if self.myTable.item(0,0) is None:
+            self.errorMessage()
         else:
-            x1 = int(self.beginRow.text()) - 1
-            y1 = int(self.beginCol.text())
-            x2 = int(self.endRow.text()) - 1
-            y2 = int(self.endCol.text())
-            ptA = [x1, y1]
-            ptB = [x2, y2]
-            return UserSelect.selection(tmp_df, ptA, ptB, 1)
+            number_of_rows = self.myTable.rowCount()
+            number_of_columns = self.myTable.columnCount()
+            header = []
+            for i in range(number_of_columns):
+                header.append(self.myTable.horizontalHeaderItem(i).text())
+            tmp_df = pd.DataFrame(columns=header, index=range(number_of_rows))
+
+            for i in range(number_of_rows):
+                tmp_df.iloc[i, 0] = self.myTable.item(i, 0).text()
+                for j in range(1, number_of_columns):
+                    tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
+            if self.allRadioButton.isChecked():
+                logging.info('User Selection on Dataset')
+                ptA = [0, 1]
+                ptB = [number_of_rows - 1, number_of_columns - 1]
+                return UserSelect.selection(tmp_df, ptA, ptB, 1)
+            else:
+                if self.beginRow.text() == "" or self.beginCol.text() == "" or self.endCol.text() == "" or self.endRow.text() == "":
+                    self.errorMissingRange()
+                else:
+                    x1 = int(self.beginRow.text()) - 1
+                    y1 = int(self.beginCol.text())
+                    x2 = int(self.endRow.text()) - 1
+                    y2 = int(self.endCol.text())
+                    if x1 < 0 or x1 > number_of_rows or x2 < 0 or x2 > number_of_rows or x2 < x1 or y1 < 1 or y1 > number_of_columns or y2 < 1 or y2 > number_of_columns or y2 < y1:
+                        self.errorOutofRange()
+                    else:
+                        ptA = [x1, y1]
+                        ptB = [x2, y2]
+                        return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
         if self.intervalRadioButton.isChecked():
@@ -252,3 +261,20 @@ class DataTab(QWidget):
         error.setText("You haven't entered any information in the table!")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
+
+    def errorMissingRange(self):
+        error = QMessageBox()
+        error.setWindowTitle("Error")
+        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setText("You need to specify all of the range of values!")
+        error.setStandardButtons(QMessageBox.Ok)
+        error.exec()
+
+    def errorOutofRange(self):
+        error = QMessageBox()
+        error.setWindowTitle("Error")
+        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setText("Your column or row index is out of range!\nRows and columns must have a minimum index at 1.")
+        error.setStandardButtons(QMessageBox.Ok)
+        error.exec()
+
