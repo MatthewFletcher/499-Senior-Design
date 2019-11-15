@@ -58,6 +58,7 @@ class GraphTab(QWidget):
         self.graphLabel = QLabel("What kind of graph would you like?")
         self.typeGroup = QButtonGroup()
         self.vbarRadioButton = QRadioButton("Vertical bar")
+        self.vbarRadioButton.setChecked(True)
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
         self.NDCRadioButton = QRadioButton("Normal Distribution Curve")
