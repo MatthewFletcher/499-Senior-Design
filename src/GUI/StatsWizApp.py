@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
-import sys
+import sys, os
+from pathlib import Path
 import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
 
 
