@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupBox,
                              QPushButton, QGridLayout, QButtonGroup, QApplication,
-                             QFileDialog)
+                             QFileDialog, QMessageBox)
+from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
@@ -110,7 +111,7 @@ class GraphTab(QWidget):
     def graphButtonClicked(self):
         logging.info('Graphing has been selected')
         d = self.masterDF
-        if not d.empty:
+        if d is not None:
             self.figure.clear()
             if self.vbarRadioButton.isChecked():
                 self.verticalBarGraph(d)
@@ -120,7 +121,8 @@ class GraphTab(QWidget):
                 self.ordinal_pie(d)
             elif self.scatterRadioButton.isChecked():
                 self.scatterPlot(d)
-
+        else:
+            self.graphError()
         logging.info('GraphTab: Data has been graphed')
 
         self.myGraph.draw()
@@ -216,3 +218,11 @@ class GraphTab(QWidget):
         plot.set_xlabel(headers[1])
         plot.set_ylabel(headers[2])
         plot.scatter(x, y)
+
+    def graphError(self):
+        error = QMessageBox()
+        error.setWindowTitle("Error")
+        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setText("Oops! Cannot graph without submitting appropriate data.")
+        error.setStandardButtons(QMessageBox.Ok)
+        error.exec()

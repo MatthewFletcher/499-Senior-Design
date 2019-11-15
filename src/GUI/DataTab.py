@@ -232,6 +232,7 @@ class DataTab(QWidget):
                     else:
                         ptA = [x1, y1]
                         ptB = [x2, y2]
+                        print (UserSelect.selection(tmp_df, ptA, ptB, 1))
                         return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
