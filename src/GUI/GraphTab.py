@@ -152,7 +152,7 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.barh(x, y, color=['orange', 'darkkhaki'])
+        plot.barh(x, y, color=['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender'])
 
     # This function will graph the data as a vertical bar graph
     def verticalBarGraph(self, df):
@@ -164,7 +164,7 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.bar(x, y, color=['lightcoral', 'steelblue'])
+        plot.bar(x, y, color=['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender'])
 
     # This function will graph the frequency or interval data as a pie chart
     def freqint_pie(self, df):
@@ -180,7 +180,7 @@ class GraphTab(QWidget):
             explode.append(0)
 
         # Data to plot
-        colors = ['gold', 'navyblue']
+        colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender']
 
         # Plot
         plot.pie(y, explode=explode, labels=x, colors=colors,
