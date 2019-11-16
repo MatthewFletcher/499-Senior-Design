@@ -38,7 +38,7 @@ class WelcomeTab(QWidget):
     #Left side for the picture
     def createLogoGroup(self):
         self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
-        self.pixmap2=self.pixmap.scaled(600,600)
+        self.pixmap2=self.pixmap.scaled(300,300)
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
         self.label=QLabel(self)
@@ -146,8 +146,9 @@ class CollapsibleDialog(QDialog):
         
         layout.addWidget(infoD)
         title = "DataTab"
-
         self.sections.append((title, widget))
+
+
         widget = QFrame(self.tree)
         layout = QHBoxLayout(widget)
         infoG=QLabel(self)
@@ -165,10 +166,11 @@ class CollapsibleDialog(QDialog):
 
         layout.addWidget(infoG)
         title = "GraphTab"
-
         self.sections.append((title, widget))
+
+
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         infoA=QLabel(self)
         infoA.setStyleSheet("font: 15pt Tw Cen MT")
         infoA.setText("Apply Statistical Analysis if it is meaningful for the type of data.\n"
@@ -185,10 +187,22 @@ class CollapsibleDialog(QDialog):
                                 "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"    
                                "[Analyze]\n"
                                 "Proceed to apply the Statistical Analysis that would be applied.")
-        layout.addWidget(infoA)
-        title = "AnalysisTab"
 
+       
+       
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
+        self.pixmap2=self.pixmap.scaled(300,300)
+        pic=QLabel(self)
+        pic.setPixmap(self.pixmap2)
+        pic.setAlignment(Qt.AlignBottom)
+        
+        
+        layout.addWidget(pic)
+        layout.addWidget(infoA)
+        
+        title = "AnalysisTab"
         self.sections.append((title, widget))
+        
         widget = QFrame(self.tree)
         layout = QHBoxLayout(widget)
         infoS=QLabel(self)
