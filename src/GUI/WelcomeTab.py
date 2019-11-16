@@ -123,7 +123,7 @@ class CollapsibleDialog(QDialog):
         
         #    self.labelText = QLabel(self)
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         
         infoD=QLabel(self)
         
@@ -150,7 +150,7 @@ class CollapsibleDialog(QDialog):
 
 
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         infoG=QLabel(self)
         infoG.setStyleSheet("font: 15pt Tw Cen MT")
         infoG.setText("The graph will be selectable by the user for display.\n\n"
@@ -190,21 +190,20 @@ class CollapsibleDialog(QDialog):
 
        
        
-        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
-        self.pixmap2=self.pixmap.scaled(300,300)
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTests.png")))
+        self.pixmap2=self.pixmap.scaled(400,400)
         pic=QLabel(self)
         pic.setPixmap(self.pixmap2)
         pic.setAlignment(Qt.AlignBottom)
         
-        
-        layout.addWidget(pic)
         layout.addWidget(infoA)
+        layout.addWidget(pic)
         
         title = "AnalysisTab"
         self.sections.append((title, widget))
         
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         infoS=QLabel(self)
         infoS.setStyleSheet("font: 15pt Tw Cen MT")
         infoS.setText("See a summary of all the results of all Statistical Analysis you did to your data.\n\n"
