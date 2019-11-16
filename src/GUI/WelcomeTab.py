@@ -12,6 +12,8 @@ import sys
 import os
 from pathlib import Path
 
+infoWidth=0
+
 class WelcomeTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -24,7 +26,8 @@ class WelcomeTab(QWidget):
 
         self.logoWidth=self.size.width() *0.33
         self.infoWidth=self.size.width()*0.60
-        
+        infoWidth=self.infoWidth
+
         self.createLogoGroup()
         self.createInfoGroup()
 
@@ -40,7 +43,7 @@ class WelcomeTab(QWidget):
     def createLogoGroup(self):
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
-        print(self.logoWidth)
+        print(self.infoWidth)
         self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
         self.pixmap2=self.pixmap.scaled(self.logoWidth*.80,self.logoWidth*.80)
         
@@ -197,8 +200,9 @@ class CollapsibleDialog(QDialog):
         infoA2.setText("\n[Analyze]\n"
                                 "Proceed to apply the Statistical Analysis that would be applied.")
        #picture of a table with test that apply for the type of data
+        
         self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
-        self.pixmap2=self.pixmap.scaled(600,300)
+        self.pixmap2=self.pixmap.scaled(infoWidth*.80,300)
         pic=QLabel(self)
         pic.setPixmap(self.pixmap2)
         
@@ -214,7 +218,7 @@ class CollapsibleDialog(QDialog):
         layout = QVBoxLayout(widget)
         infoS=QLabel(self)
         infoS.setStyleSheet("font: 15pt Tw Cen MT")
-        infoS.setText("See a summary of all the results of all Statistical Analysis you did to your data.\n\n"
+        infoS.setText("See a summary of all the results of all \nStatistical Analysis you did to your data.\n\n"
                         "[Options]\n"
                         "Save: User to save the Summary Report as text file.\n"
                         "Clear: User to clear the Summary Report Log.")
