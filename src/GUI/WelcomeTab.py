@@ -129,6 +129,7 @@ class CollapsibleDialog(QDialog):
         
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
         infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n"
+                               "The first row will be for Headers\n"
                                "The rest of the capabilities will be dependent upon the type of data you entered\n"
                                "(ordinal, interval, or frequency).\n\n"
                                "[Data]"
@@ -168,36 +169,39 @@ class CollapsibleDialog(QDialog):
         title = "GraphTab"
         self.sections.append((title, widget))
 
-
+        #"[Interval Data Test]\n"
+        #"Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+        #"Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
+        #"[Ordinal Data Test]\n"
+        #"Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+        #"Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
+        #"[Frequency Data Test]\n"
+        #"Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+        #"Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"    
+                               
         widget = QFrame(self.tree)
         layout = QVBoxLayout(widget)
         infoA=QLabel(self)
         infoA.setStyleSheet("font: 15pt Tw Cen MT")
         infoA.setText("Apply Statistical Analysis if it is meaningful for the type of data.\n"
                                 "May select more than one statistical test for any specified set of data.\n"
-                                "The following statistical analyses on your data-\n\n"
-                               "[Interval Data Test]\n"
-                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
-                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
-                               "[Ordinal Data Test]\n"
-                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
-                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
-                               "[Frequency Data Test]\n"
-                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
-                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"    
-                               "[Analyze]\n"
-                                "Proceed to apply the Statistical Analysis that would be applied.")
+                                "The following statistical analyses on your data:\n" )
 
        
-       
-        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTests.png")))
-        self.pixmap2=self.pixmap.scaled(400,400)
+        infoA2 = QLabel(self)
+        infoA2.setStyleSheet("font: 15pt Tw Cen MT")
+        infoA2.setText("\n[Analyze]\n"
+                                "Proceed to apply the Statistical Analysis that would be applied.")
+       #picture of a table with test that apply for the type of data
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
+        self.pixmap2=self.pixmap.scaled(600,300)
         pic=QLabel(self)
         pic.setPixmap(self.pixmap2)
-        pic.setAlignment(Qt.AlignBottom)
+        
         
         layout.addWidget(infoA)
         layout.addWidget(pic)
+        layout.addWidget(infoA2)
         
         title = "AnalysisTab"
         self.sections.append((title, widget))
