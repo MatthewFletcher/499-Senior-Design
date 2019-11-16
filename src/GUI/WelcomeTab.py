@@ -101,7 +101,8 @@ class CollapsibleDialog(QDialog):
         layout.addWidget(self.tree)
         self.setLayout(layout)
         self.tree.setIndentation(0)
-
+        self.infoWidth=self.tree.size().width()
+        print(self.infoWidth)
         self.sections=[]
         self.define_sections()
         self.add_sections()
@@ -137,7 +138,7 @@ class CollapsibleDialog(QDialog):
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
         infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n"
                                "The first row will be for Headers\n"
-                               "The rest of the capabilities will be dependent upon the type of data you entered\n"
+                               "The rest of the capabilities will be dependent upon \nthe type of data you entered\n"
                                "(ordinal, interval, or frequency).\n\n"
                                "[Data]"
                                "\nChoice to Graph Everything\n"
@@ -202,7 +203,7 @@ class CollapsibleDialog(QDialog):
        #picture of a table with test that apply for the type of data
         
         self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
-        self.pixmap2=self.pixmap.scaled(infoWidth*.80,300)
+        self.pixmap2=self.pixmap.scaled(self.infoWidth*.60,self.infoWidth*.50)
         pic=QLabel(self)
         pic.setPixmap(self.pixmap2)
         
