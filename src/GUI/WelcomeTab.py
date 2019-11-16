@@ -16,6 +16,7 @@ class WelcomeTab(QWidget):
     def __init__(self):
         super().__init__()
         #QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+        #test on mac
         self.app =QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size=self.screen.size()
