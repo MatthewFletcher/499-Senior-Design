@@ -67,7 +67,7 @@ class SummaryTab(QWidget):
         self.SaveTextGroup = QGroupBox("Options")
         self.SaveTextGroup.setFixedWidth(self.saveWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
-        self.infoLabel= QLabel("Analysis Summary Report Log")
+        self.infoLabel= QLabel("Analysis Summary \nReport Log")
         self.spaceLabel = QLabel("\n\n\n")
 
         self.SaveButton = QPushButton("Save")

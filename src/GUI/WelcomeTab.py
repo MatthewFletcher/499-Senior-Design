@@ -12,7 +12,6 @@ import sys
 import os
 from pathlib import Path
 
-infoWidth=0
 
 class WelcomeTab(QWidget):
     def __init__(self):
@@ -26,8 +25,7 @@ class WelcomeTab(QWidget):
 
         self.logoWidth=self.size.width() *0.33
         self.infoWidth=self.size.width()*0.60
-        infoWidth=self.infoWidth
-
+        
         self.createLogoGroup()
         self.createInfoGroup()
 
