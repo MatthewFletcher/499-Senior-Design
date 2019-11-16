@@ -170,7 +170,7 @@ class GraphTab(QWidget):
     def freqint_pie(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
-        # Remove the Question # column
+        # Remove the first column
         headers.pop(0)
         x = headers
         y = []
@@ -191,7 +191,7 @@ class GraphTab(QWidget):
     def ordinal_pie(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
-        # Remove the Question # column
+        # Remove the first column
         headers.pop(0)
         x = headers
         y = []

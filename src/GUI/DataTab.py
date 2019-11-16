@@ -199,10 +199,15 @@ class DataTab(QWidget):
                         item.setData(Qt.EditRole, stuff)
                         self.myTable.setItem(row, column, item)
 
+    #  This function will be able to grab the data imported from the table
+    # and store it as a df to be used for graphing the data
     def getDataFromTable(self):
+        # Condition statement to determine if the table is empty,
+        # send error message
         if self.myTable.item(0,0) is None:
             self.errorMessage()
         else:
+            # Get data from table and store as df
             number_of_rows = self.myTable.rowCount()
             number_of_columns = self.myTable.columnCount()
             header = []
@@ -220,6 +225,9 @@ class DataTab(QWidget):
                 ptB = [number_of_rows - 1, number_of_columns - 1]
                 return UserSelect.selection(tmp_df, ptA, ptB, 1)
             else:
+                # This is when the user clicks "Let me pick what to graph"
+                # Condition to determine if any of column or row bounds
+                # are left empty by the user, send error message
                 if self.beginRow.text() == "" or self.beginCol.text() == "" or self.endCol.text() == "" or self.endRow.text() == "":
                     self.errorMissingRange()
                 else:
@@ -227,6 +235,8 @@ class DataTab(QWidget):
                     y1 = int(self.beginCol.text())
                     x2 = int(self.endRow.text()) - 1
                     y2 = int(self.endCol.text())
+                    # If any of the column or row bounds specified by the user
+                    # are out of bounds, send error message
                     if x1 < 0 or x1 > number_of_rows or x2 < 0 or x2 > number_of_rows or x2 < x1 or y1 < 1 or y1 > number_of_columns or y2 < 1 or y2 > number_of_columns or y2 < y1:
                         self.errorOutofRange()
                     else:
@@ -275,7 +285,7 @@ class DataTab(QWidget):
         error = QMessageBox()
         error.setWindowTitle("Error")
         error.setWindowIcon(QIcon("StatsLogo1.png"))
-        error.setText("Your column or row index is out of range!\nRows and columns must have a minimum index at 1.")
+        error.setText("Your column or row index is out of range!\nRows and columns must have a minimum index of 1.")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
 
