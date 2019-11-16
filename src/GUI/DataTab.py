@@ -238,7 +238,7 @@ class DataTab(QWidget):
                     # If any of the column or row bounds specified by the user
                     # are out of bounds, send error message
                     if x1 < 0 or x1 > number_of_rows or x2 < 0 or x2 > number_of_rows or x2 < x1 or y1 < 1 or y1 > number_of_columns or y2 < 1 or y2 > number_of_columns or y2 < y1:
-                        self.errorOutofRange()
+                        self.errorOutofBounds()
                     else:
                         ptA = [x1, y1]
                         ptB = [x2, y2]
@@ -281,11 +281,11 @@ class DataTab(QWidget):
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
 
-    def errorOutofRange(self):
+    def errorOutofBounds(self):
         error = QMessageBox()
         error.setWindowTitle("Error")
         error.setWindowIcon(QIcon("StatsLogo1.png"))
-        error.setText("Your column or row index is out of range!\nRows and columns must have a minimum index of 1.")
+        error.setText("Your column or row index is out of bounds!\n")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
 
