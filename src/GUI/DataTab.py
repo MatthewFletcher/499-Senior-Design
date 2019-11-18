@@ -55,13 +55,9 @@ class DataTab(QWidget):
         self.TableGroup.setLayout(self.layout)
         
         self.manualIsChecked=True #defaults expecting manual input
-        self.myTable.itemChanged.connect(self.cellchanged)
+        #self.myTable.itemChanged.connect(self.cellchanged) TODO: Not needed
         
 
-    def cellchanged(self):
-        x=self.myTable.currentColumn()
-        y=self.myTable.currentRow()
-        #print(y,x)
         
 
     # The right side of DataTab containing Radio Buttons and
@@ -217,8 +213,8 @@ class DataTab(QWidget):
         #Reason: 
         #...Retrive Data from the table right now.
         #retrive the first row (Header)
-        self.manualIsChecked=False
-        self.checkRow=0
+        self.manualIsChecked=False #set to fault so not to recreate the manual input tabel in case user want to specific row and col
+        self.checkRow=0 #TODO: not used will delete
         self.checkCol=0
         columns=self.myTable.columnCount()
         header=[]
@@ -274,7 +270,10 @@ class DataTab(QWidget):
         # send error message
         
         #"""
-        #attempt in accepting manual input
+        #attempt in accepting manual input: 
+        # reason  that it relies on self.myTable.horizontalHeaderItem(i).text()
+        # which is set only in OpenCSV()
+        #did not touch your code. :)
         if self.manualIsChecked is True:
             self.manualInput()
 
@@ -296,7 +295,7 @@ class DataTab(QWidget):
             for i in range(number_of_rows):
                 tmp_df.iloc[i, 0] = self.myTable.item(i, 0).text()
                 for j in range(1, number_of_columns):
-                    tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text()) #NEW: issue: invalid literal for int() with base 10: 'letter'
+                    tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text()) 
             if self.allRadioButton.isChecked():
                 logging.info('User Selection on Dataset')
                 ptA = [0, 1]
@@ -313,8 +312,7 @@ class DataTab(QWidget):
                     y1 = int(self.beginCol.text())
                     x2 = int(self.endRow.text()) - 1
                     y2 = int(self.endCol.text())
-                    print(x1, y1)
-                    print(x2,y2)
+                  
                     # If any of the column or row bounds specified by the user
                     # are out of bounds, send error message
                     if x1 < 0 or x1 > number_of_rows or x2 < 0 or x2 > number_of_rows or x2 < x1 or y1 < 1 or y1 > number_of_columns or y2 < 1 or y2 > number_of_columns or y2 < y1:
