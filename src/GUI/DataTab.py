@@ -32,8 +32,8 @@ class DataTab(QWidget):
         self.customWidth = self.size.width() * 0.3
         self.buttonSize = self.size.width() * 0.29
         self.lineEditSize = self.size.width() * 0.067
-        self.rowSize = 4#400
-        self.columnSize =4# 400
+        self.rowSize = 400
+        self.columnSize = 400
 
         self.createTableGroup()
         self.createCustomGroup()
@@ -243,6 +243,9 @@ class DataTab(QWidget):
         # send error message
         #self.myTable.item(0,1).text
         #"""
+        #issue: when manually inputting the data. Doesnt seem to be created.
+        self.checkRow=0
+        self.checkCol=0
         columns=self.myTable.columnCount()
         header=[]
         print(columns)
@@ -252,6 +255,7 @@ class DataTab(QWidget):
             else:
                 header.append(self.myTable.item(0, y).text())
                 print(header)
+                self.checkCol+=1#actual size of table instead of 400
         #self.myTable.setRowCount(0)
         
 
@@ -274,8 +278,9 @@ class DataTab(QWidget):
                     else:
                         cellrow.append(self.myTable.item(row, col).text())
                         print(cellrow)
+                        self.checkRow+=1#actaul size of rows 
                 newRows.append(cellrow)
-                
+        print(self.checkRow, self.checkRow)
         print('newrows ',newRows)
         length=self.myTable.rowCount()
         self.myTable.setRowCount(0)
@@ -295,19 +300,7 @@ class DataTab(QWidget):
 
 
         #"""
-        # newrow=self.myTable.rowCount()
-        # self.myTable.insertRow(newrow)
-        # self.myTable.setColumnCount(columns)
-        # item=QTableWidgetItem()
-        # item.setData(Qt.EditRole, "2")
-        # self.myTable.setItem(1,1, item)
-        # r=self.myTable.rowCount()
-        # print(r)
-        # self.myTable.insertRow(r)
-        # self.myTable.setColumnCount(2)
-        # item=QTableWidgetItem()
-        # item.setData(Qt.EditRole, '2')
-        # self.myTable.setItem(1,1, item)
+        
 
         
         if self.myTable.horizontalHeaderItem(0).text():
@@ -322,8 +315,8 @@ class DataTab(QWidget):
             self.errorMessage()
         else:
             # Get data from table and store as df
-            number_of_rows = self.myTable.rowCount()
-            number_of_columns = self.myTable.columnCount()
+            number_of_rows = self.checkRow#self.myTable.rowCount()
+            number_of_columns = self.checkCol#self.myTable.columnCount()
             print("rows"+str(number_of_rows))#DEFAULT 400
             print("col"+str(number_of_columns))#DEFAULT 400
             header = []
