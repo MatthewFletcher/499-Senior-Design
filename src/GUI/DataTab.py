@@ -53,43 +53,16 @@ class DataTab(QWidget):
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.myTable)
         self.TableGroup.setLayout(self.layout)
-        # self.myTable.clicked.connect(self.selectionChanged)
-        # self.myTable.blockSignals(True)
-        # self.myTable.blockSignals(False)
-        #self.myTable.cellChanged.connect(self.cellchanged)
-        self.track=0
+        
+        self.manualIsChecked=True #defaults expecting manual input
         self.myTable.itemChanged.connect(self.cellchanged)
         
 
     def cellchanged(self):
         x=self.myTable.currentColumn()
         y=self.myTable.currentRow()
-        print(y,x)
-        # if(y<1):
-        #     headers=[]
-        #     for x in range(self.myTable.currentColumn()):
-        #         self.track+=1
-        #         print(self.track)
-        #         if self.myTable.currentItem().text():
-        #             print('nonempty')
-        #             print(self.myTable.currentItem().text())
-        #             headers.append(self.myTable.currentItem.Text())
-        #     print("header", headers)
-        #print(self.myTable.horizontalHeaderItem(1).text())\
-        # if self.myTable.currentItem().text():
-        #     print('nonempty')
-        #     # item=QTableWidgetItem()
-        #     # stuff=self.myTable.currentItem().text()
-        #     # item.setData(Qt.EditRole, stuff)
-        #     # self.myTable.setItem(y,x, item)
-        #     # print(self.myTable.currentItem().text())
-
-        # else:
-        #     print('empty')
-        #item = QTableWidgetItem()
-       # item.setData(Qt.EditRole, stuff)#stuff: specific text for cell
-        #self.myTable.setItem(row, column, item)
-        #print(x,y)
+        #print(y,x)
+        
 
     # The right side of DataTab containing Radio Buttons and
     # text boxes for user input on how they want their graph
@@ -207,10 +180,12 @@ class DataTab(QWidget):
     # newCSVButton is clicked
     def newCSVButtonClicked(self):
         logging.info('Import CSV Button Selected')
+        self.manualIsChecked=False #Set False not to expect manual input
         self.openCSV()
 
     def clearButtonClicked(self):
         logging.info('Clear Data Button Selected')
+        self.manualIsChecked=True #Defaults back to expecting manual input
         self.clearTable()
 
     # Populates the table with data from a CSV File
@@ -232,93 +207,87 @@ class DataTab(QWidget):
                         self.myTable.setColumnCount(len(row_data))
                     for column, stuff in enumerate(row_data):
                         item = QTableWidgetItem()
-                        print('stuff', stuff)
                         item.setData(Qt.EditRole, stuff)
                         self.myTable.setItem(row, column, item)
+
+    #Populates the table from manual input
+    #Needed since getDataFromTables relies on things assigned in openCSV()
+    def manualInput(self):
+         #issue: when manually inputting the data. DF Doesnt seem to be created.
+        #Reason: 
+        #...Retrive Data from the table right now.
+        #retrive the first row (Header)
+        self.checkRow=0
+        self.checkCol=0
+        columns=self.myTable.columnCount()
+        header=[]
+        #print(columns)
+        for y in range(columns):
+            if self.myTable.item(0,y) is None:
+                #print('none in first cell in row')
+                continue
+            else:
+                header.append(self.myTable.item(0, y).text())
+                #print(header)
+                self.checkCol+=1 #actual size of table instead of 400
+        
+        #Retrive the rest of the rows data
+        rows=self.myTable.rowCount()
+        #collection of rows
+        newRows=[]
+        for row in range(rows):
+            if(row is 0):#first header row skip
+                continue
+            if self.myTable.item(row, 0) is None:
+                #print('none begining of row')
+                continue
+            else:
+               #Retrieve every cell from row
+                cellrow=[]
+                for col in range(columns):
+                    if self.myTable.item(row, col) is None:
+                       # print('none in this row, col cell')
+                       continue
+                    else:
+                        cellrow.append(self.myTable.item(row, col).text())
+                        #print(cellrow)
+                        self.checkRow+=1 #actaul size of rows 
+                newRows.append(cellrow)
+        #Recreate the table using the right sizes (wont show default 400)
+        self.myTable.setRowCount(0) #number of rows set to zero
+        self.myTable.setColumnCount(self.checkCol) #used size of columns that is actually correct
+        self.myTable.setHorizontalHeaderLabels(header) #set the header labels
+        for rowData in newRows:
+            row=self.myTable.rowCount()
+            self.myTable.insertRow(row)
+            for column, stuff in enumerate(rowData):
+                item=QTableWidgetItem()
+                #print('stuff', stuff)
+                item.setData(Qt.EditRole, stuff)
+                self.myTable.setItem(row, column, item)  
 
     #  This function will be able to grab the data imported from the table
     # and store it as a df to be used for graphing the data
     def getDataFromTable(self):
         # Condition statement to determine if the table is empty,
         # send error message
-        #self.myTable.item(0,1).text
-        #"""
-        #issue: when manually inputting the data. Doesnt seem to be created.
-        self.checkRow=0
-        self.checkCol=0
-        columns=self.myTable.columnCount()
-        header=[]
-        print(columns)
-        for y in range(columns):
-            if self.myTable.item(0,y) is None:
-                print('no0ne')
-            else:
-                header.append(self.myTable.item(0, y).text())
-                print(header)
-                self.checkCol+=1#actual size of table instead of 400
-        #self.myTable.setRowCount(0)
         
-
-        rows=self.myTable.rowCount()
-        print('how many rows are there?',rows)
-        newRows=[]
-        for row in range(rows):
-            if(row is 0):#first header row skip
-                continue
-            if self.myTable.item(row, 0) is None:
-                print('none begining of row')
-            else:
-                #r=self.myTable.rowCount()
-                #self.myTable.insertRow(r)
-                #self.myTable.setColumnCount(columns)
-                cellrow=[]
-                for col in range(columns):
-                    if self.myTable.item(row, col) is None:
-                        print('none row, col')
-                    else:
-                        cellrow.append(self.myTable.item(row, col).text())
-                        print(cellrow)
-                        self.checkRow+=1#actaul size of rows 
-                newRows.append(cellrow)
-        print(self.checkRow, self.checkRow)
-        print('newrows ',newRows)
-        length=self.myTable.rowCount()
-        self.myTable.setRowCount(0)
-        self.myTable.setColumnCount(columns)
-        self.myTable.setHorizontalHeaderLabels(header)
-        for rowData in newRows:
-            row=self.myTable.rowCount()
-            self.myTable.insertRow(row)
-            
-            for column, stuff in enumerate(rowData):
-                item=QTableWidgetItem()
-                print('stuff', stuff)
-                item.setData(Qt.EditRole, stuff)
-                self.myTable.setItem(row, column, item)
-                
-
-
+        #"""
+        #attempt in accepting manual input
+        if self.manualIsChecked is True:
+            self.manualInput()
 
         #"""
         
+        
 
         
-        if self.myTable.horizontalHeaderItem(0).text():
-            print('nonempty')
-        else:
-            print('empty')
-
-        print("\nntdatafromtable")
-        print("rows"+str(self.myTable.rowCount()))#DEFAULT 400
-        print("col"+str(self.myTable.columnCount()))#DEFAULT 400
         if self.myTable.item(0,0) is None:
             self.errorMessage()
         else:
             # Get data from table and store as df
-            number_of_rows = self.checkRow#self.myTable.rowCount()
-            number_of_columns = self.checkCol#self.myTable.columnCount()
-            print("rows"+str(number_of_rows))#DEFAULT 400
-            print("col"+str(number_of_columns))#DEFAULT 400
+            number_of_rows = self.myTable.rowCount()
+            number_of_columns = self.myTable.columnCount()
             header = []
             for i in range(number_of_columns):
                 header.append(self.myTable.horizontalHeaderItem(i).text())
@@ -329,7 +298,7 @@ class DataTab(QWidget):
             for i in range(number_of_rows):
                 tmp_df.iloc[i, 0] = self.myTable.item(i, 0).text()
                 for j in range(1, number_of_columns):
-                    tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
+                    tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text()) #NEW: issue: invalid literal for int() with base 10: 'b'
             if self.allRadioButton.isChecked():
                 logging.info('User Selection on Dataset')
                 ptA = [0, 1]
