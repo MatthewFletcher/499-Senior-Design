@@ -319,7 +319,7 @@ class DataTab(QWidget):
                     print('x2:',x2, " y2:",y2)
                     print("row#:",number_of_rows)
                     print('col#:', number_of_columns)
-                    if x1 < 0 or x1 > number_of_rows or x2 < 0 or x2 > number_of_rows-1 or x2 < x1 or y1 < 1 or y1 > number_of_columns-1 or y2 < 1 or y2 > number_of_columns-1 or y2 < y1:
+                    if x1 < 0 or x1 > number_of_rows-1 or x2 < 0 or x2 > number_of_rows-1 or x2 < x1 or y1 < 1 or y1 > number_of_columns-1 or y2 < 1 or y2 > number_of_columns-1 or y2 < y1:
                         self.errorOutofBounds()
                     else:
                         ptA = [x1, y1]
