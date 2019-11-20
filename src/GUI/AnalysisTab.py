@@ -10,6 +10,7 @@ sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 
 sys.path.append(str(Path(os.path.abspath(__file__)).joinpath("../../Math").resolve()))
+
 import Stats_Wizard as s
 
 # The AnalysisTab class holds the GUI for the AnalysisTab, which consists of four sections:
@@ -20,7 +21,7 @@ import Stats_Wizard as s
 # select the tests they wish to run on their frequency data.
 class AnalysisTab(QWidget):
     def __init__(self):
-        
+
         super().__init__()
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
