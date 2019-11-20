@@ -33,7 +33,6 @@ class TabPage(QTabWidget):
         self.setLayout(self.layout)
         self.dataTab.submitButton.clicked.connect(self.setDF)
 
-    # This function is being called when the user clicks the "Submit Data" in the data tab.
     # This is a method of passing data from the data tab to the graph and/or analysis tab.
     def setDF(self):
         data = self.dataTab.getDataFromTable()
