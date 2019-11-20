@@ -12,7 +12,7 @@ import inspect
 #Check which OS is being run
 
 from sys import platform
-print(f"Platform: {platform}")
+#print(f"Platform: {platform}")
 if platform == "linux" or platform == "linux2":
     import StatisticsFortranLinux as sf
 elif platform == "darwin":
@@ -24,6 +24,13 @@ else:
     sys.stderr.write("ERROR: Unsupported platform\\n")
     sys.exit(1)
 
+'''
+HOW TO USE:
+
+    So this is a hair confusing but it seems like the best way to implement
+    this. 
+    For all 1D arrays
+'''
 
 class Statistics:
     '''
@@ -32,150 +39,188 @@ class Statistics:
     def __init__(self, d):
         self.d = d
 
-    def s_max(self):
-        '''
-        Calculates the variance of a vector of data 
-        Parameters: None
-        Returns: Number
-        '''
+class s_max(Statistics):
+    '''
+    Calculates the variance of a vector of data 
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self,d):
+        super().__init__(d)
+        self.name = "Max Value"
+    def func(self):
         return max(self.d)
+    def __call__(self):
+        return self.func()
 
-    def s_min(self):
-        '''
-        Calculates the min of a vector of data 
-        Parameters: None
-        Returns: Number
-        '''
+
+class s_min(Statistics):
+    '''
+    Calculates the min of a vector of data 
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Min"
+    def func(self):    
         return min(self.d)
+    def __call__(self):
+        return self.func()
 
-    def s_range(self):
-        '''
-        Calculates the range of a vector of data 
-        Parameters: None
-        Returns: Number
-        '''
-        return self.s_max() - self.s_min()
-    
-    def s_mean(self):
-        '''
-        Calculates the mean of a vector of data 
-        Implemented in FORTRAN
-        Parameters: None
-        Returns: Number
-        '''
+
+class s_range(Statistics):
+    '''
+    Calculates the range of a vector of data 
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Range"
+    def func(self):
+        return Statistics.s_max() - Statistics.s_min()
+    def __call__(self):
+        return self.func()
+
+class s_mean(Statistics):
+    '''
+    Calculates the mean of a vector of data 
+    Implemented in FORTRAN
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Mean"
+    def func(self):
         return sf.mean(self.d)
-        #return sum(self.d)/len(self.d) 
+    def __call__(self):
+        return self.func()
 
-    def s_median(self):
-        '''
-        Calculates the median of a vector of data 
-        Parameters: None
-        Returns: Number
-        '''
+class s_median(Statistics):
+    '''
+    Calculates the median of a vector of data 
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Median"
+    def func(self):
         return sorted(self.d)[int(len(self.d) / 2)]
-    
-    def s_mode(self):
-        '''
-        Calculates the mode of a vector of data 
-        Parameters: None
-        Returns: Number if a mode exists, otherwise returns None.
-        '''
+    def __call__(self):
+        return self.func()
+
+class s_mode(Statistics):
+    '''
+    Calculates the mode of a vector of data 
+    Parameters: None
+    Returns: Number if a mode exists, otherwise returns None.
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Mode"
+    def func(self):
         return self.d.value_counts().idxmax() if self.d.value_counts().max()==1 else None
-    
-    def s_var(self):
-        '''
-        Calculates the variance of a vector of data 
-        Implemented in FORTRAN
-        Parameters: None
-        Returns: Number
-        '''
-        #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
-        try:
+
+    def __call__(self):
+        return self.func()
+
+class s_var(Statistics):
+    '''
+    Calculates the variance of a vector of data 
+    Implemented in FORTRAN
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Variance"
+    #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
+    def func(self):
             return sf.var(self.d)
-        except AttributeError:
-            return sum([(x - self.d.mean())**2 for x in self.d]) / (len(self.d) ) 
+    def __call__(self):
+        return self.func()
 
-    def s_stddev(self):
-        '''
-        Calculates the std deviation of a vector of data 
-        Parameters: None
-        Returns: Number
-        '''
+class s_stddev(Statistics):
+    '''
+    Calculates the std deviation of a vector of data 
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Standard Deviation"
+    def func(self):
         return sf.stddev(self.d)
-    
-    def s_varcoeff(self):
-        '''
-        Calculates the coefficient of variation of a vector
-        Parameters: None
-        Returns: Number
-        '''
+    def __call__(self):
+        return self.func()
+
+class s_varcoeff(Statistics):
+    '''
+    Calculates the coefficient of variation of a vector
+    Parameters: None
+    Returns: Number
+    '''
+    def __init__(self):
+        super().__init__(d)
+        self.name = "Coefficient of Variance"
+    def func(self):
         return sf.stddev(self.d)
+    def __call__(self):
+        return self.func()
 
-    def s_zscore(self):
-        '''
-        Calculates the z score of each item in the list 
-        '''
-
+class s_zscore(Statistics):
+    '''
+    Calculates the z score of each item in the list 
+    '''
+    def __init__(self):
+        super().__init__(d)
+        super().__init__()
+        self.name = "Z Score"
+    def func(self):
         return list(sf.zscore(self.d))
+    def __call__(self):
+        return self.func()
 
-    def test_list(self):
+#def test_list(self):
+#    '''
+#    Returns a list of all methods in the Statistics class
+#    Parameters: None
+#    Returns: List of tuples: (method_name, method)
+#
+#    Exceptions: None
+#    '''
+#    return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod) if m[0].startswith('s_')]
+#
+
+if False:
+    class Regression:
         '''
-        Returns a list of all methods in the Statistics class
-        Parameters: None
-        Returns: List of tuples: (method_name, method)
-
-        Exceptions: None
+        This class consists of all tests that require 2 or more vectors.
         '''
-        return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod) if m[0].startswith('s_')]
-
-
-
-class Regression:
-    '''
-    This class consists of all tests that require 2 or more vectors.
-    '''
-    def __init__(self, a, x_col = 0, y_col = 1):
-        self.df = a
-        self.cols = a.T
-        
-        #TODO make this less janky
-        self.xcol = a.iloc[:,x_col]
-        self.ycol = a.iloc[:,y_col]
-
-    def pearsonR(self):
-        # http://onlinestatbook.com/2/describing_bivariate_df/calculation.html
-        x = self.xcol
-        y = self.ycol
-        
-        s1 = sf.pearson(self.xcol, self.ycol)
-        return s1
-        #^^^^^^^^^^^^^^^^^# 
-        #FUNCTION ENDS HERE
-
-        x_mean = np.mean(x)
-        y_mean = np.mean(y)
-        def num(x,y):
-            numsum = 0
-            for m,n in zip(x,y):
-                numsum += ((m-np.mean(x)) * (n - np.mean(y)))
-            return numsum
-
-        def den(x,y):
-            x_sum = 0
-            y_sum = 0
+        def __init__(self, a, x_col = 0, y_col = 1):
+            self.df = a
+            self.cols = a.T
             
-            for m,n in zip(x,y):
-                x_sum += (m - x_mean)**2
-                y_sum += (n - y_mean)**2
-            den = ma.sqrt(x_sum * y_sum)
-            return den
-    
-        s2 =  num(x,y)/den(x,y)
+            #TODO make this less janky
+            self.xcol = a.iloc[:,x_col]
+            self.ycol = a.iloc[:,y_col]
 
-        print(f"{s1}\t{s2}")
-
-        return s1
-
+    class pearsonR:
+        '''
+        Calculates Pearson Regression correlation coefficient
+        '''
+        def __init__(self):
+            super().__init__()
+        def func(self):
+            # http://onlinestatbook.com/2/describing_bivariate_df/calculation.html
+            x = self.xcol
+            y = self.ycol
+            return sf.pearson(self.xcol, self.ycol)
+        def __call__(self):
+            return self.func(self)
 
     def r_linear(self):
         '''
@@ -193,31 +238,11 @@ class Regression:
         x = self.xcol
         y = self.ycol
 
-        try: 
-            #Call subroutine
-            out = sf.linear(x,y)
-            d =  {'slope': out[1], 'y_int': out[0]}
-            return d
-        except AttributeError: 
-            #Save more typing, calculate standard deviation
-            x_std = np.std(self.xcol)
-            y_std = np.std(self.ycol)
-            
-            #Calculate the y intercept
-            b = self.pearsonR() * y_std / x_std
+        #Call subroutine
+        out = sf.linear(x,y)
+        d =  {'slope': out[1], 'y_int': out[0]}
+        return d
 
-            #Calculate the slope
-            m = self.mean(y) - b * self.mean(x)
-            d['slope'] = m
-            d['y_int'] = b
-            return d 
-
-    def r_normal(self):
-        '''
-        Calculates the normal distribution for the data
-        '''
-        pass
-   
     def signtest(self):
         '''
         Runs a sign test on the data. 
@@ -243,4 +268,3 @@ class Regression:
         return sf.spearman(self.xcol, self.ycol)
         '''
         return sf.spearman(self.xcol, self.ycol)
-
