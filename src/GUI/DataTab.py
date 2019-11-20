@@ -210,6 +210,15 @@ class DataTab(QWidget):
             # Get data from table and store as df
             number_of_rows = self.myTable.rowCount()
             number_of_columns = self.myTable.columnCount()
+            # for i in range(number_of_columns):
+            #     if self.myTable.horizontalHeaderItem(i) is None:
+            #         number_of_columns = i
+            #         break
+            # for i in range(number_of_rows):
+            #     if self.myTable.item(i, 0) is None:
+            #         number_of_rows = i + 1
+            #         break
+
             header = []
             for i in range(number_of_columns):
                 header.append(self.myTable.horizontalHeaderItem(i).text())
