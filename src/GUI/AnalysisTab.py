@@ -8,6 +8,8 @@ sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
+
+sys.path.append(str(Path(os.path.abspath(__file__)).joinpath("../../Math").resolve()))
 import Stats_Wizard as s
 
 # The AnalysisTab class holds the GUI for the AnalysisTab, which consists of four sections:

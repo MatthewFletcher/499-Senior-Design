@@ -10,3 +10,5 @@ src/.DS_Store
 venv/
 
 
+dist/
+build/
