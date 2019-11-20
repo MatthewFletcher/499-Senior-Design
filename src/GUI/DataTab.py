@@ -95,7 +95,7 @@ class DataTab(QWidget):
         self.endRow.setEnabled(False)
         self.endCol.setEnabled(False)
 
-        # Ask user what type of data it is 
+        # Ask user what type of data it is
         self.dataLabel = QLabel("What kind of data is it?")
         self.newLine = QLabel("\n")
         self.typeGroup = QButtonGroup()
@@ -202,31 +202,6 @@ class DataTab(QWidget):
     #  This function will be able to grab the data imported from the table
     # and store it as a df to be used for graphing the data
     def getDataFromTable(self):
-        number_of_rows = self.myTable.rowCount()
-        number_of_columns = self.myTable.columnCount()
-        header = []
-        for i in range(number_of_columns):
-            header.append(self.myTable.horizontalHeaderItem(i).text())
-        tmp_df = pd.DataFrame(columns=header, index=range(number_of_rows))
-
-        for i in range(number_of_rows):
-            tmp_df.iloc[i, 0] = self.myTable.item(i, 0).text()
-            for j in range(1, number_of_columns):
-                tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
-        if self.allRadioButton.isChecked():
-            logging.info('User Selection on Dataset')
-            ptA = [0, 1]
-            ptB = [number_of_rows - 1, number_of_columns - 1]
-            return UserSelect.selection(tmp_df, ptA, ptB, 1)
-        else:
-            x1 = int(self.beginRow.text()) - 1
-            y1 = int(self.beginCol.text())
-            x2 = int(self.endRow.text()) - 1
-            y2 = int(self.endCol.text())
-            ptA = [x1, y1]
-            ptB = [x2, y2]
-            return UserSelect.selection(tmp_df, ptA, ptB, 1)
-
         # Condition statement to determine if the table is empty,
         # send error message
         if self.myTable.item(0,0) is None:
