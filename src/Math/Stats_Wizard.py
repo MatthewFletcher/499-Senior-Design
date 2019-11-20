@@ -29,7 +29,17 @@ HOW TO USE:
 
     So this is a hair confusing but it seems like the best way to implement
     this. 
-    For all 1D arrays
+    For all 1D arrays: Instantiate an instance of the Statistics class. 
+        s = Statistics(dataVector)
+
+        To use a test, use:
+
+        foo = s_testName(s) #From the statistics class instantiated above
+
+        foo.name returns the name
+        foo.func() returns the value of the test
+    Please don't shoot me. This is like the 8th thing I've tried. 
+
 '''
 
 class Statistics:
@@ -195,61 +205,71 @@ class s_zscore(Statistics):
 #    return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod) if m[0].startswith('s_')]
 #
 
-if False:
-    class Regression:
-        '''
-        This class consists of all tests that require 2 or more vectors.
-        '''
-        def __init__(self, a, x_col = 0, y_col = 1):
-            self.df = a
-            self.cols = a.T
-            
-            #TODO make this less janky
-            self.xcol = a.iloc[:,x_col]
-            self.ycol = a.iloc[:,y_col]
+class Regression:
+    '''
+    This class consists of all tests that require 2 or more vectors.
+    '''
+    def __init__(self, a, x_col = 0, y_col = 1):
+        self.df = a
+        self.cols = a.T
+        
+        #TODO make this less janky
+        self.xcol = a.iloc[:,x_col]
+        self.ycol = a.iloc[:,y_col]
 
-    class pearsonR:
-        '''
-        Calculates Pearson Regression correlation coefficient
-        '''
-        def __init__(self):
-            super().__init__()
-        def func(self):
-            # http://onlinestatbook.com/2/describing_bivariate_df/calculation.html
-            x = self.xcol
-            y = self.ycol
-            return sf.pearson(self.xcol, self.ycol)
-        def __call__(self):
-            return self.func(self)
+class pearsonR(Regression)
+    '''
+    Calculates Pearson Regression correlation coefficient
+    '''
+    def __init__(self):
+        super().__init__(a)
+        self.name = "Pearson Regression Coefficient"
+    def func(self):
+        # http://onlinestatbook.com/2/describing_bivariate_df/calculation.html
+        x = self.xcol
+        y = self.ycol
+        return sf.pearson(self.xcol, self.ycol)
+    def __call__(self):
+        return self.func()
 
-    def r_linear(self):
-        '''
-        Calculates the line of best fit for 2 vectors of df
-        Parameters: None
-        Returns: Dictionary d
-            d['slope'] = m
-            d['y_int'] = b
-            d['fit'] = score (TBD)
+class r_linear(Regression):
+    '''
+    Calculates the line of best fit for 2 vectors of df
+    Parameters: None
+    Returns: Dictionary d
+        d['slope'] = m
+        d['y_int'] = b
+        d['equation'] = 'm*x + b'
+    # Reference: http://onlinestatbook.com/2/regression/intro.html
+    '''
 
-        # Reference: http://onlinestatbook.com/2/regression/intro.html
-        '''
-
+    def __init__(self):
+        super().__init__(a)
+        self.name = "Line of Best Fit"
+    def func(self):
         #Save me some typing, set columns to single variables 
         x = self.xcol
         y = self.ycol
 
         #Call subroutine
         out = sf.linear(x,y)
-        d =  {'slope': out[1], 'y_int': out[0]}
+        d =  {'slope': out[1], 'y_int': out[0], 'equation': f"{out[1]}*x + {out[0]}"}
         return d
 
-    def signtest(self):
-        '''
-        Runs a sign test on the data. 
-        Returns: Boolean
-                True:  Significant difference
-                False: No significant difference
-        '''
+    def __call__(self):
+        return self.func()
+
+class signtest(Regression):
+    '''
+    Runs a sign test on the data. 
+    Returns: Boolean
+            True:  Significant difference
+            False: No significant difference
+    '''
+    def __init__(self):
+        super().__init__(a)
+        self.name = "Line of Best Fit"
+    def func(self):
         z =  sf.signtest(self.xcol, self.ycol)
 
         #https://www.youtube.com/watch?v=K1RYSyAu7Hg
@@ -259,12 +279,20 @@ if False:
         
         #If computed z is within critical value, fail to reject the null hypothesis
         return (abs(z) < crit_val)
+    def __call__(self):
+        return self.func()
 
-    def spearman(self):
-        '''
-        Calculates spearman rank correlation coefficient
-        Parameters: none
-        Returns: value
+class spearman(Regression):
+    '''
+    Calculates spearman rank correlation coefficient
+    Parameters: none
+    Returns: value
+    return sf.spearman(self.xcol, self.ycol)
+    '''
+    def __init__(self):
+        super().__init__(a)
+        self.name = "Spearman Correlation"
+    def func(self):
         return sf.spearman(self.xcol, self.ycol)
-        '''
-        return sf.spearman(self.xcol, self.ycol)
+    def __call__(self):
+        return self.func()
