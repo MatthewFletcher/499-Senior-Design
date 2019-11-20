@@ -47,7 +47,11 @@ class Statistics:
         This class consists of all tests that require only 1 vector.
     '''
     def __init__(self, d):
-        self.d = d
+        if not hasattr(d, '__iter__'):
+            sys.stderr.write('Invalid Data type entered\n')
+            sys.exit(1)
+        else:
+            self.d = d
 
 class s_max(Statistics):
     '''
@@ -70,7 +74,7 @@ class s_min(Statistics):
     Parameters: None
     Returns: Number
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Min"
     def func(self):    
@@ -85,7 +89,7 @@ class s_range(Statistics):
     Parameters: None
     Returns: Number
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Range"
     def func(self):
@@ -100,7 +104,7 @@ class s_mean(Statistics):
     Parameters: None
     Returns: Number
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Mean"
     def func(self):
@@ -114,7 +118,7 @@ class s_median(Statistics):
     Parameters: None
     Returns: Number
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Median"
     def func(self):
@@ -128,7 +132,7 @@ class s_mode(Statistics):
     Parameters: None
     Returns: Number if a mode exists, otherwise returns None.
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Mode"
     def func(self):
@@ -144,7 +148,7 @@ class s_var(Statistics):
     Parameters: None
     Returns: Number
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Variance"
     #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
@@ -159,7 +163,7 @@ class s_stddev(Statistics):
     Parameters: None
     Returns: Number
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Standard Deviation"
     def func(self):
@@ -173,7 +177,7 @@ class s_varcoeff(Statistics):
     Parameters: None
     Returns: Number
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
         self.name = "Coefficient of Variance"
     def func(self):
@@ -185,9 +189,8 @@ class s_zscore(Statistics):
     '''
     Calculates the z score of each item in the list 
     '''
-    def __init__(self):
+    def __init__(self,d):
         super().__init__(d)
-        super().__init__()
         self.name = "Z Score"
     def func(self):
         return list(sf.zscore(self.d))
@@ -217,11 +220,11 @@ class Regression:
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
 
-class pearsonR(Regression)
+class r_pearsonR(Regression):
     '''
     Calculates Pearson Regression correlation coefficient
     '''
-    def __init__(self):
+    def __init__(self,a):
         super().__init__(a)
         self.name = "Pearson Regression Coefficient"
     def func(self):
@@ -243,7 +246,7 @@ class r_linear(Regression):
     # Reference: http://onlinestatbook.com/2/regression/intro.html
     '''
 
-    def __init__(self):
+    def __init__(self,a):
         super().__init__(a)
         self.name = "Line of Best Fit"
     def func(self):
@@ -259,14 +262,14 @@ class r_linear(Regression):
     def __call__(self):
         return self.func()
 
-class signtest(Regression):
+class r_signtest(Regression):
     '''
     Runs a sign test on the data. 
     Returns: Boolean
             True:  Significant difference
             False: No significant difference
     '''
-    def __init__(self):
+    def __init__(self,a):
         super().__init__(a)
         self.name = "Line of Best Fit"
     def func(self):
@@ -282,14 +285,14 @@ class signtest(Regression):
     def __call__(self):
         return self.func()
 
-class spearman(Regression):
+class r_spearman(Regression):
     '''
     Calculates spearman rank correlation coefficient
     Parameters: none
     Returns: value
     return sf.spearman(self.xcol, self.ycol)
     '''
-    def __init__(self):
+    def __init__(self,a):
         super().__init__(a)
         self.name = "Spearman Correlation"
     def func(self):
