@@ -216,95 +216,74 @@ class DataTab(QWidget):
         #Reason: 
         #...Retrive Data from the table right now.
         #retrive the first row (Header)
-        self.manualIsChecked=False #set to fault so not to recreate the manual input tabel in case user want to specific row and col
+        self.manualIsChecked=False #set to false so not to recreate the manual input tabel in case user want to specific row and col
         self.checkRow=0 #TODO: not used will delete
         self.checkCol=0
-        columns=self.myTable.columnCount()
+        #retreive the header in row 0
+        columns=self.myTable.columnCount()#default 400
         header=[]
-        #print(columns)
-        for y in range(columns):
-            if self.myTable.item(0,y) is None:
-                #print('none in first cell in row')
+        for y in range(columns): #go loop through every cell in row 0
+            if self.myTable.item(0,y) is None: #if the cell is empty continue.
                 continue
-            else:
-                if not self.myTable.item(0,y).text():#if you go to the next header but dont put anything it counts a header this prevents that.
-                    print('string empty')
+            else: 
+                if not self.myTable.item(0,y).text():#if user  goes to the next cell but leave no name it is consider a header this prevents that.
                     continue
-                print(type(self.myTable.item(0,y).text()))
-                print(self.myTable.item(0,y).text())
-                header.append(self.myTable.item(0, y).text())
-                #print(header)
+                header.append(self.myTable.item(0, y).text())#adding current cell header into total.
                 self.checkCol+=1 #actual size of table instead of 400
+
         #graphTab crashes if the header have duplicates for its name
-        #check for duplicates and returns to change it
-        if len(header) != len(set(header)):
-            #false
-            print('header has duplcates')
-            self.manualIsChecked=True
-            self.errorState=True
+        #check for duplicates and have user return to change it
+        if len(header) != len(set(header)):#catches for duplicate headers
+            self.manualIsChecked=True #set to expect manaul input to True
+            self.errorState=True #throw a state of error not to continue with submitting DF.
+            self.errorHeaderDuplicate()
             return
-        #else:
-            #true
+
         #Retrive the rest of the rows data
         rows=self.myTable.rowCount()
         #collection of rows
         newRows=[]
         for row in range(rows):
-            if(row is 0):#first header row skip
+            if(row is 0):#first header row skip since thats for headers
                 continue
-            if self.myTable.item(row, 0) is None:
-                #print('none begining of row')
+            if self.myTable.item(row, 0) is None: #if the row has no header its is ignored.
                 continue
             else:
                #Retrieve every cell from row
                 cellrow=[]
                 for col in range(columns):
-                    if self.myTable.item(row, col) is None:
-                       # print('none in this row, col cell')
+                    if self.myTable.item(row, col) is None: #if the cell is None it continues
                        continue
                     else:
-                        cellrow.append(self.myTable.item(row, col).text())
-                        #print(cellrow)
+                        cellrow.append(self.myTable.item(row, col).text()) #add cell into row
                         self.checkRow+=1 #actaul size of rows 
-                newRows.append(cellrow)
+                newRows.append(cellrow)#append row into total row
 
-        #test the row data if valid
-        #  ignore row 0 since header
-        #ignore column 0 since its side headers
-        #look into 1,1 < if int else error
-        #for rowData in newRows:
-            #if rowData contains only integers: success 
-            #else throw error.
-            # for col in range(columns):#check if input is complete for every row
-            #     for rowData in newRows:
-            lastcol=0
-            for rowData in newRows:
-                lastcol=0
-                for col, stuff in enumerate(rowData):
-                    lastcol+=1
-                    if col is 0:
-                        continue
-                    else:#col not zero
-                        #check rest row is integer.
-                        #print(stuff)
-                        #print(type(stuff))#check if integer
-                        check=stuff.isdigit()
-                        #print(check)
-                        
-                        if check is True:
-                            print("yes numbers")
-                        else:
-                            print('no number')
-                            self.errorMessage()
-                            print("no str for numerical input")
-                            self.manualIsChecked=True
-                            self.errorState=True
-                            return
-        print(self.checkCol, lastcol)
-        if self.checkCol is not lastcol:#rows length not size of columns
-            print('not properly sized')
+    
+        #Test if the row data is valid. Seems to crash if for the following reasons:
+        #1. if str was inputted instead of numerical values.
+        #2. if there was a cell left empty.
+
+        lastcol=0 #will be used to check if no cell was left empty
+        for rowData in newRows:#get specific row from total rows.
+            lastcol=0 #sets to zero since its a new row.
+            for col, stuff in enumerate(rowData):
+                lastcol+=1 
+                if col is 0: #not to do anything with the row header.
+                    continue
+                else:
+                    #check if the str inputted is a numerical value
+                    if not stuff.isdigit():
+                        self.manualIsChecked=True #set to expect manual input to True
+                        self.errorState=True #throw a error state to not create the DF
+                        self.errorMissingNumber()
+                        return
+
+        
+        if self.checkCol is not lastcol: #here is to check if there were no cell left empty
             self.manualIsChecked=True
             self.errorState=True
+            self.errorEmptyCellDetect()
             return
 
         #Recreate the table using the right sizes (wont show default 400)
@@ -315,10 +294,7 @@ class DataTab(QWidget):
             row=self.myTable.rowCount()
             self.myTable.insertRow(row)
             for column, stuff in enumerate(rowData):
-                print('col:',column)
-                print('stuff',stuff)
                 item=QTableWidgetItem()
-                #print('stuff', stuff)
                 item.setData(Qt.EditRole, stuff)
                 self.myTable.setItem(row, column, item)  
 
@@ -335,9 +311,8 @@ class DataTab(QWidget):
         #did not touch your code. :)
         if self.manualIsChecked is True:
             self.manualInput()
-        if self.errorState is True:
+        if self.errorState is True: #if error state was throw from the manual input return not to pass DF.
             self.errorState=False
-            print("clear table and input valid numbers")
             return
 
         #"""
@@ -433,3 +408,26 @@ class DataTab(QWidget):
         error.setText("Your column or row index is out of bounds!\n")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
+
+    def errorHeaderDuplicate(self):
+        error = QMessageBox()
+        error.setWindowTitle("Error")
+        error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
+        error.setText("Your Column Headers cant be Duplicates!\n")
+        error.setStandardButtons(QMessageBox.Ok)
+        error.exec()
+
+    def errorMissingNumber(self):
+            error = QMessageBox()
+            error.setWindowTitle("Error")
+            error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
+            error.setText("You can not input letters for numerical values!\n")
+            error.setStandardButtons(QMessageBox.Ok)
+            error.exec()
+    def errorEmptyCellDetect(self):
+            error = QMessageBox()
+            error.setWindowTitle("Error")
+            error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
+            error.setText("You left a cell empty fill in with a numerical value!\n")
+            error.setStandardButtons(QMessageBox.Ok)
+            error.exec()
