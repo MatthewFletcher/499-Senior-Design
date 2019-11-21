@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
+from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout, QDialog)
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
 import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
@@ -11,6 +12,9 @@ class TabPage(QTabWidget):
         super().__init__()
         self.setStyleSheet('font: 15pt Tw Cen MT')
         self.setWindowTitle("Stats Wiz")
+
+        if hasattr(Qt, 'AA_EnableHighDpiScaling'):
+            QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
         #Get directory name of this file
         #Get icon name from the generated absolute path
@@ -43,7 +47,7 @@ class TabPage(QTabWidget):
 def runStatsWiz():
     app = QApplication(sys.argv)
     tabPage = TabPage()
-    tabPage.show()
+    tabPage.showFullScreen()
     app.exec_()
 
 
