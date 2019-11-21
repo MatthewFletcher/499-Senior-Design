@@ -25,8 +25,8 @@ class AnalysisTab(QWidget):
         super().__init__()
         if hasattr(Qt, 'AA_EnableHighDpiScaling'):
             QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-        if hasattr(Qt, 'AA_UseHighDpiPixmaps'):
-            QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+        # if hasattr(Qt, 'AA_UseHighDpiPixmaps'):
+        #     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
 
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
