@@ -276,14 +276,14 @@ class DataTab(QWidget):
                     if not stuff.isdigit():
                         self.manualIsChecked=True #set to expect manual input to True
                         self.errorState=True #throw a error state to not create the DF
-                        self.errorMissingNumber()
+                        self.errorEmptyNumber()
                         return
 
         
         if self.checkCol is not lastcol: #here is to check if there were no cell left empty
             self.manualIsChecked=True
             self.errorState=True
-            self.errorEmptyCellDetect()
+            self.errorEmptyNumber()
             return
 
         #Recreate the table using the right sizes (wont show default 400)
@@ -417,17 +417,11 @@ class DataTab(QWidget):
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
 
-    def errorMissingNumber(self):
+    def errorEmptyNumber(self):
             error = QMessageBox()
             error.setWindowTitle("Error")
             error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
-            error.setText("You can not input letters for numerical values!\n")
+            error.setText("Invalid: Input Number in the cell!\n")
             error.setStandardButtons(QMessageBox.Ok)
             error.exec()
-    def errorEmptyCellDetect(self):
-            error = QMessageBox()
-            error.setWindowTitle("Error")
-            error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
-            error.setText("You left a cell empty fill in with a numerical value!\n")
-            error.setStandardButtons(QMessageBox.Ok)
-            error.exec()
+    
