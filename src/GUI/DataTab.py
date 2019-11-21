@@ -55,6 +55,7 @@ class DataTab(QWidget):
         self.TableGroup.setLayout(self.layout)
         
         self.manualIsChecked=True #defaults expecting manual input
+        self.errorState=False#defaults manual input not in error state
         #self.myTable.itemChanged.connect(self.cellchanged) TODO: Not needed
         
 
@@ -182,6 +183,7 @@ class DataTab(QWidget):
     def clearButtonClicked(self):
         logging.info('Clear Data Button Selected')
         self.manualIsChecked=True #Defaults back to expecting manual input
+        self.errorState=False
         self.clearTable()
 
     # Populates the table with data from a CSV File
@@ -250,6 +252,26 @@ class DataTab(QWidget):
                         #print(cellrow)
                         self.checkRow+=1 #actaul size of rows 
                 newRows.append(cellrow)
+
+        #test the row data if valid
+        #  ignore row 0 since header
+        #ignore column 0 since its side headers
+        #look into 1,1 < if int else error
+        #for rowData in newRows:
+            #if rowData contains only integers: success 
+            #else throw error.
+            for rowData in newRows:
+                for col, stuff in enumerate(rowData):
+                    if col is 0:
+                        continue
+                    else:#col not zero
+                        #check rest row is integer.
+                        print(stuff)#check if integer
+                        check=stuff.astype(int).isnumeric()
+                        if not check.all():
+                            print("not numbers")
+                            return
+
         #Recreate the table using the right sizes (wont show default 400)
         self.myTable.setRowCount(0) #number of rows set to zero
         self.myTable.setColumnCount(self.checkCol) #used size of columns that is actually correct
@@ -258,6 +280,8 @@ class DataTab(QWidget):
             row=self.myTable.rowCount()
             self.myTable.insertRow(row)
             for column, stuff in enumerate(rowData):
+                print('col:',column)
+                print('stuff',stuff)
                 item=QTableWidgetItem()
                 #print('stuff', stuff)
                 item.setData(Qt.EditRole, stuff)
@@ -276,6 +300,9 @@ class DataTab(QWidget):
         #did not touch your code. :)
         if self.manualIsChecked is True:
             self.manualInput()
+        if self.errorState is True:
+            print("clear table and input valid numbers")
+            return
 
         #"""
         
