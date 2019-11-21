@@ -227,10 +227,24 @@ class DataTab(QWidget):
                 #print('none in first cell in row')
                 continue
             else:
+                if not self.myTable.item(0,y).text():#if you go to the next header but dont put anything it counts a header this prevents that.
+                    print('string empty')
+                    continue
+                print(type(self.myTable.item(0,y).text()))
+                print(self.myTable.item(0,y).text())
                 header.append(self.myTable.item(0, y).text())
                 #print(header)
                 self.checkCol+=1 #actual size of table instead of 400
-        
+        #graphTab crashes if the header have duplicates for its name
+        #check for duplicates and returns to change it
+        if len(header) != len(set(header)):
+            #false
+            print('header has duplcates')
+            self.manualIsChecked=True
+            self.errorState=True
+            return
+        #else:
+            #true
         #Retrive the rest of the rows data
         rows=self.myTable.rowCount()
         #collection of rows
@@ -261,16 +275,22 @@ class DataTab(QWidget):
         #for rowData in newRows:
             #if rowData contains only integers: success 
             #else throw error.
+            # for col in range(columns):#check if input is complete for every row
+            #     for rowData in newRows:
+            lastcol=0
             for rowData in newRows:
+                lastcol=0
                 for col, stuff in enumerate(rowData):
+                    lastcol+=1
                     if col is 0:
                         continue
                     else:#col not zero
                         #check rest row is integer.
-                        print(stuff)
-                        print(type(stuff))#check if integer
+                        #print(stuff)
+                        #print(type(stuff))#check if integer
                         check=stuff.isdigit()
-                        print(check)
+                        #print(check)
+                        
                         if check is True:
                             print("yes numbers")
                         else:
@@ -280,6 +300,12 @@ class DataTab(QWidget):
                             self.manualIsChecked=True
                             self.errorState=True
                             return
+        print(self.checkCol, lastcol)
+        if self.checkCol is not lastcol:#rows length not size of columns
+            print('not properly sized')
+            self.manualIsChecked=True
+            self.errorState=True
+            return
 
         #Recreate the table using the right sizes (wont show default 400)
         self.myTable.setRowCount(0) #number of rows set to zero
@@ -310,6 +336,7 @@ class DataTab(QWidget):
         if self.manualIsChecked is True:
             self.manualInput()
         if self.errorState is True:
+            self.errorState=False
             print("clear table and input valid numbers")
             return
 
