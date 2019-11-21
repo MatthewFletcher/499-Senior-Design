@@ -6,6 +6,7 @@ import math as ma
 from optparse import OptionParser
 import sys
 import inspect
+import scipy.stats as ss
 
 #import StatisticsFortran as sf
 
@@ -300,3 +301,19 @@ class r_spearman(Regression):
         return sf.spearman(self.xcol, self.ycol)
     def __call__(self):
         return self.func()
+
+class r_ranksum(Regression):
+    '''
+    Calculates spearman rank correlation coefficient
+    Parameters: none
+    Returns: value
+    return sf.spearman(self.xcol, self.ycol)
+    '''
+    def __init__(self,a):
+        super().__init__(a)
+        self.name = "Spearman Correlation"
+    def func(self):
+        return ss.ranksums(self.xcol, self.ycol)[0]
+    def __call__(self):
+        return self.func()
+
