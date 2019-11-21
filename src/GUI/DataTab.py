@@ -56,10 +56,11 @@ class DataTab(QWidget):
         
         self.manualIsChecked=True #defaults expecting manual input
         self.errorState=False#defaults manual input not in error state
-        #self.myTable.itemChanged.connect(self.cellchanged) TODO: Not needed
+        #self.myTable.itemChanged.connect(self.cellchanged) #TODO: Not needed
         
 
-        
+    #def cellchanged(self):
+        #self.errorState=False
 
     # The right side of DataTab containing Radio Buttons and
     # text boxes for user input on how they want their graph
@@ -266,10 +267,18 @@ class DataTab(QWidget):
                         continue
                     else:#col not zero
                         #check rest row is integer.
-                        print(stuff)#check if integer
-                        check=stuff.astype(int).isnumeric()
-                        if not check.all():
-                            print("not numbers")
+                        print(stuff)
+                        print(type(stuff))#check if integer
+                        check=stuff.isdigit()
+                        print(check)
+                        if check is True:
+                            print("yes numbers")
+                        else:
+                            print('no number')
+                            self.errorMessage()
+                            print("no str for numerical input")
+                            self.manualIsChecked=True
+                            self.errorState=True
                             return
 
         #Recreate the table using the right sizes (wont show default 400)
