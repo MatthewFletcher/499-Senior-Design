@@ -48,6 +48,7 @@ class Statistics:
     '''
     def __init__(self, d):
         if not hasattr(d, '__iter__'):
+            print(f"Type of data: {type(d)} is not list-like")
             sys.stderr.write('Invalid Data type entered\n')
             sys.exit(1)
         else:
@@ -63,7 +64,7 @@ class s_max(Statistics):
         super().__init__(d)
         self.name = "Max Value"
     def func(self):
-        return max(self.d)
+        return sf.maximum(self.d)
     def __call__(self):
         return self.func()
 
@@ -78,7 +79,7 @@ class s_min(Statistics):
         super().__init__(d)
         self.name = "Min"
     def func(self):    
-        return min(self.d)
+        return sf.minimum(self.d)
     def __call__(self):
         return self.func()
 
@@ -93,7 +94,7 @@ class s_range(Statistics):
         super().__init__(d)
         self.name = "Range"
     def func(self):
-        return Statistics.s_max() - Statistics.s_min()
+        return sf.range(self.d)
     def __call__(self):
         return self.func()
 
