@@ -230,7 +230,7 @@ class DataTab(QWidget):
                     continue
                 header.append(self.myTable.item(0, y).text())#adding current cell header into total.
                 self.checkCol+=1 #actual size of table instead of 400
-        print(header)
+        #print(header)
         #graphTab crashes if the header have duplicates for its name
         #check for duplicates and have user return to change it
         if len(header) != len(set(header)):#catches for duplicate headers
@@ -257,11 +257,10 @@ class DataTab(QWidget):
                     else:
                         if not self.myTable.item(row,col).text():
                             continue
-                        
                         cellrow.append(self.myTable.item(row, col).text()) #add cell into row
                         self.checkRow+=1 #actaul size of rows 
                 newRows.append(cellrow)#append row into total row
-        print(newRows)
+        #print(newRows)
     
         #Test if the row data is valid. Seems to crash if for the following reasons:
         #1. if str was inputted instead of numerical values.
@@ -271,20 +270,23 @@ class DataTab(QWidget):
         for rowData in newRows:#get specific row from total rows.
             lastcol=0 #sets to zero since its a new row.
             for col, stuff in enumerate(rowData):
+                print(col, stuff)
+                if lastcol == self.checkCol: #wont include if there is no header for the columns after len of columns
+                    continue
                 lastcol+=1 
                 if col is 0: #not to do anything with the row header.
                     continue
                 else:
                     #check if the str inputted is a numerical value
-                    print(self.checkCol, lastcol)
-                    print(stuff)
+                    #print(self.checkCol, lastcol)
+                    #print(stuff)
                     if not stuff.isdigit():
                         self.manualIsChecked=True #set to expect manual input to True
                         self.errorState=True #throw a error state to not create the DF
                         self.errorEmptyNumber()
                         return
-        print('check if cell emppty')
-        print(self.checkCol, lastcol)
+        #print('check if cell emppty')
+        #print(self.checkCol, lastcol)
         
         if self.checkCol is not lastcol: #here is to check if there were no cell left empty
             self.manualIsChecked=True
