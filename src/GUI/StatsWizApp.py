@@ -20,7 +20,7 @@ class TabPage(QTabWidget):
         #Get directory name of this file
         #Get icon name from the generated absolute path
         self.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
-        self.show()
+        #self.show()
         # Creating the tabs here to have a reference
         self.dataTab = DataTab.DataTab()
         self.graphTab = GraphTab.GraphTab()

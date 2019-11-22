@@ -28,8 +28,8 @@ class DataTab(QWidget):
 
         # These numbers are arbitrary and seemed
         # to have the best balance
-        self.tableWidth = self.size.width() * 0.65
-        self.customWidth = self.size.width() * 0.3
+        self.tableWidth = self.size.width() * 0.64
+        self.customWidth = self.size.width() * 0.29
         self.buttonSize = self.size.width() * 0.29
         self.lineEditSize = self.size.width() * 0.067
         self.rowSize = 400

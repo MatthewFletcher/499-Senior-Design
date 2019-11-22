@@ -21,8 +21,8 @@ class WelcomeTab(QWidget):
         self.size=self.screen.size()
         self.buttonSize=680
 
-        self.logoWidth=self.size.width() *0.33
-        self.infoWidth=self.size.width()*0.65
+        self.logoWidth=self.size.width() *0.32
+        self.infoWidth=self.size.width()*0.64
         
         self.createLogoGroup()
         self.createInfoGroup()

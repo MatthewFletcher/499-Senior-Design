@@ -24,8 +24,8 @@ class GraphTab(QWidget):
         # These numbers are arbitrary and seemed
         # to have the best balance
         self.buttonSize = self.size.width() * 0.29
-        self.graphWidth = self.size.width() * 0.65
-        self.customWidth = self.size.width() * 0.3
+        self.graphWidth = self.size.width() * 0.64
+        self.customWidth = self.size.width() * 0.29
 
         self.createGraphGroup()
         self.createCustomGroup()
