@@ -311,7 +311,7 @@ class r_ranksum(Regression):
     '''
     def __init__(self,a):
         super().__init__(a)
-        self.name = "Spearman Correlation"
+        self.name = "Rank Sum Test"
     def func(self):
         return ss.ranksums(self.xcol, self.ycol)[0]
     def __call__(self):
