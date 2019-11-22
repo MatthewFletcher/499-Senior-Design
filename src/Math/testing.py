@@ -17,7 +17,6 @@ mydata = c.openFile("../../TestData/sat.csv")[0]
 df = sw.Regression(mydata)
 ds = sw.Statistics(mydata['high_GPA'])
 
-#s = sw.Statistics(ds.d)
 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
     temp = test(ds.d)
     print(f"Test: {temp.name}\nResult: {temp.func()}\n")
