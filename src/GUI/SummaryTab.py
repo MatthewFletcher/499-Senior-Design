@@ -8,6 +8,10 @@ import logging
 #logging.info('') e.g. to log 
 #note: logs need to happen after everything is initilized.
 
+# The SummaryTab class holds the GUI for the SummaryTab, which consists of two sections:
+# the SummaryTextGroup and the SaveTextGroup. The SummaryTextGroup contains the summary
+# of what the user has done with the application. The SaveTextGroup contains the button
+# that allows the user to save the summary.
 class SummaryTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -15,10 +19,12 @@ class SummaryTab(QWidget):
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
-        self.buttonSize = 680
 
-        self.textWidth = self.size.width() * 0.75
-        self.saveWidth = self.size.width() * 0.2
+        # These numbers are arbitrary and seemed
+        # to have the best balance
+        self.buttonSize = 680
+        self.textWidth = self.size.width() * 0.65
+        self.saveWidth = self.size.width() * 0.3
 
         self.createSummaryTextGroup()
         self.createSaveTextGroup()
