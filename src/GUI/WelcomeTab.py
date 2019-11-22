@@ -41,7 +41,6 @@ class WelcomeTab(QWidget):
     def createLogoGroup(self):
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
-        print(self.infoWidth)
         self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
         self.pixmap2=self.pixmap.scaled(self.logoWidth*.80,self.logoWidth*.80)
         
@@ -100,7 +99,6 @@ class CollapsibleDialog(QDialog):
         self.setLayout(layout)
         self.tree.setIndentation(0)
         self.infoWidth=self.tree.size().width()
-        print(self.infoWidth)
         self.sections=[]
         self.define_sections()
         self.add_sections()

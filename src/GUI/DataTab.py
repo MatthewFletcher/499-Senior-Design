@@ -225,7 +225,6 @@ class DataTab(QWidget):
                     continue
                 header.append(self.myTable.item(0, y).text())#adding current cell header into total.
                 self.checkCol+=1 #actual size of table instead of 400
-        #print(header)
         #graphTab crashes if the header have duplicates for its name
         #check for duplicates and have user return to change it
         if len(header) != len(set(header)):#catches for duplicate headers
@@ -255,8 +254,7 @@ class DataTab(QWidget):
                         cellrow.append(self.myTable.item(row, col).text()) #add cell into row
                         self.checkRow+=1 #actaul size of rows 
                 newRows.append(cellrow)#append row into total row
-        #print(newRows)
-    
+
         #Test if the row data is valid. Seems to crash if for the following reasons:
         #1. if str was inputted instead of numerical values.
         #2. if there was a cell left empty.
@@ -265,7 +263,6 @@ class DataTab(QWidget):
         for rowData in newRows:#get specific row from total rows.
             lastcol=0 #sets to zero since its a new row.
             for col, stuff in enumerate(rowData):
-                print(col, stuff)
                 if lastcol == self.checkCol: #wont include if there is no header for the columns after len of columns
                     continue
                 lastcol+=1 
@@ -273,16 +270,12 @@ class DataTab(QWidget):
                     continue
                 else:
                     #check if the str inputted is a numerical value
-                    #print(self.checkCol, lastcol)
-                    #print(stuff)
                     if not stuff.isdigit():
                         self.manualIsChecked=True #set to expect manual input to True
                         self.errorState=True #throw a error state to not create the DF
                         self.errorEmptyNumber()
                         return
-        #print('check if cell emppty')
-        #print(self.checkCol, lastcol)
-        
+
         if self.checkCol is not lastcol: #here is to check if there were no cell left empty
             self.manualIsChecked=True
             self.errorState=True
@@ -354,10 +347,6 @@ class DataTab(QWidget):
                   
                     # If any of the column or row bounds specified by the user
                     # are out of bounds, send error message
-                    print("x1",x1," y1:", y1)
-                    print('x2:',x2, " y2:",y2)
-                    print("row#:",number_of_rows)
-                    print('col#:', number_of_columns)
                     #if x1 < 0 or x1 > number_of_rows-1 or x2 < 0 or x2 > number_of_rows-1 or x2 < x1 or y1 < 1 or y1 > number_of_columns-1 or y2 < 1 or y2 > number_of_columns-1 or y2 < y1:
                     # If any of the column or row bounds specified by the user
                     # are out of bounds, send error message
@@ -366,7 +355,6 @@ class DataTab(QWidget):
                     else:
                         ptA = [x1, y1]
                         ptB = [x2, y2]
-                        print (UserSelect.selection(tmp_df, ptA, ptB, 1))
                         return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
