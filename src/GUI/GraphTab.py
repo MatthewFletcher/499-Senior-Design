@@ -1,15 +1,18 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupBox,
-                             QPushButton, QGridLayout, QSizePolicy, QButtonGroup,
-                             QApplication, QFileDialog)
+                             QPushButton, QGridLayout, QButtonGroup, QApplication,
+                             QFileDialog, QMessageBox)
+from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import pandas as pd
 from pathlib import Path
 import sys, os
-
 import logging
 
+# The GraphTab class holds the GUI for the GraphTab, which consists of two sections:
+# the GraphGroup and the CustomGroup. The GraphGroup contains the graph. The CustomGroup
+# allows the user to choose which type of graph they would like.
 class GraphTab(QWidget):
     def __init__(self):
         super().__init__()
@@ -18,9 +21,11 @@ class GraphTab(QWidget):
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
 
-        self.buttonSize = 680
-        self.graphWidth = self.size.width() * 0.65
-        self.customWidth = self.size.width() * 0.3
+        # These numbers are arbitrary and seemed
+        # to have the best balance
+        self.buttonSize = self.size.width() * 0.29
+        self.graphWidth = self.size.width() * 0.64
+        self.customWidth = self.size.width() * 0.29
 
         self.createGraphGroup()
         self.createCustomGroup()
@@ -47,20 +52,20 @@ class GraphTab(QWidget):
     # text boxes for user input on how they want their graph
     def createCustomGroup(self):
         self.CustomGroup = QGroupBox("Options")
+        self.CustomGroup.setFixedWidth(self.customWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
         self.graphLabel = QLabel("What kind of graph would you like?")
         self.typeGroup = QButtonGroup()
         self.vbarRadioButton = QRadioButton("Vertical bar")
+        self.vbarRadioButton.setChecked(True)
         self.hbarRadioButton = QRadioButton("Horizontal bar")
         self.pieRadioButton = QRadioButton("Pie chart")
-        self.NDCRadioButton = QRadioButton("Normal Distribution Curve")
         self.scatterRadioButton = QRadioButton("Scatter plot")
         self.typeGroup.addButton(self.vbarRadioButton)
         self.typeGroup.addButton(self.hbarRadioButton)
         self.typeGroup.addButton(self.pieRadioButton)
-        self.typeGroup.addButton(self.NDCRadioButton)
         self.typeGroup.addButton(self.scatterRadioButton)
         self.spaceLabel = QLabel("\n\n\n")
 
@@ -82,28 +87,23 @@ class GraphTab(QWidget):
         self.layout.addWidget(self.vbarRadioButton, 2, 0)
         self.layout.addWidget(self.hbarRadioButton, 3, 0)
         self.layout.addWidget(self.pieRadioButton, 4, 0)
-        self.layout.addWidget(self.NDCRadioButton, 5, 0)
-        self.layout.addWidget(self.scatterRadioButton, 6, 0)
-        self.layout.addWidget(self.spaceLabel, 7, 0)
+        self.layout.addWidget(self.scatterRadioButton, 5, 0)
+        self.layout.addWidget(self.spaceLabel, 6, 0)
 
         self.layout.addWidget(self.graphButton)
-        self.CustomGroup.setFixedWidth(self.buttonSize)
-        self.CustomGroup.setLayout(self.layout)
-
         self.layout.addWidget(self.PNGButton)
-        self.CustomGroup.setFixedWidth(self.buttonSize)
         self.CustomGroup.setLayout(self.layout)
 
+    # Change the types of graphs available depending on which
+    # data type radio button is selected on DataTab
     def enableGraphType(self, dataType):
         if dataType == "interval" or dataType == "frequency":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            self.NDCRadioButton.setEnabled(True)
             self.pieRadioButton.setEnabled(True)
         elif dataType == "ordinal":
             self.vbarRadioButton.setEnabled(True)
             self.hbarRadioButton.setEnabled(True)
-            self.NDCRadioButton.setEnabled(True)
             self.pieRadioButton.setEnabled(True)
             self.scatterRadioButton.setEnabled(False)
 
@@ -111,7 +111,7 @@ class GraphTab(QWidget):
     def graphButtonClicked(self):
         logging.info('Graphing has been selected')
         d = self.masterDF
-        if not d.empty:
+        if d is not None:
             self.figure.clear()
             if self.vbarRadioButton.isChecked():
                 self.verticalBarGraph(d)
@@ -119,20 +119,21 @@ class GraphTab(QWidget):
                 self.horizontalBarGraph(d)
             elif self.pieRadioButton.isChecked():
                 self.ordinal_pie(d)
-            # elif self.NDCRadioButton.isChecked():
-            #     self.NDCGraph(d)
             elif self.scatterRadioButton.isChecked():
                 self.scatterPlot(d)
-
+        else:
+            self.graphError()
         logging.info('GraphTab: Data has been graphed')
 
         self.myGraph.draw()
         self.repaint()
 
+    # Calls the function to save a PNG
     def PNGButtonClicked(self):
         logging.info('Saving graph as PNG')
         self.saveFileDialog()
 
+    # Saves a PNG to the computer of the graph
     def saveFileDialog(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
@@ -151,23 +152,7 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.barh(x, y, color=['orange', 'darkkhaki'])
-
-    # # This function will graph the data as a normal distribution curve
-    # def NDCGraph(self, df):
-
-
-    # def lineGraph(self, df):
-    #     plot = self.figure.add_subplot(111)
-    #     headers = list(df.columns.values)
-    #
-    #     x = df[headers[1]]
-    #     y = df[headers[2]]
-    #     plot.set_xlabel(headers[1])
-    #     plot.set_ylabel(headers[2])
-    #
-    #     # Plot the points using matplotlib
-    #     plot.plot(x, y)
+        plot.barh(x, y, color=['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender'])
 
     # This function will graph the data as a vertical bar graph
     def verticalBarGraph(self, df):
@@ -179,13 +164,13 @@ class GraphTab(QWidget):
         for header in headers:
             y.append(df[header].sum())
 
-        plot.bar(x, y, color=['lightcoral', 'steelblue'])
+        plot.bar(x, y, color=['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender'])
 
     # This function will graph the frequency or interval data as a pie chart
     def freqint_pie(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
-        # Remove the Question # column
+        # Remove the first column
         headers.pop(0)
         x = headers
         y = []
@@ -195,7 +180,7 @@ class GraphTab(QWidget):
             explode.append(0)
 
         # Data to plot
-        colors = ['gold', 'navyblue']
+        colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender']
 
         # Plot
         plot.pie(y, explode=explode, labels=x, colors=colors,
@@ -206,7 +191,7 @@ class GraphTab(QWidget):
     def ordinal_pie(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
-        # Remove the Question # column
+        # Remove the first column
         headers.pop(0)
         x = headers
         y = []
@@ -233,3 +218,11 @@ class GraphTab(QWidget):
         plot.set_xlabel(headers[1])
         plot.set_ylabel(headers[2])
         plot.scatter(x, y)
+
+    def graphError(self):
+        error = QMessageBox()
+        error.setWindowTitle("Error")
+        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setText("Oops! Cannot graph without submitting appropriate data.")
+        error.setStandardButtons(QMessageBox.Ok)
+        error.exec()

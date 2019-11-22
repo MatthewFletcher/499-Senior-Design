@@ -4,20 +4,33 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
+sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 
 sys.path.append(str(Path(os.path.abspath(__file__)).joinpath("../../Math").resolve()))
+
 import Stats_Wizard as s
 
+# The AnalysisTab class holds the GUI for the AnalysisTab, which consists of four sections:
+# TextGroup, ChooseIntervalGroup, ChooseOrdinalGroup, and ChooseFrequencyGroup. The TextGroup
+# prints out the analysis. The ChooseIntervalGroup allows the user to select the tests they
+# wish to run on their interval data. The ChooseOrdinalGroup allows the user to select the
+# tests they wish to run on their ordinal data. The ChooseFrequency group allows the user to
+# select the tests they wish to run on their frequency data.
 class AnalysisTab(QWidget):
     def __init__(self):
-        
+
         super().__init__()
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
 
-        self.textWidth = self.size.width() * 0.55
-        self.chooseWidth = self.size.width() * 0.4
+        # These numbers are arbitrary and seemed
+        # to have the best balance
+        self.textWidth = self.size.width() * 0.64
+        self.chooseWidth = self.size.width() * 0.29
 
         self.createTextGroup()
         self.createChooseIntervalGroup()
@@ -46,8 +59,8 @@ class AnalysisTab(QWidget):
         self.layout.addWidget(self.analysis)
         self.TextGroup.setLayout(self.layout)
 
-    # The right side of AnalysisTab containing the buttons for
-    # analysis
+    # The right side of AnalysisTab containing a checklist of tests that
+    # may be run on the data and a button to press to run the tests
     def createChooseIntervalGroup(self):
         self.ChooseIntervalGroup = QGroupBox("Tests for Interval Data")
         self.ChooseIntervalGroup.setFixedWidth(self.chooseWidth)
@@ -66,7 +79,6 @@ class AnalysisTab(QWidget):
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
-            
 
         self.analyzeIntervalButton = QPushButton("Analyze")
         self.analyzeIntervalButton.setEnabled(False)
@@ -78,8 +90,8 @@ class AnalysisTab(QWidget):
         self.layout.addWidget(self.analyzeIntervalButton, 1, 1)
         self.ChooseIntervalGroup.setLayout(self.layout)
 
-    # The right side of AnalysisTab containing the buttons for
-    # analysis
+    # The right side of AnalysisTab containing a checklist of tests that
+    # may be run on the data and a button to press to run the tests
     def createChooseOrdinalGroup(self):
         self.ChooseOrdinalGroup = QGroupBox("Tests for Ordinal Data")
         self.ChooseOrdinalGroup.setFixedWidth(self.chooseWidth)
@@ -109,8 +121,8 @@ class AnalysisTab(QWidget):
         self.layout.addWidget(self.analyzeOrdinalButton, 1, 1)
         self.ChooseOrdinalGroup.setLayout(self.layout)
 
-    # The right side of AnalysisTab containing the buttons for
-    # analysis
+    # The right side of AnalysisTab containing a checklist of tests that
+    # may be run on the data and a button to press to run the tests
     def createChooseFrequencyGroup(self):
         self.ChooseFrequencyGroup = QGroupBox("Tests for Frequency Data")
         self.ChooseFrequencyGroup.setFixedWidth(self.chooseWidth)
@@ -140,11 +152,28 @@ class AnalysisTab(QWidget):
         self.layout.addWidget(self.analyzeFrequencyButton, 1, 1)
         self.ChooseFrequencyGroup.setLayout(self.layout)
 
+    # Change the types of tests available depending on which
+    # data type radio button is selected on DataTab
+    def enableAnalysis(self, dataType):
+        if dataType == "interval":
+            self.analyzeIntervalButton.setEnabled(True)
+            self.analyzeOrdinalButton.setEnabled(False)
+            self.analyzeFrequencyButton.setEnabled(False)
+        elif dataType == "frequency":
+            self.analyzeIntervalButton.setEnabled(False)
+            self.analyzeOrdinalButton.setEnabled(True)
+            self.analyzeFrequencyButton.setEnabled(False)
+        elif dataType == "ordinal":
+            self.analyzeIntervalButton.setEnabled(False)
+            self.analyzeOrdinalButton.setEnabled(False)
+            self.analyzeFrequencyButton.setEnabled(True)
+
+    # Placeholders
     def intervalButtonClicked(self):
-        y=0
+        y = 0
 
     def ordinalButtonClicked(self):
         y = 0
 
     def frequencyButtonClicked(self):
-        y=0
+        y = 0
