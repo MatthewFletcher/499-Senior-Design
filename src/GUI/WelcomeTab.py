@@ -12,17 +12,19 @@ import sys
 import os
 from pathlib import Path
 
+
 class WelcomeTab(QWidget):
     def __init__(self):
         super().__init__()
-    
+        #QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+        #test on mac
         self.app =QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size=self.screen.size()
         self.buttonSize=680
 
         self.logoWidth=self.size.width() *0.33
-        self.infoWidth=self.size.width()*0.65
+        self.infoWidth=self.size.width()*0.60
         
         self.createLogoGroup()
         self.createInfoGroup()
@@ -37,12 +39,15 @@ class WelcomeTab(QWidget):
         
     #Left side for the picture
     def createLogoGroup(self):
-        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
-        self.pixmap2=self.pixmap.scaled(600,600)
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
+        print(self.infoWidth)
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
+        self.pixmap2=self.pixmap.scaled(self.logoWidth*.80,self.logoWidth*.80)
+        
         self.label=QLabel(self)
         self.label.setPixmap(self.pixmap2)
+
         self.layout=QGridLayout()
         self.layout.addWidget(self.label)
         self.logoGroup.setLayout(self.layout)
@@ -53,7 +58,7 @@ class WelcomeTab(QWidget):
         self.infoGroup.setFixedWidth(self.infoWidth)
         self.infoLabel=QLabel(self)
         self.infoLabel.setStyleSheet("font: 15pt Tw Cen MT")
-        self.infoLabel.setText("Welcome to the Stats Wiz? Here's all you need to know:")
+        self.infoLabel.setText("Welcome to the Stats Wiz!! Here's all you need to know:")
           
         window =CollapsibleDialog() #this create the Collapsible Dialog handler
         
@@ -94,7 +99,8 @@ class CollapsibleDialog(QDialog):
         layout.addWidget(self.tree)
         self.setLayout(layout)
         self.tree.setIndentation(0)
-
+        self.infoWidth=self.tree.size().width()
+        print(self.infoWidth)
         self.sections=[]
         self.define_sections()
         self.add_sections()
@@ -123,13 +129,14 @@ class CollapsibleDialog(QDialog):
         
         #    self.labelText = QLabel(self)
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         
         infoD=QLabel(self)
         
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
         infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n"
-                               "The rest of the capabilities will be dependent upon the type of data you entered\n"
+                               "The first row will be for Headers\n"
+                               "The rest of the capabilities will be dependent upon \nthe type of data you entered\n"
                                "(ordinal, interval, or frequency).\n\n"
                                "[Data]"
                                "\nChoice to Graph Everything\n"
@@ -146,10 +153,11 @@ class CollapsibleDialog(QDialog):
         
         layout.addWidget(infoD)
         title = "DataTab"
-
         self.sections.append((title, widget))
+
+
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         infoG=QLabel(self)
         infoG.setStyleSheet("font: 15pt Tw Cen MT")
         infoG.setText("The graph will be selectable by the user for display.\n\n"
@@ -165,35 +173,51 @@ class CollapsibleDialog(QDialog):
 
         layout.addWidget(infoG)
         title = "GraphTab"
-
         self.sections.append((title, widget))
+
+        #"[Interval Data Test]\n"
+        #"Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+        #"Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
+        #"[Ordinal Data Test]\n"
+        #"Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+        #"Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
+        #"[Frequency Data Test]\n"
+        #"Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
+        #"Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"    
+                               
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         infoA=QLabel(self)
         infoA.setStyleSheet("font: 15pt Tw Cen MT")
         infoA.setText("Apply Statistical Analysis if it is meaningful for the type of data.\n"
                                 "May select more than one statistical test for any specified set of data.\n"
-                                "The following statistical analyses on your data-\n\n"
-                               "[Interval Data Test]\n"
-                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
-                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
-                               "[Ordinal Data Test]\n"
-                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
-                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"
-                               "[Frequency Data Test]\n"
-                               "Mean, Median, Mode, Standard Deviation, Least Square Line, X^2 (Chi Square),\n"
-                                "Correlation Coefficient, Sign Test, Rank Sum Test, and Spearman Rank Correlation.\n\n"    
-                               "[Analyze]\n"
-                                "Proceed to apply the Statistical Analysis that would be applied.")
-        layout.addWidget(infoA)
-        title = "AnalysisTab"
+                                "The following statistical analyses on your data:\n" )
 
+       
+        infoA2 = QLabel(self)
+        infoA2.setStyleSheet("font: 15pt Tw Cen MT")
+        infoA2.setText("\n[Analyze]\n"
+                                "Proceed to apply the Statistical Analysis that would be applied.")
+       #picture of a table with test that apply for the type of data
+        
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
+        self.pixmap2=self.pixmap.scaled(self.infoWidth*.70,self.infoWidth*.50)
+        pic=QLabel(self)
+        pic.setPixmap(self.pixmap2)
+        
+        
+        layout.addWidget(infoA)
+        layout.addWidget(pic)
+        layout.addWidget(infoA2)
+        
+        title = "AnalysisTab"
         self.sections.append((title, widget))
+        
         widget = QFrame(self.tree)
-        layout = QHBoxLayout(widget)
+        layout = QVBoxLayout(widget)
         infoS=QLabel(self)
         infoS.setStyleSheet("font: 15pt Tw Cen MT")
-        infoS.setText("See a summary of all the results of all Statistical Analysis you did to your data.\n\n"
+        infoS.setText("See a summary of all the results of all \nStatistical Analysis you did to your data.\n\n"
                         "[Options]\n"
                         "Save: User to save the Summary Report as text file.\n"
                         "Clear: User to clear the Summary Report Log.")
