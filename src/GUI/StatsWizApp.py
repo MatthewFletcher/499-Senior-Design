@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout, QDialog)
+from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout, QDesktopWidget, QDialog, QMainWindow)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import sys, os
@@ -13,6 +13,7 @@ class TabPage(QTabWidget):
         self.setStyleSheet('font: 15pt Tw Cen MT')
         self.setWindowTitle("Stats Wiz")
 
+        # Adjusts for lower resolution screens
         if hasattr(Qt, 'AA_EnableHighDpiScaling'):
             QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
 
@@ -47,7 +48,7 @@ class TabPage(QTabWidget):
 def runStatsWiz():
     app = QApplication(sys.argv)
     tabPage = TabPage()
-    tabPage.showFullScreen()
+    tabPage.show()
     app.exec_()
 
 
