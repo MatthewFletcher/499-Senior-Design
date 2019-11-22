@@ -13,10 +13,6 @@ class TabPage(QTabWidget):
         self.setStyleSheet('font: 15pt Tw Cen MT')
         self.setWindowTitle("Stats Wiz")
 
-        # Adjusts for lower resolution screens
-        if hasattr(Qt, 'AA_EnableHighDpiScaling'):
-            QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-
         #Get directory name of this file
         #Get icon name from the generated absolute path
         self.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
