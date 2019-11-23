@@ -26,6 +26,7 @@ class AnalysisTab(QWidget):
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
+        self.masterDF = None
 
         # These numbers are arbitrary and seemed
         # to have the best balance
@@ -170,10 +171,10 @@ class AnalysisTab(QWidget):
 
     # Placeholders
     def intervalButtonClicked(self):
-        y = 0
+        df = self.masterDF
 
     def ordinalButtonClicked(self):
-        y = 0
+        df = self.masterDF
 
     def frequencyButtonClicked(self):
-        y = 0
+        df = self.masterDF
