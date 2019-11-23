@@ -38,7 +38,7 @@ class TabPage(QTabWidget):
     def setDF(self):
         data = self.dataTab.getDataFromTable()
         self.graphTab.masterDF = data
-        self.analysisTab.masterDF = data
+        self.analysisTab.mydata = data[0]
         self.graphTab.enableGraphType(self.dataTab.getDataType())
         self.analysisTab.enableAnalysis(self.dataTab.getDataType())
 

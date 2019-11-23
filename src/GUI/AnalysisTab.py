@@ -4,14 +4,13 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
+import inspect
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
-
 sys.path.append(str(Path(os.path.abspath(__file__)).joinpath("../../Math").resolve()))
-
-import Stats_Wizard as s
+import Stats_Wizard as sw
 
 # The AnalysisTab class holds the GUI for the AnalysisTab, which consists of four sections:
 # TextGroup, ChooseIntervalGroup, ChooseOrdinalGroup, and ChooseFrequencyGroup. The TextGroup
@@ -26,7 +25,7 @@ class AnalysisTab(QWidget):
         self.app = QApplication(sys.argv)
         self.screen = self.app.primaryScreen()
         self.size = self.screen.size()
-        self.masterDF = None
+        self.mydata = None
 
         # These numbers are arbitrary and seemed
         # to have the best balance
@@ -55,9 +54,11 @@ class AnalysisTab(QWidget):
 
         # Here is where the analysis will go
         self.analysis = QLabel()
+        self.analysis2 = QLabel()
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.analysis)
+        self.layout.addWidget(self.analysis2)
         self.TextGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing a checklist of tests that
@@ -74,7 +75,7 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel()
 
         # for test, function in intervalList:
-        for test, function in s.Statistics(0).test_list():
+        for test, function in sw.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -105,7 +106,7 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel()
 
         # for test, function in ordinalList:
-        for test, function in s.Statistics(0).test_list():
+        for test, function in sw.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -136,7 +137,7 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel()
 
         # for test, function in frequencyList:
-        for test, function in s.Statistics(0).test_list():
+        for test, function in sw.Statistics(0).test_list():
             item = QStandardItem(test)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -171,10 +172,40 @@ class AnalysisTab(QWidget):
 
     # Placeholders
     def intervalButtonClicked(self):
-        df = self.masterDF
+        df = sw.Regression(self.mydata)
+        ds = sw.Statistics(self.mydata)
+        rr = sw.Regression(df.df)
+        for row in self.model:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and row.isChecked()]:
+                temp = test(ds.d)
+                self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
+
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_") and row.isChecked()]:
+                temp = test(rr.df)
+                self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
     def ordinalButtonClicked(self):
-        df = self.masterDF
+        df = sw.Regression(self.mydata)
+        ds = sw.Statistics(self.mydata)
+        rr = sw.Regression(df.df)
+        for row in self.model:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and row.isChecked()]:
+                temp = test(ds.d)
+                self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
+
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_") and row.isChecked()]:
+                temp = test(rr.df)
+                self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
     def frequencyButtonClicked(self):
-        df = self.masterDF
+        df = sw.Regression(self.mydata)
+        ds = sw.Statistics(self.mydata)
+        rr = sw.Regression(df.df)
+        for row in self.model:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and row.isChecked()]:
+                temp = test(ds.d)
+                self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
+
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_") and row.isChecked()]:
+                temp = test(rr.df)
+                self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
