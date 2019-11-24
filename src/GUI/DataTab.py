@@ -380,7 +380,7 @@ class DataTab(QWidget):
     def errorMessage(self):
         error = QMessageBox()
         error.setWindowTitle("Error")
-        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
         error.setText("You haven't entered any information in the table!")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
@@ -388,7 +388,7 @@ class DataTab(QWidget):
     def errorMissingRange(self):
         error = QMessageBox()
         error.setWindowTitle("Error")
-        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
         error.setText("You need to specify all of the range of values!")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
@@ -396,7 +396,7 @@ class DataTab(QWidget):
     def errorOutofBounds(self):
         error = QMessageBox()
         error.setWindowTitle("Error")
-        error.setWindowIcon(QIcon("StatsLogo1.png"))
+        error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
         error.setText("Your column or row index is out of bounds!\n")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()

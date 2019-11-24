@@ -132,7 +132,7 @@ class CollapsibleDialog(QDialog):
         infoD=QLabel(self)
         
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
-        infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n\n"
+        infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n"
                                 "[MANUAL INPUT]\n"
                                 "Format for table.")
         #                       "The first row will be for Headers\n"
@@ -143,8 +143,9 @@ class CollapsibleDialog(QDialog):
         infoD2=QLabel(self)
         infoD2.setStyleSheet("font: 15pt Tw Cen MT")
         infoD2.setText(        "[Data]"
-                               "\nChoice to Graph Everything\n"
+                               "\nChoice to Submit Everything\n"
                                 "Specify certain rows and columns to perform analyses on.\n"    
+                               "NOTE: ONE column for Statistical Test | TWO columns for Regression Test\n"
                                "\n[Type]\n"
                                "Please specify if Data is Interval, Ordinal, or Frequency.\n\n"
                                "[Buttons]\n"
@@ -202,7 +203,12 @@ class CollapsibleDialog(QDialog):
         infoA.setStyleSheet("font: 15pt Tw Cen MT")
         infoA.setText("Apply Statistical Analysis if it is meaningful for the type of data.\n"
                                 "May select more than one statistical test for any specified set of data.\n"
-                                "The following statistical analyses on your data:\n" )
+                                "The following statistical analyses on your data:\n\n"
+                                "Reminder:\n"
+                                "[Statisical Test] ONE Column-\n" 
+                                "Max, Min, Range, Mean, Median, Mode, Variance, STD Deviation, Coefficient of Variance, ZScore\n"  
+                                "[Regression Test] TWO Column-\n"
+                                "Pearson Regression, Linear, Normal Distribution, Sign Test, Spearman Rank Correlation Coefficient\n")
 
        
         infoA2 = QLabel(self)
