@@ -253,7 +253,7 @@ class r_linear(Regression):
 
         #Call subroutine
         out = sf.linear(x,y)
-        d =  {'slope': out[1], 'y_int': out[0], 'equation': f"{out[1]}*x + {out[0]}"}
+        d =  {'slope': out[1], 'y_int': out[0], 'equation': f"{out[1]:.4f}*x + {out[0]:.4f}"}
         return d
 
     def __call__(self):
