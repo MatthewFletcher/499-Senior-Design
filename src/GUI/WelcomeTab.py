@@ -133,13 +133,15 @@ class CollapsibleDialog(QDialog):
         
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
         infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n\n"
-                                "[MANUAL INPUT]\n"
-                               "The first row will be for Headers\n"
-                               "The first column will be for Headers\n"
-                               "It should be numerical input only.\n"
-                               "The rest of the capabilities will be dependent upon \nthe type of data you entered\n"
-                               "(ordinal, interval, or frequency).\n\n"
-                               "[Data]"
+                                "[MANUAL INPUT]\n")
+        #                       "The first row will be for Headers\n"
+        #                       "The first column will be for Headers\n"
+        #                       "It should be numerical input only.\n"
+        #                       "The rest of the capabilities will be dependent upon \nthe type of data you entered\n"
+        #                       "(ordinal, interval, or frequency).\n\n")
+        infoD2=QLabel(self)
+        infoD2.setStyleSheet("font: 15pt Tw Cen MT")
+        infoD2.setText(        "[Data]"
                                "\nChoice to Graph Everything\n"
                                 "Specify certain rows and columns to perform analyses on.\n"    
                                "\n[Type]\n"
@@ -152,12 +154,14 @@ class CollapsibleDialog(QDialog):
         # titleD.setStyleSheet("font 20pt Tw Cen MT")
         # titleD.setText("DataTab")
         
-        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"ManualInputFormat.png")))
         self.pixmap2=self.pixmap.scaled(self.infoWidth*.70,self.infoWidth*.50)
         pic=QLabel(self)
         pic.setPixmap(self.pixmap2)
 
         layout.addWidget(infoD)
+        layout.addWidget(pic)
+        layout.addWidget(infoD2)
         title = "DataTab"
         self.sections.append((title, widget))
 
