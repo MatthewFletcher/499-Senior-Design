@@ -48,11 +48,6 @@ class Statistics:
         This class consists of all tests that require only 1 vector.
     '''
     def __init__(self, d):
-        if not hasattr(d, '__iter__'):
-            print(f"Type of data: {type(d)} is not list-like")
-            sys.stderr.write('Invalid Data type entered\n')
-            sys.exit(1)
-        else:
             self.d = d
 
 class s_max(Statistics):

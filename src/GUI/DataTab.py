@@ -30,7 +30,7 @@ class DataTab(QWidget):
         # to have the best balance
         self.tableWidth = self.size.width() * 0.64
         self.customWidth = self.size.width() * 0.29
-        self.buttonSize = self.size.width() * 0.29
+        self.buttonSize = self.size.width() * 0.28
         self.lineEditSize = self.size.width() * 0.067
         self.rowSize = 400
         self.columnSize = 400

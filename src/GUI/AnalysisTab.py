@@ -12,6 +12,8 @@ sys.path.append(str(Path(os.getcwd()).joinpath("../csvtools").resolve()))
 sys.path.append(str(Path(os.path.abspath(__file__)).joinpath("../../Math").resolve()))
 import Stats_Wizard as sw
 
+from pandas import DataFrame
+
 # The AnalysisTab class holds the GUI for the AnalysisTab, which consists of four sections:
 # TextGroup, ChooseIntervalGroup, ChooseOrdinalGroup, and ChooseFrequencyGroup. The TextGroup
 # prints out the analysis. The ChooseIntervalGroup allows the user to select the tests they
@@ -75,8 +77,24 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel()
 
         # for test, function in intervalList:
-        for test, function in sw.Statistics(0).test_list():
-            item = QStandardItem(test)
+        tempdata = {'foo':[], 'bar':[]}
+        tempdata = DataFrame(tempdata, columns=["foo", 'bar'])
+        tempds = tempdata['foo']
+        ds = sw.Statistics(tempds)
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+            item = test(ds.d)
+            #print(f"Type of item: {type(item)}")
+            item = QStandardItem(item.name)
+            item.setCheckable(True)
+            check = Qt.Unchecked
+            item.setCheckState(check)
+            self.model.appendRow(item)
+
+        df = sw.Statistics(tempdata)
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+            item = test(df.d)
+            print(f"Type of item: {type(item)}")
+            item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
@@ -105,14 +123,31 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        # for test, function in ordinalList:
-        for test, function in sw.Statistics(0).test_list():
-            item = QStandardItem(test)
+        # for test, function in intervalList:
+        tempdata = {'foo': [], 'bar': []}
+        tempdata = DataFrame(tempdata, columns=["foo", 'bar'])
+        tempds = tempdata['foo']
+        ds = sw.Statistics(tempds)
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+            item = test(ds.d)
+            # print(f"Type of item: {type(item)}")
+            item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
 
+        df = sw.Statistics(tempdata)
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+            item = test(df.d)
+            print(f"Type of item: {type(item)}")
+            item = QStandardItem(item.name)
+            item.setCheckable(True)
+            check = Qt.Unchecked
+            item.setCheckState(check)
+            self.model.appendRow(item)
+
+        print(self.model)
         self.analyzeOrdinalButton = QPushButton("Analyze")
         self.analyzeOrdinalButton.setEnabled(False)
         self.analyzeOrdinalButton.clicked.connect(self.ordinalButtonClicked)
@@ -136,9 +171,24 @@ class AnalysisTab(QWidget):
 
         self.model = QStandardItemModel()
 
-        # for test, function in frequencyList:
-        for test, function in sw.Statistics(0).test_list():
-            item = QStandardItem(test)
+        # for test, function in intervalList:
+        tempdata = {'foo': [], 'bar': []}
+        tempdata = DataFrame(tempdata, columns=["foo", 'bar'])
+        tempds = tempdata['foo']
+        ds = sw.Statistics(tempds)
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+            item = test(ds.d)
+            # print(f"Type of item: {type(item)}")
+            item = QStandardItem(item.name)
+            item.setCheckable(True)
+            check = Qt.Unchecked
+            item.setCheckState(check)
+            self.model.appendRow(item)
+
+        df = sw.Statistics(tempdata)
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+            item = test(df.d)
+            item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
@@ -161,11 +211,11 @@ class AnalysisTab(QWidget):
             self.analyzeIntervalButton.setEnabled(True)
             self.analyzeOrdinalButton.setEnabled(False)
             self.analyzeFrequencyButton.setEnabled(False)
-        elif dataType == "frequency":
+        elif dataType == "ordinal":
             self.analyzeIntervalButton.setEnabled(False)
             self.analyzeOrdinalButton.setEnabled(True)
             self.analyzeFrequencyButton.setEnabled(False)
-        elif dataType == "ordinal":
+        elif dataType == "frequency":
             self.analyzeIntervalButton.setEnabled(False)
             self.analyzeOrdinalButton.setEnabled(False)
             self.analyzeFrequencyButton.setEnabled(True)
@@ -175,12 +225,16 @@ class AnalysisTab(QWidget):
         df = sw.Regression(self.mydata)
         ds = sw.Statistics(self.mydata)
         rr = sw.Regression(df.df)
+        sys.stderr.write("Print 1\n")
         for row in self.model:
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and row.isChecked()]:
+            sys.stderr.write("Print 2\n")
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+                sys.stderr.write("Print 3\n")
                 temp = test(ds.d)
                 self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_") and row.isChecked()]:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+                sys.stderr.write("Print 4\n")
                 temp = test(rr.df)
                 self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
@@ -189,11 +243,11 @@ class AnalysisTab(QWidget):
         ds = sw.Statistics(self.mydata)
         rr = sw.Regression(df.df)
         for row in self.model:
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and row.isChecked()]:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
                 temp = test(ds.d)
                 self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_") and row.isChecked()]:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                 temp = test(rr.df)
                 self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
@@ -202,10 +256,10 @@ class AnalysisTab(QWidget):
         ds = sw.Statistics(self.mydata)
         rr = sw.Regression(df.df)
         for row in self.model:
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and row.isChecked()]:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
                 temp = test(ds.d)
                 self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_") and row.isChecked()]:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                 temp = test(rr.df)
                 self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
