@@ -40,7 +40,6 @@ class TabPage(QTabWidget):
         self.graphTab.masterDF = data
         self.analysisTab.mydata = data
         self.graphTab.enableGraphType(self.dataTab.getDataType())
-        self.analysisTab.enableAnalysis(self.dataTab.getDataType())
 
 def runStatsWiz():
     app = QApplication(sys.argv)

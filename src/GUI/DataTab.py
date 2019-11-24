@@ -11,6 +11,7 @@ import pandas as pd
 import UserSelect
 from pathlib import Path
 import logging
+import AnalysisTab
 
 
 # The DataTab class holds the GUI for the DataTab, which consists of two sections:
@@ -25,6 +26,8 @@ class DataTab(QWidget):
         self.size = self.screen.size()
         self.masterDF = None
         self.dataType = None
+
+        self.analysisTab = AnalysisTab.AnalysisTab()
 
         # These numbers are arbitrary and seemed
         # to have the best balance
@@ -210,6 +213,8 @@ class DataTab(QWidget):
             # Get data from table and store as df
             number_of_rows = self.myTable.rowCount()
             number_of_columns = self.myTable.columnCount()
+            if number_of_columns == 1:
+                self.analysisTab.enableAnalysisStatistics(self.dataTab.getDataType())
             header = []
             for i in range(number_of_columns):
                 header.append(self.myTable.horizontalHeaderItem(i).text())

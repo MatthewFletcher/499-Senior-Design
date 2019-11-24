@@ -205,7 +205,7 @@ class AnalysisTab(QWidget):
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
-    def enableAnalysis(self, dataType):
+    def enableAnalysisStatistics(self, dataType):
         if dataType == "interval":
             self.analyzeIntervalButton.setEnabled(True)
             self.analyzeOrdinalButton.setEnabled(False)
