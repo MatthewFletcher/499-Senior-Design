@@ -53,6 +53,7 @@ class s_max():
     def __init__(self,d):
         self.d = d
         self.name = "Max Value"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return sf.maximum(self.d)
     def __call__(self):
@@ -68,6 +69,7 @@ class s_min():
     def __init__(self,d):
         self.d = d
         self.name = "Min"
+        self.validTests = ['o', 'i', 'f']
     def func(self):    
         return sf.minimum(self.d)
     def __call__(self):
@@ -83,6 +85,7 @@ class s_range():
     def __init__(self,d):
         self.d = d
         self.name = "Range"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return sf.range(self.d)
     def __call__(self):
@@ -98,6 +101,7 @@ class s_mean():
     def __init__(self,d):
         self.d = d
         self.name = "Mean"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return sf.mean(self.d)
     def __call__(self):
@@ -112,6 +116,7 @@ class s_median():
     def __init__(self,d):
         self.d = d
         self.name = "Median"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return sorted(self.d)[int(len(self.d) / 2)]
     def __call__(self):
@@ -126,6 +131,7 @@ class s_mode():
     def __init__(self,d):
         self.d = d
         self.name = "Mode"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return self.d.value_counts().idxmax() if self.d.value_counts().max()==1 else None
 
@@ -142,6 +148,7 @@ class s_var():
     def __init__(self,d):
         self.d = d
         self.name = "Variance"
+        self.validTests = ['o', 'i', 'f']
     #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
     def func(self):
             return sf.var(self.d)
@@ -157,6 +164,7 @@ class s_stddev():
     def __init__(self,d):
         self.d = d
         self.name = "Standard Deviation"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return sf.stddev(self.d)
     def __call__(self):
@@ -171,6 +179,7 @@ class s_varcoeff():
     def __init__(self,d):
         self.d = d
         self.name = "Coefficient of Variance"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return sf.stddev(self.d)
     def __call__(self):
@@ -183,6 +192,7 @@ class s_zscore():
     def __init__(self,d):
         self.d = d
         self.name = "Z Score"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return list(sf.zscore(self.d))
     def __call__(self):
@@ -210,6 +220,7 @@ class r_pearsonR():
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
         self.name = "Pearson Regression Coefficient"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         # http://onlinestatbook.com/2/describing_bivariate_df/calculation.html
         x = self.xcol
@@ -236,6 +247,7 @@ class r_linear():
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
         self.name = "Line of Best Fit"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         #Save me some typing, set columns to single variables 
         x = self.xcol
@@ -263,6 +275,7 @@ class r_signtest():
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
         self.name = "Line of Best Fit"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         z =  sf.signtest(self.xcol, self.ycol)
 
@@ -290,6 +303,7 @@ class r_spearman():
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
         self.name = "Spearman Correlation"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return sf.spearman(self.xcol, self.ycol)
     def __call__(self):
@@ -309,6 +323,7 @@ class r_ranksum():
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
         self.name = "Rank Sum Test"
+        self.validTests = ['o', 'i', 'f']
     def func(self):
         return ss.ranksums(self.xcol, self.ycol)[0]
     def __call__(self):
