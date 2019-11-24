@@ -38,7 +38,7 @@ class SummaryTab(QWidget):
         self.setLayout(self.layout)
         self.show()
 
-    # The left side of SummaryTab containing the textbox
+    # The left side of SummaryTab containing the logging
     # where the summary will be shown
     def createSummaryTextGroup(self):
         self.SummaryTextGroup = QGroupBox("Summary")
@@ -46,7 +46,6 @@ class SummaryTab(QWidget):
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Here is where the summary will go
-
         self.analysis = QLabel(self)
         
         #Create Handler to display text in gui
@@ -69,7 +68,7 @@ class SummaryTab(QWidget):
         self.SummaryTextGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing the buttons for
-    # summaryTab
+    # summaryTab: Clear, Save Text file, Save CSV file
     def createSaveTextGroup(self):
 
         self.SaveTextGroup = QGroupBox("Options")
@@ -84,7 +83,7 @@ class SummaryTab(QWidget):
         #self.SaveButton.setFixedWidth(self.buttonSize)
         self.SaveTextButton.clicked.connect(self.SaveTextClicked)#save as text file
         
-        #TODO: CREAte new button to save as csv file
+        #TODO: Create new button to save as csv file
         self.SaveCSVButton = QPushButton("Save as CSV File")
         self.SaveCSVButton.setDefault(True)
         self.SaveCSVButton.clicked.connect(self.SaveCSVClicked)#save as csv file
@@ -101,26 +100,23 @@ class SummaryTab(QWidget):
         self.layout.addWidget(self.ClearButtoon)
         self.SaveTextGroup.setLayout(self.layout)
         
-
+    #User saves as CSV file
     def SaveCSVClicked(self):
         self.saveCSVFileDialog()
     def saveCSVFileDialog(self):
         options = QFileDialog.Option()
         options |= QFileDialog.DontUseNativeDialog
         fileName, _= QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "","All Files(*);;Text Files (*.txt)", options=options)
-        msg=self.logTextBox.getTexttoFile()
+        msg=self.logTextBox.getTexttoFile() #retrieve the current list
         if fileName:
-            print('inside\n')
-            test=msg.split('\n')
-            with open(fileName, 'w') as csvFile:
-                writer=csv.writer(csvFile)
-                for text in test:
-                    writer.writerow(text)
-            csvFile.close()
-            
-
+            splitMsg=msg.split('\n')#split msg if they are in new row
+            with open(fileName, 'w', newline='') as outfile:
+                writer=csv.writer(outfile)
+                for text in splitMsg:
+                    writer.writerow([text])
     
 
+    #User saves as text file
     def SaveTextClicked(self):
         self.saveTextFileDialog()  
 
@@ -134,6 +130,7 @@ class SummaryTab(QWidget):
             file.write(msg)
             file.close()
 
+    #User clears the summary in the GUI
     def ClearButtonClicked(self):
         self.logTextBox.deleteTextinGUI()
 

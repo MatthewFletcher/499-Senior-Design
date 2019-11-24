@@ -230,7 +230,8 @@ class CollapsibleDialog(QDialog):
         infoS.setStyleSheet("font: 15pt Tw Cen MT")
         infoS.setText("See a summary of all the results of all \nStatistical Analysis you did to your data.\n\n"
                         "[Options]\n"
-                        "Save: User to save the Summary Report as text file.\n"
+                        "Save CSV File: User to save the Summary Report as CSV file.\n"   
+                        "Save Text File: User to save the Summary Report as text file.\n"
                         "Clear: User to clear the Summary Report Log.")
         layout.addWidget(infoS)
         title = "SummaryTab"
