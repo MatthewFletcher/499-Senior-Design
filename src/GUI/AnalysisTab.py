@@ -5,6 +5,12 @@ from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
 import inspect
+
+from scipy.stats import norm
+
+foo = norm.a
+
+
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
@@ -78,20 +84,19 @@ class AnalysisTab(QWidget):
 
         # for test, function in intervalList:
         tempdata = {'foo':[], 'bar':[]}
-        tempdata = DataFrame(tempdata, columns=["foo", 'bar'])
-        tempds = tempdata['foo']
-        ds = sw.Statistics(tempds)
+        df = DataFrame(tempdata, columns=["foo", 'bar'])
+        ds = tempdata['foo']
+
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-            item = test(ds.d)
+            item = test(ds)
             item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
 
-        df = sw.Statistics(tempdata)
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-            item = test(df.d)
+            item = test(df)
             item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -122,28 +127,26 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel(self.ordinalAnalysis)
 
         # for test, function in intervalList:
-        tempdata = {'foo': [], 'bar': []}
-        tempdata = DataFrame(tempdata, columns=["foo", 'bar'])
-        tempds = tempdata['foo']
-        ds = sw.Statistics(tempds)
+        tempdata = {'foo':[], 'bar':[]}
+        df = DataFrame(tempdata, columns=["foo", 'bar'])
+        ds = tempdata['foo']
+
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-            item = test(ds.d)
-            # print(f"Type of item: {type(item)}")
+            item = test(ds)
             item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
 
-        df = sw.Statistics(tempdata)
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-            item = test(df.d)
-            print(f"Type of item: {type(item)}")
+            item = test(df)
             item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
+
 
         print(self.model)
         self.analyzeOrdinalButton = QPushButton("Analyze")
@@ -170,25 +173,20 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel(self.frequencyAnalysis)
 
         # for test, function in intervalList:
-        tempdata = {'foo': [], 'bar': []}
-        tempdata = DataFrame(tempdata, columns=["foo", 'bar'])
-        tempds = tempdata['foo']
-        ds = sw.Statistics(tempds)
+        tempdata = {'foo':[], 'bar':[]}
+        df = DataFrame(tempdata, columns=["foo", 'bar'])
+        ds = tempdata['foo']
+
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-            myItem = test(ds.d)
-            # print(f"Type of item: {type(item)}")
-            item = QStandardItem(myItem.name)
-
-            print(myItem.func)
-
+            item = test(ds)
+            item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
 
-        df = sw.Statistics(tempdata)
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-            item = test(df.d)
+            item = test(df)
             item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -257,9 +255,8 @@ class AnalysisTab(QWidget):
         #         self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
     def ordinalButtonClicked(self):
-        df = sw.Regression(self.mydata)
+        df = self.mydata
         ds = sw.Statistics(self.mydata)
-        rr = sw.Regression(df.df)
         for row in self.model:
             for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
                 temp = test(ds.d)
