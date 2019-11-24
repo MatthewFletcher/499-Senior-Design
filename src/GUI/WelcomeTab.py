@@ -110,9 +110,9 @@ class CollapsibleDialog(QDialog):
         for (title, widget) in self.sections:
             button1 = self.add_button(title)
             section1 = self.add_widget(button1, widget)
-            section1.setFlags(section1.flags() & ~Qt.ItemIsSelectable)#deactivate label being selectable
-            section1.setFlags(section1.flags() & ~Qt.ItemIsEnabled)
-            section1.setFlags(section1.flags() & Qt.NoFocus)
+            #section1.setFlags(section1.flags() & ~Qt.ItemIsSelectable)#deactivate label being selectable
+            #section1.setFlags(section1.flags() & ~Qt.ItemIsEnabled)
+            #section1.setFlags(section1.flags() & Qt.NoFocus)
             #section1.setFlags(section1 & QAbstractItemView.NoFocus)
             section1.setSelected(False)
             section1.setSelected(True)
@@ -133,7 +133,8 @@ class CollapsibleDialog(QDialog):
         
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
         infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n\n"
-                                "[MANUAL INPUT]\n")
+                                "[MANUAL INPUT]\n"
+                                "Format for table.")
         #                       "The first row will be for Headers\n"
         #                       "The first column will be for Headers\n"
         #                       "It should be numerical input only.\n"
@@ -250,65 +251,14 @@ class CollapsibleDialog(QDialog):
         #
         section = QTreeWidgetItem(button)
         section.setDisabled(False)
-        section.setFlags(section.flags() & ~Qt.ItemIsSelectable)
-        section.setFlags(section.flags() & ~Qt.ItemIsEnabled)
-        section.setFlags(section.flags() & Qt.NoFocus)
+        #section.setFlags(section.flags() & ~Qt.ItemIsSelectable)
+        #section.setFlags(section.flags() & ~Qt.ItemIsEnabled)
+        #section.setFlags(section.flags() & Qt.NoFocus)
         section.setSelected(False)
         section.setSelected(True)
         section.setSelected(False)
         self.tree.setItemWidget(section, 0, widget)
         return section
-
-#TODO: WelcomeTab: CollapsibleBoxDoesnt do anything delete          
-# class CollapsibleBox(QtWidgets.QWidget):
-#         def __init__(self, title='', parent=None):
-#             super(CollapsibleBox, self).__init__(parent)
-#             self.toggle_select=QtWidgets.QToolButton(
-#                 text=title, checkable=True, checked=False
-#             )
-#             self.toggle_select.setStyleSheet("QToolButton { border: none; }")
-#             self.toggle_select.setToolButtonStyle(QtCore.Qt.ToolButtonTextBesideIcon)
-#             self.toggle_select.setArrowType(QtCore.Qt.RightArrow)
-#             self.toggle_select.pressed.connect(self.clickedPressed)
-#             self.toggle_animate=QtCore.QParallelAnimationGroup(self)
-#             self.content_info=QtWidgets.QScrollArea(maximumHeight=0, minimumHeight=0)
-#             self.content_info.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-#             self.content_info.setFrameShape(QtWidgets.QFrame.NoFrame)
-#             layout=QtWidgets.QVBoxLayout(self)
-#             layout.setSpacing(0)
-#             layout.setContentsMargins(0,0,0,0)
-#             layout.addWidget(self.toggle_select)
-#             layout.addWidget(self.content_info)
-
-#             self.toggle_animate.addAnimation(QtCore.QPropertyAnimation(self, b"minimumHeight"))
-#             self.toggle_animate.addAnimation(QtCore.QPropertyAnimation(self, b"maximumHeight"))
-#             self.toggle_animate.addAnimation(QtCore.QPropertyAnimation(self.content_info, b"maximumHeight"))
-
-#         @QtCore.pyqtSlot()
-#         def clickedPressed(self):
-#             isChecked=self.toggle_select.isChecked()
-#             self.toggle_select.setArrowType(QtCore.Qt.DownArrow if not isChecked else QtCore.Qt.RightArrow)
-#             self.toggle_animate.setDirection(QtCore.QAbstractAnimation.Forward if not isChecked else QtCore.QAbstractAnimation.Backward)
-#             self.toggle_animate.start()
-#         def setContentLayout(self, layout):
-#             lay=self.content_info.layout()
-#             del lay
-#             self.content_info.setLayout(layout)
-#             collapsed_height=(self.sizeHint().height()-self.content_info.maximumHeight())
-#             content_height = layout.sizeHint().height()
-#             for i in range(self.toggle_animate.animationCount()):
-#                 animation=self.toggle_animate.animationAt(i)
-#                 animation.setDuration(500)
-#                 animation.setStartValue(collapsed_height)
-#                 animation.setEndValue(collapsed_height+content_height)
-            
-#             content_animation = self.toggle_animate.animationAt(self.toggle_animate.animationCount() -1)
-#             content_animation.setDuration(500)
-#             content_animation.setStartValue(0)
-#             content_animation.setEndValue(content_height)
-                
-
-#"""
 
 
 
