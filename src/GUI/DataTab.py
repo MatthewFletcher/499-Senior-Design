@@ -223,6 +223,7 @@ class DataTab(QWidget):
                 logging.info('User Selection on Dataset')
                 ptA = [0, 1]
                 ptB = [number_of_rows - 1, number_of_columns - 1]
+                self.sentSuccess()
                 return UserSelect.selection(tmp_df, ptA, ptB, 1)
             else:
                 # This is when the user clicks "Let me pick what to graph"
@@ -243,6 +244,7 @@ class DataTab(QWidget):
                         ptA = [x1, y1]
                         ptB = [x2, y2]
                         print (UserSelect.selection(tmp_df, ptA, ptB, 1))
+                        self.sentSuccess()
                         return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
@@ -288,3 +290,11 @@ class DataTab(QWidget):
         error.setText("Your column or row index is out of bounds!\n")
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
+
+    def sentSuccess(self):
+        success = QMessageBox()
+        success.setWindowTitle("Success")
+        success.setWindowIcon(QIcon("StatsLogo1.png"))
+        success.setText("Your data was sent!\n")
+        success.setStandardButtons(QMessageBox.Ok)
+        success.exec()

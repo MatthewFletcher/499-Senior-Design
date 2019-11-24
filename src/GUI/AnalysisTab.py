@@ -74,7 +74,7 @@ class AnalysisTab(QWidget):
         # they would like ran on their data
         self.intervalAnalysis = QListView()
 
-        self.model = QStandardItemModel()
+        self.model = QStandardItemModel(self.intervalAnalysis)
 
         # for test, function in intervalList:
         tempdata = {'foo':[], 'bar':[]}
@@ -83,7 +83,6 @@ class AnalysisTab(QWidget):
         ds = sw.Statistics(tempds)
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
             item = test(ds.d)
-            #print(f"Type of item: {type(item)}")
             item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -93,7 +92,6 @@ class AnalysisTab(QWidget):
         df = sw.Statistics(tempdata)
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
             item = test(df.d)
-            print(f"Type of item: {type(item)}")
             item = QStandardItem(item.name)
             item.setCheckable(True)
             check = Qt.Unchecked
@@ -121,7 +119,7 @@ class AnalysisTab(QWidget):
         # they would like ran on their data
         self.ordinalAnalysis = QListView()
 
-        self.model = QStandardItemModel()
+        self.model = QStandardItemModel(self.ordinalAnalysis)
 
         # for test, function in intervalList:
         tempdata = {'foo': [], 'bar': []}
@@ -169,7 +167,7 @@ class AnalysisTab(QWidget):
         # they would like ran on their data
         self.frequencyAnalysis = QListView()
 
-        self.model = QStandardItemModel()
+        self.model = QStandardItemModel(self.frequencyAnalysis)
 
         # for test, function in intervalList:
         tempdata = {'foo': [], 'bar': []}
@@ -226,17 +224,34 @@ class AnalysisTab(QWidget):
         ds = sw.Statistics(self.mydata)
         rr = sw.Regression(df.df)
         sys.stderr.write("Print 1\n")
-        for row in self.model:
-            sys.stderr.write("Print 2\n")
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-                sys.stderr.write("Print 3\n")
-                temp = test(ds.d)
-                self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
+        currentSelection = self.intervalAnalysis.selectedIndexes()
 
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-                sys.stderr.write("Print 4\n")
-                temp = test(rr.df)
-                self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
+        name = None
+        row = None
+        index = None
+
+        # Set name for currently selected object in listview
+        for obj_index in currentSelection:
+            item = self.model.itemFromIndex(obj_index)
+            row = item.row()
+            index = self.model.index(row, 0)
+            name = self.model.data(index)
+
+        self.currName = name
+        self.currRow = row
+        self.currIndx = index
+
+        print(self.currName)
+
+        # for _ in select:
+        #     sys.stderr.write("Print 1\n")
+        #     for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+        #         temp = test(ds.d)
+        #         self.textGroup.analysis.setText(f"Test: {temp.name}\nResult: {temp.func()}\n")
+        #
+        #     for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+        #         temp = test(rr.df)
+        #         self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
     def ordinalButtonClicked(self):
         df = sw.Regression(self.mydata)
