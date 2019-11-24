@@ -152,6 +152,11 @@ class CollapsibleDialog(QDialog):
         # titleD.setStyleSheet("font 20pt Tw Cen MT")
         # titleD.setText("DataTab")
         
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
+        self.pixmap2=self.pixmap.scaled(self.infoWidth*.70,self.infoWidth*.50)
+        pic=QLabel(self)
+        pic.setPixmap(self.pixmap2)
+
         layout.addWidget(infoD)
         title = "DataTab"
         self.sections.append((title, widget))
