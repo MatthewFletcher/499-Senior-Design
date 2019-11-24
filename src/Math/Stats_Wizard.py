@@ -43,26 +43,15 @@ HOW TO USE:
 
 '''
 
-class Statistics:
-    '''
-        This class consists of all tests that require only 1 vector.
-    '''
-    def __init__(self, d):
-        if not hasattr(d, '__iter__'):
-            print(f"Type of data: {type(d)} is not list-like")
-            sys.stderr.write('Invalid Data type entered\n')
-            sys.exit(1)
-        else:
-            self.d = d
 
-class s_max(Statistics):
+class s_max():
     '''
     Calculates the variance of a vector of data 
     Parameters: None
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Max Value"
     def func(self):
         return sf.maximum(self.d)
@@ -70,14 +59,14 @@ class s_max(Statistics):
         return self.func()
 
 
-class s_min(Statistics):
+class s_min():
     '''
     Calculates the min of a vector of data 
     Parameters: None
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Min"
     def func(self):    
         return sf.minimum(self.d)
@@ -85,21 +74,21 @@ class s_min(Statistics):
         return self.func()
 
 
-class s_range(Statistics):
+class s_range():
     '''
     Calculates the range of a vector of data 
     Parameters: None
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Range"
     def func(self):
         return sf.range(self.d)
     def __call__(self):
         return self.func()
 
-class s_mean(Statistics):
+class s_mean():
     '''
     Calculates the mean of a vector of data 
     Implemented in FORTRAN
@@ -107,35 +96,35 @@ class s_mean(Statistics):
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Mean"
     def func(self):
         return sf.mean(self.d)
     def __call__(self):
         return self.func()
 
-class s_median(Statistics):
+class s_median():
     '''
     Calculates the median of a vector of data 
     Parameters: None
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Median"
     def func(self):
         return sorted(self.d)[int(len(self.d) / 2)]
     def __call__(self):
         return self.func()
 
-class s_mode(Statistics):
+class s_mode():
     '''
     Calculates the mode of a vector of data 
     Parameters: None
     Returns: Number if a mode exists, otherwise returns None.
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Mode"
     def func(self):
         return self.d.value_counts().idxmax() if self.d.value_counts().max()==1 else None
@@ -143,7 +132,7 @@ class s_mode(Statistics):
     def __call__(self):
         return self.func()
 
-class s_var(Statistics):
+class s_var():
     '''
     Calculates the variance of a vector of data 
     Implemented in FORTRAN
@@ -151,7 +140,7 @@ class s_var(Statistics):
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Variance"
     #https://www.statisticshowto.datasciencecentral.com/probability-and-statistics/descriptive-statistics/sample-variance/
     def func(self):
@@ -159,40 +148,40 @@ class s_var(Statistics):
     def __call__(self):
         return self.func()
 
-class s_stddev(Statistics):
+class s_stddev():
     '''
     Calculates the std deviation of a vector of data 
     Parameters: None
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Standard Deviation"
     def func(self):
         return sf.stddev(self.d)
     def __call__(self):
         return self.func()
 
-class s_varcoeff(Statistics):
+class s_varcoeff():
     '''
     Calculates the coefficient of variation of a vector
     Parameters: None
     Returns: Number
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Coefficient of Variance"
     def func(self):
         return sf.stddev(self.d)
     def __call__(self):
         return self.func()
 
-class s_zscore(Statistics):
+class s_zscore():
     '''
     Calculates the z score of each item in the list 
     '''
     def __init__(self,d):
-        super().__init__(d)
+        self.d = d
         self.name = "Z Score"
     def func(self):
         return list(sf.zscore(self.d))
@@ -210,24 +199,16 @@ class s_zscore(Statistics):
 #    return [m  for m in inspect.getmembers(self,predicate=inspect.ismethod) if m[0].startswith('s_')]
 #
 
-class Regression:
+class r_pearsonR():
     '''
-    This class consists of all tests that require 2 or more vectors.
+    Calculates Pearson Regression correlation coefficient
     '''
     def __init__(self, a, x_col = 0, y_col = 1):
         self.df = a
         self.cols = a.T
         
-        #TODO make this less janky
         self.xcol = a.iloc[:,x_col]
         self.ycol = a.iloc[:,y_col]
-
-class r_pearsonR(Regression):
-    '''
-    Calculates Pearson Regression correlation coefficient
-    '''
-    def __init__(self,a):
-        super().__init__(a)
         self.name = "Pearson Regression Coefficient"
     def func(self):
         # http://onlinestatbook.com/2/describing_bivariate_df/calculation.html
@@ -237,7 +218,7 @@ class r_pearsonR(Regression):
     def __call__(self):
         return self.func()
 
-class r_linear(Regression):
+class r_linear():
     '''
     Calculates the line of best fit for 2 vectors of df
     Parameters: None
@@ -248,8 +229,12 @@ class r_linear(Regression):
     # Reference: http://onlinestatbook.com/2/regression/intro.html
     '''
 
-    def __init__(self,a):
-        super().__init__(a)
+    def __init__(self, a, x_col = 0, y_col = 1):
+        self.df = a
+        self.cols = a.T
+        
+        self.xcol = a.iloc[:,x_col]
+        self.ycol = a.iloc[:,y_col]
         self.name = "Line of Best Fit"
     def func(self):
         #Save me some typing, set columns to single variables 
@@ -264,15 +249,19 @@ class r_linear(Regression):
     def __call__(self):
         return self.func()
 
-class r_signtest(Regression):
+class r_signtest():
     '''
     Runs a sign test on the data. 
     Returns: Boolean
             True:  Significant difference
             False: No significant difference
     '''
-    def __init__(self,a):
-        super().__init__(a)
+    def __init__(self, a, x_col = 0, y_col = 1):
+        self.df = a
+        self.cols = a.T
+        
+        self.xcol = a.iloc[:,x_col]
+        self.ycol = a.iloc[:,y_col]
         self.name = "Line of Best Fit"
     def func(self):
         z =  sf.signtest(self.xcol, self.ycol)
@@ -287,30 +276,38 @@ class r_signtest(Regression):
     def __call__(self):
         return self.func()
 
-class r_spearman(Regression):
+class r_spearman():
     '''
     Calculates spearman rank correlation coefficient
     Parameters: none
     Returns: value
     return sf.spearman(self.xcol, self.ycol)
     '''
-    def __init__(self,a):
-        super().__init__(a)
+    def __init__(self, a, x_col = 0, y_col = 1):
+        self.df = a
+        self.cols = a.T
+        
+        self.xcol = a.iloc[:,x_col]
+        self.ycol = a.iloc[:,y_col]
         self.name = "Spearman Correlation"
     def func(self):
         return sf.spearman(self.xcol, self.ycol)
     def __call__(self):
         return self.func()
 
-class r_ranksum(Regression):
+class r_ranksum():
     '''
     Calculates spearman rank correlation coefficient
     Parameters: none
     Returns: value
     return sf.spearman(self.xcol, self.ycol)
     '''
-    def __init__(self,a):
-        super().__init__(a)
+    def __init__(self, a, x_col = 0, y_col = 1):
+        self.df = a
+        self.cols = a.T
+        
+        self.xcol = a.iloc[:,x_col]
+        self.ycol = a.iloc[:,y_col]
         self.name = "Rank Sum Test"
     def func(self):
         return ss.ranksums(self.xcol, self.ycol)[0]
