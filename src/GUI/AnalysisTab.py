@@ -175,9 +175,12 @@ class AnalysisTab(QWidget):
         tempds = tempdata['foo']
         ds = sw.Statistics(tempds)
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-            item = test(ds.d)
+            myItem = test(ds.d)
             # print(f"Type of item: {type(item)}")
-            item = QStandardItem(item.name)
+            item = QStandardItem(myItem.name)
+
+            print(myItem.func)
+
             item.setCheckable(True)
             check = Qt.Unchecked
             item.setCheckState(check)
