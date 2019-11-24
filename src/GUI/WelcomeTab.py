@@ -132,8 +132,11 @@ class CollapsibleDialog(QDialog):
         infoD=QLabel(self)
         
         infoD.setStyleSheet("font: 15pt Tw Cen MT")
-        infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n"
+        infoD.setText("Data can be manually entered into a table or uploaded from a CSV File.\n\n"
+                                "[MANUAL INPUT]\n"
                                "The first row will be for Headers\n"
+                               "The first column will be for Headers\n"
+                               "It should be numerical input only.\n"
                                "The rest of the capabilities will be dependent upon \nthe type of data you entered\n"
                                "(ordinal, interval, or frequency).\n\n"
                                "[Data]"
