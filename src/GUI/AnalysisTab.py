@@ -78,7 +78,7 @@ class AnalysisTab(QWidget):
         # they would like ran on their data
         self.statsAnalysis = QListView()
 
-        # self.model = QStandardItemModel(self.statsAnalysis)
+        self.model = QStandardItemModel(self.statsAnalysis)
         #
         # # for test, function in intervalList:
         # tempdata = {'foo':[], 'bar':[]}
