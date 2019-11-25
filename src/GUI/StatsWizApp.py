@@ -41,6 +41,12 @@ class TabPage(QTabWidget):
         self.graphTab.masterDF = data
         self.analysisTab.mydata = data
         self.graphTab.enableGraphType(self.dataTab.getDataType())
+        if self.dataTab.getNumColums() == 1:
+            print("one column")
+            self.analysisTab.enableStatistics()
+        elif self.dataTab.getNumColums() == 2:
+            print("two columns")
+            self.analysisTab.enableRegession()
 
 def runStatsWiz():
     app = QApplication(sys.argv)

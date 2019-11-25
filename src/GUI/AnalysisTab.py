@@ -139,7 +139,7 @@ class AnalysisTab(QWidget):
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
-    def enableStatistics(self, dataType):
+    def enableStatistics(self):
         self.statsButton.setEnabled(True)
         self.regButton.setEnabled(False)
         # if dataType == "interval":
@@ -155,7 +155,7 @@ class AnalysisTab(QWidget):
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
-    def enableRegession(self, dataType):
+    def enableRegession(self):
         self.statsButton.setEnabled(False)
         self.regButton.setEnabled(True)
 

@@ -334,10 +334,6 @@ class DataTab(QWidget):
                     tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
 
             if self.allRadioButton.isChecked():
-                if number_of_columns == 2:
-                    self.analysisTab.enableStatistics(self.dataTab.getDataType())
-                elif number_of_columns == 3:
-                    self.analysisTab.enableRegression(self.dataTab.getDataType())
                 logging.info('User Selection on Dataset')
                 ptA = [0, 1]
                 ptB = [number_of_rows - 1, number_of_columns - 1]
@@ -355,15 +351,6 @@ class DataTab(QWidget):
                     x2 = int(self.endRow.text()) - 1
                     y2 = int(self.endCol.text())
 
-                    # There is one column sent
-                    if y1 - y2 == 0:
-                        print("one column hello")
-                        self.analysisTab.enableStatistics(self.dataTab.getDataType())
-                    # There are two columns sent
-                    elif y1 - y2 == 1:
-                        self.analysisTab.enableRegression(self.datatTab.getDataType())
-                        print("two columns hello")
-
                     # If any of the column or row bounds specified by the user
                     # are out of bounds, send error message
                     # if x1 < 0 or x1 > number_of_rows-1 or x2 < 0 or x2 > number_of_rows-1 or x2 < x1 or y1 < 1 or y1 > number_of_columns-1 or y2 < 1 or y2 > number_of_columns-1 or y2 < y1:
@@ -376,6 +363,31 @@ class DataTab(QWidget):
                         ptB = [x2, y2]
                         self.sentSuccess()
                         return UserSelect.selection(tmp_df, ptA, ptB, 1)
+
+    def getNumColums(self):
+        number_of_columns = self.myTable.columnCount()
+        if self.allRadioButton.isChecked():
+            if number_of_columns == 2:
+                return 1
+            elif number_of_columns == 3:
+                return 2
+            else:
+                return 0
+        else:
+            x1 = int(self.beginRow.text()) - 1
+            y1 = int(self.beginCol.text())
+            x2 = int(self.endRow.text()) - 1
+            y2 = int(self.endCol.text())
+
+            # There is one column sent
+            if y1 - y2 == 0:
+                return 1
+            # There are two columns sent
+            elif y1 - y2 == 1:
+                self.analysisTab.enableRegression()
+                return 2
+            else:
+                return 0
 
     def getDataType(self):
         if self.intervalRadioButton.isChecked():
