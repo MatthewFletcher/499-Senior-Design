@@ -54,14 +54,7 @@ class SummaryTab(QWidget):
         logging.getLogger().addHandler(self.logTextBox)
         logging.getLogger().setLevel(logging.INFO) #just need analysis results not too much detailed.
         logging.getLogger().propagate=False
-        
-        
-        #Example of logging text.
-        #TODO: Remove log test loop
-        for x in range(60):
-            logging.info('testing: display text %d',x)
 
-            
         self.layout = QGridLayout()
         self.layout.addWidget(self.analysis)
         self.layout.addWidget(self.logTextBox.widget)

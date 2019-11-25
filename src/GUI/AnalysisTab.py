@@ -9,8 +9,6 @@ import inspect
 from scipy.stats import norm
 
 foo = norm.a
-
-
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/Math").resolve()))
 sys.path.append(str(Path(os.getcwd()).joinpath("../Math").resolve()))
@@ -79,19 +77,19 @@ class AnalysisTab(QWidget):
         self.statsAnalysis = QListView()
 
         self.model = QStandardItemModel(self.statsAnalysis)
-        #
-        # # for test, function in intervalList:
-        # tempdata = {'foo':[], 'bar':[]}
-        # df = DataFrame(tempdata, columns=["foo", 'bar'])
-        # ds = tempdata['foo']
-        #
-        # for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-        #     item = test(ds)
-        #     item = QStandardItem(item.name)
-        #     item.setCheckable(True)
-        #     check = Qt.Unchecked
-        #     item.setCheckState(check)
-        #     self.model.appendRow(item)
+
+        # for test, function in intervalList:
+        tempdata = {'foo':[], 'bar':[]}
+        df = DataFrame(tempdata, columns=["foo", 'bar'])
+        ds = tempdata['foo']
+
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+            item = test(ds)
+            item = QStandardItem(item.name)
+            item.setCheckable(True)
+            check = Qt.Unchecked
+            item.setCheckState(check)
+            self.model.appendRow(item)
 
         self.statsButton = QPushButton("Analyze")
         self.statsButton.setEnabled(False)
@@ -114,20 +112,20 @@ class AnalysisTab(QWidget):
         # they would like ran on their data
         self.regAnalysis = QListView()
 
-        # self.model = QStandardItemModel(self.regAnalysis)
-        #
-        # # for test, function in intervalList:
-        # tempdata = {'foo':[], 'bar':[]}
-        # df = DataFrame(tempdata, columns=["foo", 'bar'])
-        # ds = tempdata['foo']
-        #
-        # for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-        #     item = test(df)
-        #     item = QStandardItem(item.name)
-        #     item.setCheckable(True)
-        #     check = Qt.Unchecked
-        #     item.setCheckState(check)
-        #     self.model.appendRow(item)
+        self.model = QStandardItemModel(self.regAnalysis)
+
+        # for test, function in intervalList:
+        tempdata = {'foo':[], 'bar':[]}
+        df = DataFrame(tempdata, columns=["foo", 'bar'])
+        ds = tempdata['foo']
+
+        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+            item = test(df)
+            item = QStandardItem(item.name)
+            item.setCheckable(True)
+            check = Qt.Unchecked
+            item.setCheckState(check)
+            self.model.appendRow(item)
 
         self.regButton = QPushButton("Analyze")
         self.regButton.setEnabled(False)
@@ -144,42 +142,31 @@ class AnalysisTab(QWidget):
     def enableStatistics(self, dataType):
         self.statsButton.setEnabled(True)
         self.regButton.setEnabled(False)
-        if dataType == "interval":
-            self.analyzeIntervalButton.setEnabled(True)
-
-        elif dataType == "ordinal":
-            self.analyzeIntervalButton.setEnabled(False)
-
-        elif dataType == "frequency":
-            self.analyzeIntervalButton.setEnabled(False)
-
+        # if dataType == "interval":
+        #     for row in self.model:
+        #         print(row)
+        #     x = 0
+        #
+        # elif dataType == "ordinal":
+        #     x = 0
+        #
+        # elif dataType == "frequency":
+        #     x = 0
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
     def enableRegession(self, dataType):
         self.statsButton.setEnabled(False)
         self.regButton.setEnabled(True)
-        if dataType == "interval":
-            self.model = QStandardItemModel(self.statsAnalysis)
 
-            # for test, function in intervalList:
-            tempdata = {'foo': [], 'bar': []}
-            df = DataFrame(tempdata, columns=["foo", 'bar'])
-            ds = tempdata['foo']
-
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and 'i' in m[1].validTests]:
-                item = test(ds)
-                item = QStandardItem(item.name)
-                item.setCheckable(True)
-                check = Qt.Unchecked
-                item.setCheckState(check)
-                self.model.appendRow(item)
-
-        elif dataType == "ordinal":
-            self.analyzeIntervalButton.setEnabled(False)
-
-        elif dataType == "frequency":
-            self.analyzeIntervalButton.setEnabled(False)
+        # if dataType == "interval":
+        #     x = 0
+        #
+        # elif dataType == "ordinal":
+        #     x = 0
+        #
+        # elif dataType == "frequency":
+        #     x = 0
 
     def statsButtonClicked(self):
         df = sw.Regression(self.mydata)
