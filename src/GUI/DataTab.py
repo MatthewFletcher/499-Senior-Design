@@ -11,6 +11,7 @@ import pandas as pd
 import UserSelect
 from pathlib import Path
 import logging
+import AnalysisTab
 
 
 # The DataTab class holds the GUI for the DataTab, which consists of two sections:
@@ -26,11 +27,13 @@ class DataTab(QWidget):
         self.masterDF = None
         self.dataType = None
 
+        self.analysisTab = AnalysisTab
+
         # These numbers are arbitrary and seemed
         # to have the best balance
         self.tableWidth = self.size.width() * 0.64
         self.customWidth = self.size.width() * 0.29
-        self.buttonSize = self.size.width() * 0.29
+        self.buttonSize = self.size.width() * 0.28
         self.lineEditSize = self.size.width() * 0.067
         self.rowSize = 400
         self.columnSize = 400
@@ -317,7 +320,10 @@ class DataTab(QWidget):
             # Get data from table and store as df
             number_of_rows = self.myTable.rowCount()
             number_of_columns = self.myTable.columnCount()
-            
+            if number_of_columns == 1:
+                self.analysisTab.enableStatistics(self.dataTab.getDataType())
+            elif number_of_columns == 2:
+                self.analysisTab.enableRegression(self.dataTab.getDataType())
             header = []
             for i in range(number_of_columns):
               header.append(self.myTable.horizontalHeaderItem(i).text())
@@ -332,6 +338,7 @@ class DataTab(QWidget):
                 logging.info('User Selection on Dataset')
                 ptA = [0, 1]
                 ptB = [number_of_rows - 1, number_of_columns - 1]
+                self.sentSuccess()
                 return UserSelect.selection(tmp_df, ptA, ptB, 1)
             else:
                 # This is when the user clicks "Let me pick what to graph"
@@ -355,6 +362,7 @@ class DataTab(QWidget):
                     else:
                         ptA = [x1, y1]
                         ptB = [x2, y2]
+                        self.sentSuccess()
                         return UserSelect.selection(tmp_df, ptA, ptB, 1)
 
     def getDataType(self):
@@ -401,6 +409,14 @@ class DataTab(QWidget):
         error.setStandardButtons(QMessageBox.Ok)
         error.exec()
 
+    def sentSuccess(self):
+        success = QMessageBox()
+        success.setWindowTitle("Success")
+        success.setWindowIcon(QIcon("StatsLogo1.png"))
+        success.setText("Your data was sent!\n")
+        success.setStandardButtons(QMessageBox.Ok)
+        success.exec()
+        
     def errorHeaderDuplicate(self):
         error = QMessageBox()
         error.setWindowTitle("Error")
@@ -410,10 +426,10 @@ class DataTab(QWidget):
         error.exec()
 
     def errorEmptyNumber(self):
-            error = QMessageBox()
-            error.setWindowTitle("Error")
-            error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
-            error.setText("Invalid: Input Number in the cell!\n")
-            error.setStandardButtons(QMessageBox.Ok)
-            error.exec()
+         error = QMessageBox()
+         error.setWindowTitle("Error")
+         error.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
+         error.setText("Invalid: Input Number in the cell!\n")
+         error.setStandardButtons(QMessageBox.Ok)
+         error.exec()
     
