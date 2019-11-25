@@ -23,8 +23,8 @@ class WelcomeTab(QWidget):
         self.size=self.screen.size()
         self.buttonSize=680
 
-        self.logoWidth=self.size.width() *0.33
-        self.infoWidth=self.size.width()*0.60
+        self.logoWidth=self.size.width() *0.32
+        self.infoWidth=self.size.width()*0.64
         
         self.createLogoGroup()
         self.createInfoGroup()
@@ -39,11 +39,10 @@ class WelcomeTab(QWidget):
         
     #Left side for the picture
     def createLogoGroup(self):
+        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
+        self.pixmap2=self.pixmap.scaled(self.logoWidth*.94, self.logoWidth*.94)
         self.logoGroup =QGroupBox("")
         self.logoGroup.setFixedWidth(self.logoWidth)
-        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png")))
-        self.pixmap2=self.pixmap.scaled(self.logoWidth*.80,self.logoWidth*.80)
-        
         self.label=QLabel(self)
         self.label.setPixmap(self.pixmap2)
 
