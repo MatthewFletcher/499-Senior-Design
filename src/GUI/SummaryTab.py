@@ -5,6 +5,8 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 import sys
 import os
 import logging
+import csv
+
 #logging.info('') e.g. to log 
 #note: logs need to happen after everything is initilized.
 
@@ -36,7 +38,7 @@ class SummaryTab(QWidget):
         self.setLayout(self.layout)
         self.show()
 
-    # The left side of SummaryTab containing the textbox
+    # The left side of SummaryTab containing the logging
     # where the summary will be shown
     def createSummaryTextGroup(self):
         self.SummaryTextGroup = QGroupBox("Summary")
@@ -44,7 +46,6 @@ class SummaryTab(QWidget):
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Here is where the summary will go
-
         self.analysis = QLabel(self)
         
         #Create Handler to display text in gui
@@ -67,19 +68,25 @@ class SummaryTab(QWidget):
         self.SummaryTextGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing the buttons for
-    # summaryTab
+    # summaryTab: Clear, Save Text file, Save CSV file
     def createSaveTextGroup(self):
 
         self.SaveTextGroup = QGroupBox("Options")
         self.SaveTextGroup.setFixedWidth(self.saveWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
-        self.infoLabel= QLabel("Analysis Summary Report Log")
+        self.infoLabel= QLabel("Analysis Summary \nReport Log")
         self.spaceLabel = QLabel("\n\n\n")
 
-        self.SaveButton = QPushButton("Save")
-        self.SaveButton.setDefault(True)
+        
+        self.SaveTextButton = QPushButton("Save as Text File")
+        self.SaveTextButton.setDefault(True)
         #self.SaveButton.setFixedWidth(self.buttonSize)
-        self.SaveButton.clicked.connect(self.SaveButtonClicked)
+        self.SaveTextButton.clicked.connect(self.SaveTextClicked)#save as text file
+        
+        #TODO: Create new button to save as csv file
+        self.SaveCSVButton = QPushButton("Save as CSV File")
+        self.SaveCSVButton.setDefault(True)
+        self.SaveCSVButton.clicked.connect(self.SaveCSVClicked)#save as csv file
 
         self.ClearButtoon = QPushButton("Clear")
         self.ClearButtoon.setDefault(True)
@@ -88,14 +95,32 @@ class SummaryTab(QWidget):
         self.layout = QGridLayout()
         self.layout.addWidget(self.infoLabel)
         self.layout.addWidget(self.spaceLabel)
-        self.layout.addWidget(self.SaveButton)
+        self.layout.addWidget(self.SaveCSVButton)
+        self.layout.addWidget(self.SaveTextButton)
         self.layout.addWidget(self.ClearButtoon)
         self.SaveTextGroup.setLayout(self.layout)
         
-    def SaveButtonClicked(self):
-        self.saveFileDialog()
+    #User saves as CSV file
+    def SaveCSVClicked(self):
+        self.saveCSVFileDialog()
+    def saveCSVFileDialog(self):
+        options = QFileDialog.Option()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _= QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()", "","All Files(*);;Text Files (*.txt)", options=options)
+        msg=self.logTextBox.getTexttoFile() #retrieve the current list
+        if fileName:
+            splitMsg=msg.split('\n')#split msg if they are in new row
+            with open(fileName, 'w', newline='') as outfile:
+                writer=csv.writer(outfile)
+                for text in splitMsg:
+                    writer.writerow([text])
+    
 
-    def saveFileDialog(self):
+    #User saves as text file
+    def SaveTextClicked(self):
+        self.saveTextFileDialog()  
+
+    def saveTextFileDialog(self):
         options = QFileDialog.Options()
         options |=  QFileDialog.DontUseNativeDialog
         fileName, _ = QFileDialog.getSaveFileName(self, "QFileDialog.getSaveFileName()","","All Files(*);;Text Files (*.txt)",options=options)
@@ -104,6 +129,8 @@ class SummaryTab(QWidget):
             file= open(fileName, "w")
             file.write(msg)
             file.close()
+
+    #User clears the summary in the GUI
     def ClearButtonClicked(self):
         self.logTextBox.deleteTextinGUI()
 
