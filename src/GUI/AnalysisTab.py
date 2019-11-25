@@ -29,8 +29,8 @@ class AnalysisTab(QWidget):
 
         # These numbers are arbitrary and seemed
         # to have the best balance
-        self.textWidth = self.size.width() * 0.65
-        self.chooseWidth = self.size.width() * 0.3
+        self.textWidth = self.size.width() * 0.64
+        self.chooseWidth = self.size.width() * 0.29
 
         self.createTextGroup()
         self.createChooseIntervalGroup()

@@ -5,6 +5,56 @@
 
 !https://notmatthancock.github.io/2017/02/10/calling-fortran-from-python.html
 
+subroutine maximum(arr, n, max_val)
+    integer ::  n, i
+    real(8), dimension(n)   ::  arr
+    real(8) ::  max_val
+
+    !f2py intent(in)    ::  arr
+    !f2py intent(hide)  ::  n = shape(arr)
+    !f2py intent(out) max_val
+    
+
+    !Initialize to zero
+    max_val = maxval(arr)
+    
+    end subroutine
+
+
+subroutine minimum(arr, n, min_val)
+    integer ::  n, i
+    real(8), dimension(n)   ::  arr
+    real(8) ::  min_val
+
+    !f2py intent(in)    ::  arr
+    !f2py intent(hide)  ::  n = shape(arr)
+    !f2py intent(out) min_val
+    
+
+    !Initialize to zero
+    min_val = minval(arr)
+    
+    end subroutine
+
+
+subroutine range(arr, n, myrange)
+    integer ::  n, i
+    real(8), dimension(n)   ::  arr
+    real(8) ::  min_val
+
+    !f2py intent(in)    ::  arr
+    !f2py intent(hide)  ::  n = shape(arr)
+    !f2py intent(out) myrange
+    
+
+    !Initialize to zero
+    myrange = maxval(arr) - minval(arr)
+    
+    end subroutine
+
+
+
+!Calculate mean
 subroutine mean(arr, n, output)
     integer ::  n, i
     real(8), dimension(n)   ::  arr, arr_c

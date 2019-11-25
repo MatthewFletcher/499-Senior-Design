@@ -25,8 +25,8 @@ class SummaryTab(QWidget):
         # These numbers are arbitrary and seemed
         # to have the best balance
         self.buttonSize = 680
-        self.textWidth = self.size.width() * 0.65
-        self.saveWidth = self.size.width() * 0.3
+        self.textWidth = self.size.width() * 0.64
+        self.saveWidth = self.size.width() * 0.29
 
         self.createSummaryTextGroup()
         self.createSaveTextGroup()
