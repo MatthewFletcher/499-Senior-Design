@@ -214,7 +214,9 @@ class DataTab(QWidget):
             number_of_rows = self.myTable.rowCount()
             number_of_columns = self.myTable.columnCount()
             if number_of_columns == 1:
-                self.analysisTab.enableAnalysisStatistics(self.dataTab.getDataType())
+                self.analysisTab.enableStatistics(self.dataTab.getDataType())
+            elif number_of_columns == 2:
+                self.analysisTab.enableRegression(self.dataTab.getDataType())
             header = []
             for i in range(number_of_columns):
                 header.append(self.myTable.horizontalHeaderItem(i).text())

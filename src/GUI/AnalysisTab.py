@@ -41,15 +41,13 @@ class AnalysisTab(QWidget):
         self.chooseWidth = self.size.width() * 0.29
 
         self.createTextGroup()
-        self.createChooseIntervalGroup()
-        self.createChooseOrdinalGroup()
-        self.createChooseFrequencyGroup()
+        self.createStatsGroup()
+        self.createRegGroup()
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.TextGroup, 0, 0, 0, 1)
-        self.layout.addWidget(self.ChooseIntervalGroup, 0, 1)
-        self.layout.addWidget(self.ChooseOrdinalGroup, 1, 1)
-        self.layout.addWidget(self.ChooseFrequencyGroup, 2, 1)
+        self.layout.addWidget(self.StatsGroup, 0, 1)
+        self.layout.addWidget(self.RegGroup, 1, 1)
         self.setLayout(self.layout)
         self.show()
 
@@ -71,16 +69,16 @@ class AnalysisTab(QWidget):
 
     # The right side of AnalysisTab containing a checklist of tests that
     # may be run on the data and a button to press to run the tests
-    def createChooseIntervalGroup(self):
-        self.ChooseIntervalGroup = QGroupBox("Tests for Interval Data")
-        self.ChooseIntervalGroup.setFixedWidth(self.chooseWidth)
+    def createStatsGroup(self):
+        self.StatsGroup = QGroupBox("Statistics Tests")
+        self.StatsGroup.setFixedWidth(self.chooseWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # List widgets where users will choose what analysis
         # they would like ran on their data
-        self.intervalAnalysis = QListView()
+        self.statsAnalysis = QListView()
 
-        self.model = QStandardItemModel(self.intervalAnalysis)
+        self.model = QStandardItemModel(self.statsAnalysis)
 
         # for test, function in intervalList:
         tempdata = {'foo':[], 'bar':[]}
@@ -95,49 +93,33 @@ class AnalysisTab(QWidget):
             item.setCheckState(check)
             self.model.appendRow(item)
 
-        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-            item = test(df)
-            item = QStandardItem(item.name)
-            item.setCheckable(True)
-            check = Qt.Unchecked
-            item.setCheckState(check)
-            self.model.appendRow(item)
+        self.statsButton = QPushButton("Analyze")
+        self.statsButton.setEnabled(False)
+        self.statsButton.clicked.connect(self.statsButtonClicked)
 
-        self.analyzeIntervalButton = QPushButton("Analyze")
-        self.analyzeIntervalButton.setEnabled(False)
-        self.analyzeIntervalButton.clicked.connect(self.intervalButtonClicked)
-
-        self.intervalAnalysis.setModel(self.model)
+        self.statsAnalysis.setModel(self.model)
         self.layout = QGridLayout()
-        self.layout.addWidget(self.intervalAnalysis, 0, 0, 0, 1)
-        self.layout.addWidget(self.analyzeIntervalButton, 1, 1)
-        self.ChooseIntervalGroup.setLayout(self.layout)
+        self.layout.addWidget(self.statsAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.statsButton, 1, 1)
+        self.StatsGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing a checklist of tests that
     # may be run on the data and a button to press to run the tests
-    def createChooseOrdinalGroup(self):
-        self.ChooseOrdinalGroup = QGroupBox("Tests for Ordinal Data")
-        self.ChooseOrdinalGroup.setFixedWidth(self.chooseWidth)
+    def createRegGroup(self):
+        self.RegGroup = QGroupBox("Regression Tests")
+        self.RegGroup.setFixedWidth(self.chooseWidth)
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # List widgets where users will choose what analysis
         # they would like ran on their data
-        self.ordinalAnalysis = QListView()
+        self.regAnalysis = QListView()
 
-        self.model = QStandardItemModel(self.ordinalAnalysis)
+        self.model = QStandardItemModel(self.regAnalysis)
 
         # for test, function in intervalList:
         tempdata = {'foo':[], 'bar':[]}
         df = DataFrame(tempdata, columns=["foo", 'bar'])
         ds = tempdata['foo']
-
-        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-            item = test(ds)
-            item = QStandardItem(item.name)
-            item.setCheckable(True)
-            check = Qt.Unchecked
-            item.setCheckState(check)
-            self.model.appendRow(item)
 
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
             item = test(df)
@@ -147,134 +129,57 @@ class AnalysisTab(QWidget):
             item.setCheckState(check)
             self.model.appendRow(item)
 
+        self.regButton = QPushButton("Analyze")
+        self.regButton.setEnabled(False)
+        self.regButton.clicked.connect(self.regButtonClicked)
 
-        print(self.model)
-        self.analyzeOrdinalButton = QPushButton("Analyze")
-        self.analyzeOrdinalButton.setEnabled(False)
-        self.analyzeOrdinalButton.clicked.connect(self.ordinalButtonClicked)
-
-        self.ordinalAnalysis.setModel(self.model)
+        self.regAnalysis.setModel(self.model)
         self.layout = QGridLayout()
-        self.layout.addWidget(self.ordinalAnalysis, 0, 0, 0, 1)
-        self.layout.addWidget(self.analyzeOrdinalButton, 1, 1)
-        self.ChooseOrdinalGroup.setLayout(self.layout)
-
-    # The right side of AnalysisTab containing a checklist of tests that
-    # may be run on the data and a button to press to run the tests
-    def createChooseFrequencyGroup(self):
-        self.ChooseFrequencyGroup = QGroupBox("Tests for Frequency Data")
-        self.ChooseFrequencyGroup.setFixedWidth(self.chooseWidth)
-        self.setStyleSheet("font: 15pt Tw Cen MT")
-
-        # List widgets where users will choose what analysis
-        # they would like ran on their data
-        self.frequencyAnalysis = QListView()
-
-        self.model = QStandardItemModel(self.frequencyAnalysis)
-
-        # for test, function in intervalList:
-        tempdata = {'foo':[], 'bar':[]}
-        df = DataFrame(tempdata, columns=["foo", 'bar'])
-        ds = tempdata['foo']
-
-        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-            item = test(ds)
-            item = QStandardItem(item.name)
-            item.setCheckable(True)
-            check = Qt.Unchecked
-            item.setCheckState(check)
-            self.model.appendRow(item)
-
-        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-            item = test(df)
-            item = QStandardItem(item.name)
-            item.setCheckable(True)
-            check = Qt.Unchecked
-            item.setCheckState(check)
-            self.model.appendRow(item)
-
-        self.analyzeFrequencyButton = QPushButton("Analyze")
-        self.analyzeFrequencyButton.setEnabled(False)
-        self.analyzeFrequencyButton.clicked.connect(self.frequencyButtonClicked)
-
-        self.frequencyAnalysis.setModel(self.model)
-        self.layout = QGridLayout()
-        self.layout.addWidget(self.frequencyAnalysis, 0, 0, 0, 1)
-        self.layout.addWidget(self.analyzeFrequencyButton, 1, 1)
-        self.ChooseFrequencyGroup.setLayout(self.layout)
+        self.layout.addWidget(self.regAnalysis, 0, 0, 0, 1)
+        self.layout.addWidget(self.regButton, 1, 1)
+        self.RegGroup.setLayout(self.layout)
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
-    def enableAnalysisStatistics(self, dataType):
+    def enableStatistics(self, dataType):
+        self.statsButton.setEnabled(True)
+        self.regButton.setEnabled(False)
         if dataType == "interval":
             self.analyzeIntervalButton.setEnabled(True)
-            self.analyzeOrdinalButton.setEnabled(False)
-            self.analyzeFrequencyButton.setEnabled(False)
+
         elif dataType == "ordinal":
             self.analyzeIntervalButton.setEnabled(False)
-            self.analyzeOrdinalButton.setEnabled(True)
-            self.analyzeFrequencyButton.setEnabled(False)
+
         elif dataType == "frequency":
             self.analyzeIntervalButton.setEnabled(False)
-            self.analyzeOrdinalButton.setEnabled(False)
-            self.analyzeFrequencyButton.setEnabled(True)
 
-    # Placeholders
-    def intervalButtonClicked(self):
+
+    # Change the types of tests available depending on which
+    # data type radio button is selected on DataTab
+    def enableRegession(self, dataType):
+        self.statsButton.setEnabled(False)
+        self.regButton.setEnabled(True)
+        if dataType == "interval":
+            self.analyzeIntervalButton.setEnabled(True)
+
+        elif dataType == "ordinal":
+            self.analyzeIntervalButton.setEnabled(False)
+
+        elif dataType == "frequency":
+            self.analyzeIntervalButton.setEnabled(False)
+
+    def statsButtonClicked(self):
         df = sw.Regression(self.mydata)
-        ds = sw.Statistics(self.mydata)
-        rr = sw.Regression(df.df)
-        sys.stderr.write("Print 1\n")
-        currentSelection = self.intervalAnalysis.selectedIndexes()
-
-        name = None
-        row = None
-        index = None
-
-        # Set name for currently selected object in listview
-        for obj_index in currentSelection:
-            item = self.model.itemFromIndex(obj_index)
-            row = item.row()
-            index = self.model.index(row, 0)
-            name = self.model.data(index)
-
-        self.currName = name
-        self.currRow = row
-        self.currIndx = index
-
-        print(self.currName)
-
-        # for _ in select:
-        #     sys.stderr.write("Print 1\n")
-        #     for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-        #         temp = test(ds.d)
-        #         self.textGroup.analysis.setText(f"Test: {temp.name}\nResult: {temp.func()}\n")
-        #
-        #     for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-        #         temp = test(rr.df)
-        #         self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
-
-    def ordinalButtonClicked(self):
-        df = self.mydata
         ds = sw.Statistics(self.mydata)
         for row in self.model:
             for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
                 temp = test(ds.d)
                 self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
 
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-                temp = test(rr.df)
-                self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
-
-    def frequencyButtonClicked(self):
+    def regButtonClicked(self):
         df = sw.Regression(self.mydata)
-        ds = sw.Statistics(self.mydata)
         rr = sw.Regression(df.df)
         for row in self.model:
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-                temp = test(ds.d)
-                self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
-
             for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                 temp = test(rr.df)
                 self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
