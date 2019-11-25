@@ -27,7 +27,7 @@ class DataTab(QWidget):
         self.masterDF = None
         self.dataType = None
 
-        self.analysisTab = AnalysisTab.AnalysisTab()
+        self.analysisTab = AnalysisTab
 
         # These numbers are arbitrary and seemed
         # to have the best balance
