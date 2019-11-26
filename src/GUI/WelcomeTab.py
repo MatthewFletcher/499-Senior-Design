@@ -205,9 +205,9 @@ class CollapsibleDialog(QDialog):
                                 "The following statistical analyses on your data:\n\n"
                                 "Reminder:\n"
                                 "[Statisical Test] ONE Column-\n" 
-                                "Max, Min, Range, Mean, Median, Mode, Variance, STD Deviation, Coefficient of Variance, ZScore\n"  
+                                "Max, Min, Range, Mean, Median, Mode, Variance, STD Deviation, Coefficient of Variance,\nZScore\n"  
                                 "[Regression Test] TWO Column-\n"
-                                "Pearson Regression, Linear, Normal Distribution, Sign Test, Spearman Rank Correlation Coefficient\n")
+                                "Pearson Regression, Linear, Normal Distribution, Sign Test, Spearman Rank Correlation\nCoefficient\n")
 
        
         infoA2 = QLabel(self)
