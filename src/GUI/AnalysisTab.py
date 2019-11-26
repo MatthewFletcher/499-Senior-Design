@@ -250,14 +250,13 @@ class AnalysisTab(QWidget):
 
     def regButtonClicked(self):
         df = self.mydata
-        rr = sw.Regression(df.df)
         checked_options = []
         count = 0
         try:
-            for index in range(self.modelStats.rowCount()):
-                item = self.modelStats.item(index)
-                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
-                    temp = test(rr.df)
+            for index in range(self.modelReg.rowCount()):
+                item = self.modelReg.item(index)
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('r_')]:
+                    temp = test(df)
                     if item.checkState() == Qt.Checked and count == index:
                         checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
                         logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
