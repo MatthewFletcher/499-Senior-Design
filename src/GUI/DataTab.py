@@ -357,7 +357,7 @@ class DataTab(QWidget):
                     #if x1 < 0 or x1 > number_of_rows-1 or x2 < 0 or x2 > number_of_rows-1 or x2 < x1 or y1 < 1 or y1 > number_of_columns-1 or y2 < 1 or y2 > number_of_columns-1 or y2 < y1:
                     # If any of the column or row bounds specified by the user
                     # are out of bounds, send error message
-                    if x1 < 0 or x1 > number_of_rows or x2 < 0 or x2 > number_of_rows or x2 < x1 or y1 < 1 or y1 >= number_of_columns or y2 < 1 or y2 >= number_of_columns or y2 < y1:
+                    if x1 < 0 or x1 >= number_of_rows or x2 < 0 or x2 >= number_of_rows or x2 < x1 or y1 < 1 or y1 >= number_of_columns or y2 < 1 or y2 >= number_of_columns or y2 < y1:
                         self.errorOutofBounds()
                     else:
                         ptA = [x1, y1]
