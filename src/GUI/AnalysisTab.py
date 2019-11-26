@@ -154,90 +154,104 @@ class AnalysisTab(QWidget):
             item.setEnabled(False)
 
         if dataType == "interval":
-            print("This is fletcher")
             for index in range(self.modelStats.rowCount()):
-                print("This is sam")
                 item = self.modelStats.item(index)
-                temp = test(ds)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-                    print("This is miguel")
+                    temp = test(ds)
                     if 'i' in temp.validTests and count == index:
-                        print("THIS IS ME")
                         item.setCheckable(True)
                         item.setEnabled(True)
+                        count += 1
 
-        #
-        # elif dataType == "ordinal":
-        #     for index in range(self.modelStats.rowCount()):
-        #         item = self.modelStats.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("s_") and 'o' in m[1].validTests]:
-        #             item.setCheckable(True)
-        #
-        # elif dataType == "frequency":
-        #     for index in range(self.modelStats.rowCount()):
-        #         item = self.modelStats.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("s_") and 'f' in m[1].validTests]:
-        #             item.setCheckable(True)
+        elif dataType == "ordinal":
+            for index in range(self.modelStats.rowCount()):
+                item = self.modelStats.item(index)
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+                    temp = test(ds)
+                    if 'i' in temp.validTests and count == index:
+                        item.setCheckable(True)
+                        item.setEnabled(True)
+                        count += 1
+
+        elif dataType == "frequency":
+            for index in range(self.modelStats.rowCount()):
+                item = self.modelStats.item(index)
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
+                    temp = test(ds)
+                    if 'i' in temp.validTests and count == index:
+                        item.setCheckable(True)
+                        item.setEnabled(True)
+                        count += 1
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
     def enableRegession(self, dataType):
         self.statsButton.setEnabled(False)
         self.regButton.setEnabled(True)
-        print("Hello Reg")
-        print(dataType)
-
+        ds = self.mydata
         count = 0
 
         for index in range(self.modelReg.rowCount()):
             item = self.modelReg.item(index)
             item.setCheckable(False)
             item.setEnabled(False)
-        #
-        # if dataType == "interval":
-        #     print("Hello Reg One")
-        #     for index in range(self.modelReg.rowCount()):
-        #         item = self.model.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'i' in m[1].validTests]:
-        #             item.setCheckable(True)
-        #             count += 1
-        #
-        # elif dataType == "ordinal":
-        #     for index in range(self.modelReg.rowCount()):
-        #         item = self.modelReg.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'o' in m[1].validTests]:
-        #             item.setCheckable(True)
-        #             count += 1
-        #
-        # elif dataType == "frequency":
-        #     for index in range(self.modelReg.rowCount()):
-        #         item = self.modelReg.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'f' in m[1].validTests]:
-        #             item.setCheckable(True)
-        #             count += 1
+
+        if dataType == "interval":
+            for index in range(self.modelStats.rowCount()):
+                item = self.modelReg.item(index)
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+                    temp = test(ds)
+                    if 'i' in temp.validTests and count == index:
+                        item.setCheckable(True)
+                        item.setEnabled(True)
+                        count += 1
+
+        elif dataType == "ordinal":
+            for index in range(self.modelStats.rowCount()):
+                item = self.modelReg.item(index)
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+                    temp = test(ds)
+                    if 'i' in temp.validTests and count == index:
+                        item.setCheckable(True)
+                        item.setEnabled(True)
+                        count += 1
+
+        elif dataType == "frequency":
+            for index in range(self.modelStats.rowCount()):
+                item = self.modelReg.item(index)
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
+                    temp = test(ds)
+                    if 'i' in temp.validTests and count == index:
+                        item.setCheckable(True)
+                        item.setEnabled(True)
+                        count += 1
 
     def statsButtonClicked(self):
-        ds = sw.Statistics(self.mydata)
+        ds = self.mydata
         checked_options = []
         count = 0
         for index in range(self.modelStats.rowCount()):
             item = self.modelStats.item(index)
             if item is not None and item.checkState() == Qt.Checked:
-                for _, test in [m for m in inspect.getmembers(sw)]:
-                    temp = test(ds.d)
-                    checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
+                    temp = test(ds)
+                    if count == index:
+                        checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                        count += 1
+                break
+
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
 
     def regButtonClicked(self):
-        df = sw.Regression(self.mydata)
+        df = self.mydata
         rr = sw.Regression(df.df)
         checked_options = []
         count = 0
         for index in range(self.modelReg.rowCount()):
             item = self.modelReg.item(index)
             if item is not None and item.checkState() == Qt.Checked:
-                for _, test in [m for m in inspect.getmembers(sw)]:
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('r_')]:
                     temp = test(rr.df)
                     checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
         if checked_options:
