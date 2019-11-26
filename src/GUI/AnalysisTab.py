@@ -77,7 +77,7 @@ class AnalysisTab(QWidget):
         # they would like ran on their data
         self.statsAnalysis = QListView()
 
-        self.model = QStandardItemModel(self.statsAnalysis)
+        self.modelStats = QStandardItemModel(self.statsAnalysis)
 
         # for test, function in intervalList:
         tempdata = {'foo': [], 'bar': []}
@@ -90,13 +90,13 @@ class AnalysisTab(QWidget):
             item.setCheckable(False)
             check = Qt.Unchecked
             item.setCheckState(check)
-            self.model.appendRow(item)
+            self.modelStats.appendRow(item)
 
         self.statsButton = QPushButton("Analyze")
         self.statsButton.setEnabled(False)
         self.statsButton.clicked.connect(self.statsButtonClicked)
 
-        self.statsAnalysis.setModel(self.model)
+        self.statsAnalysis.setModel(self.modelStats)
         self.layout = QGridLayout()
         self.layout.addWidget(self.statsAnalysis, 0, 0, 0, 1)
         self.layout.addWidget(self.statsButton, 1, 1)
@@ -113,7 +113,7 @@ class AnalysisTab(QWidget):
         # they would like ran on their data
         self.regAnalysis = QListView()
 
-        self.model = QStandardItemModel(self.regAnalysis)
+        self.modelReg = QStandardItemModel(self.regAnalysis)
 
         # for test, function in intervalList:
         tempdata = {'foo': [], 'bar': []}
@@ -126,13 +126,14 @@ class AnalysisTab(QWidget):
             item.setCheckable(False)
             check = Qt.Unchecked
             item.setCheckState(check)
-            self.model.appendRow(item)
+            print(item)
+            self.modelReg.appendRow(item)
 
         self.regButton = QPushButton("Analyze")
         self.regButton.setEnabled(False)
         self.regButton.clicked.connect(self.regButtonClicked)
 
-        self.regAnalysis.setModel(self.model)
+        self.regAnalysis.setModel(self.modelReg)
         self.layout = QGridLayout()
         self.layout.addWidget(self.regAnalysis, 0, 0, 0, 1)
         self.layout.addWidget(self.regButton, 1, 1)
@@ -143,27 +144,30 @@ class AnalysisTab(QWidget):
     def enableStatistics(self, dataType):
         self.statsButton.setEnabled(True)
         self.regButton.setEnabled(False)
+        count = 0
 
-        for index in range(self.model.rowCount()):
-            item = self.model.item(index)
+        for index in range(self.modelStats.rowCount()):
+            item = self.modelStats.item(index)
             item.setCheckable(False)
-        #
+            print(index)
+
         # if dataType == "interval":
-        #     for index in range(self.model.rowCount()):
-        #         item = self.model.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and 'i' in m[1].validTests]:
+        #     for index in range(self.modelStats.rowCount()):
+        #         item = self.modelStats.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if count == index]:
         #             item.setCheckable(True)
+
         #
         # elif dataType == "ordinal":
-        #     for index in range(self.model.rowCount()):
-        #         item = self.model.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and 'o' in m[1].validTests]:
+        #     for index in range(self.modelStats.rowCount()):
+        #         item = self.modelStats.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("s_") and 'o' in m[1].validTests]:
         #             item.setCheckable(True)
         #
         # elif dataType == "frequency":
-        #     for index in range(self.model.rowCount()):
-        #         item = self.model.item(index)
-        #         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and 'f' in m[1].validTests]:
+        #     for index in range(self.modelStats.rowCount()):
+        #         item = self.modelStats.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("s_") and 'f' in m[1].validTests]:
         #             item.setCheckable(True)
 
     # Change the types of tests available depending on which
@@ -176,28 +180,28 @@ class AnalysisTab(QWidget):
 
         # count = 0
         #
-        # for index in range(self.model.rowCount()):
-        #     item = self.model.item(index)
+        # for index in range(self.modelReg.rowCount()):
+        #     item = self.modelReg.item(index)
         #     item.setCheckable(False)
         #
         # if dataType == "interval":
         #     print("Hello Reg One")
-        #     for index in range(self.model.rowCount()):
+        #     for index in range(self.modelReg.rowCount()):
         #         item = self.model.item(index)
         #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'i' in m[1].validTests]:
         #             item.setCheckable(True)
         #             count += 1
         #
         # elif dataType == "ordinal":
-        #     for index in range(self.model.rowCount()):
-        #         item = self.model.item(index)
+        #     for index in range(self.modelReg.rowCount()):
+        #         item = self.modelReg.item(index)
         #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'o' in m[1].validTests]:
         #             item.setCheckable(True)
         #             count += 1
         #
         # elif dataType == "frequency":
-        #     for index in range(self.model.rowCount()):
-        #         item = self.model.item(index)
+        #     for index in range(self.modelReg.rowCount()):
+        #         item = self.modelReg.item(index)
         #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'f' in m[1].validTests]:
         #             item.setCheckable(True)
         #             count += 1
@@ -206,8 +210,8 @@ class AnalysisTab(QWidget):
         ds = sw.Statistics(self.mydata)
         checked_options = []
         count = 0
-        for index in range(self.model.rowCount()):
-            item = self.model.item(index)
+        for index in range(self.modelStats.rowCount()):
+            item = self.modelStats.item(index)
             if item is not None and item.checkState() == Qt.Checked:
                 for _, test in [m for m in inspect.getmembers(sw) if count == index]:
                     temp = test(ds.d)
@@ -220,8 +224,8 @@ class AnalysisTab(QWidget):
         rr = sw.Regression(df.df)
         checked_options = []
         count = 0
-        for index in range(self.model.rowCount()):
-            item = self.model.item(index)
+        for index in range(self.modelReg.rowCount()):
+            item = self.modelReg.item(index)
             if item is not None and item.checkState() == Qt.Checked:
                 for _, test in [m for m in inspect.getmembers(sw) if count == index]:
                     temp = test(rr.df)
