@@ -458,8 +458,7 @@ class DataTab(QWidget):
             if y1 - y2 == 0:
                 return 1
             # There are two columns sent
-            elif y1 - y2 == 1:
-                self.analysisTab.enableRegression()
+            elif y2 - y1 == 1:
                 return 2
             else:
                 return 0

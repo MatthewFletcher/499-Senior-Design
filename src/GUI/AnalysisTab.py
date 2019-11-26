@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
 import inspect
-
+import logging
 from scipy.stats import norm
 
 foo = norm.a
@@ -196,7 +196,7 @@ class AnalysisTab(QWidget):
             item.setEnabled(False)
 
         if dataType == "interval":
-            for index in range(self.modelStats.rowCount()):
+            for index in range(self.modelReg.rowCount()):
                 item = self.modelReg.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                     temp = test(ds)
@@ -206,7 +206,7 @@ class AnalysisTab(QWidget):
                         count += 1
 
         elif dataType == "ordinal":
-            for index in range(self.modelStats.rowCount()):
+            for index in range(self.modelReg.rowCount()):
                 item = self.modelReg.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                     temp = test(ds)
@@ -216,7 +216,7 @@ class AnalysisTab(QWidget):
                         count += 1
 
         elif dataType == "frequency":
-            for index in range(self.modelStats.rowCount()):
+            for index in range(self.modelReg.rowCount()):
                 item = self.modelReg.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                     temp = test(ds)
@@ -229,17 +229,14 @@ class AnalysisTab(QWidget):
         ds = self.mydata
         checked_options = []
         count = 0
-
         try:
             for index in range(self.modelStats.rowCount()):
-                print(index)
-                print(count)
-                print("000")
                 item = self.modelStats.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
                     temp = test(ds)
                     if item.checkState() == Qt.Checked and count == index:
                         checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                        logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
                         count += 1
                         break
                     if count != index or item.checkState() != Qt.Checked:
@@ -256,17 +253,21 @@ class AnalysisTab(QWidget):
         rr = sw.Regression(df.df)
         checked_options = []
         count = 0
-        for index in range(self.modelStats.rowCount()):
-            item = self.modelStats.item(index)
-            if item is not None and item.checkState() == Qt.Checked:
+        try:
+            for index in range(self.modelStats.rowCount()):
+                item = self.modelStats.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
                     temp = test(rr.df)
-                    if count == index:
+                    if item.checkState() == Qt.Checked and count == index:
                         checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                        logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
                         count += 1
-                    break
-            else:
-                count += 1
+                        break
+                    if count != index or item.checkState() != Qt.Checked:
+                        count += 1
+                count = 0
+        except:
+            print("didn't work")
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))

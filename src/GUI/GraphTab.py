@@ -3,11 +3,8 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupB
                              QFileDialog, QMessageBox)
 from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-import pandas as pd
-from pathlib import Path
-import sys, os
+import sys
 import logging
 
 # The GraphTab class holds the GUI for the GraphTab, which consists of two sections:
