@@ -230,15 +230,16 @@ class AnalysisTab(QWidget):
         checked_options = []
         count = 0
         for index in range(self.modelStats.rowCount()):
+            print(index)
             item = self.modelStats.item(index)
-            if item is not None and item.checkState() == Qt.Checked:
-                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
+                if item.checkState() == Qt.Checked:
                     temp = test(ds)
-                    # if count == index:
-                    checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
-                    count += 1
-                    break
-                break
+                    if count == index:
+                        print(test)
+                        checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                        count += 1
+            count += 1
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
@@ -248,11 +249,17 @@ class AnalysisTab(QWidget):
         rr = sw.Regression(df.df)
         checked_options = []
         count = 0
-        for index in range(self.modelReg.rowCount()):
-            item = self.modelReg.item(index)
+        for index in range(self.modelStats.rowCount()):
+            item = self.modelStats.item(index)
             if item is not None and item.checkState() == Qt.Checked:
-                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('r_')]:
+                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
                     temp = test(rr.df)
-                    checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                    if count == index:
+                        checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                        count += 1
+                    break
+            else:
+                count += 1
+
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
