@@ -143,7 +143,8 @@ class CollapsibleDialog(QDialog):
         infoD2.setStyleSheet("font: 15pt Tw Cen MT")
         infoD2.setText(        "[Data]"
                                "\nChoice to Submit Everything\n"
-                                "Specify certain rows and columns to perform analyses on.\n"    
+                                "Specify certain rows and columns to perform analyses on.\n"
+                                "NOTE: First ROW & COLUMN of Numercial DATA are ROW 1 & COL 1 before Submit\n"
                                "NOTE: ONE column for Statistical Test | TWO columns for Regression Test\n"
                                "\n[Type]\n"
                                "Please specify if Data is Interval, Ordinal, or Frequency.\n\n"
