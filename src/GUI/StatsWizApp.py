@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout, QDesktopWidget, QDialog, QMainWindow)
+from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import sys, os
@@ -37,10 +37,14 @@ class TabPage(QTabWidget):
     # This is a method of passing data from the data tab to the graph and/or analysis tab.
     def setDF(self):
         data = self.dataTab.getDataFromTable()
-        print(data)
+        statsData = self.dataTab.getDataFromTableForAnalysis()
         self.graphTab.masterDF = data
-        self.analysisTab.mydata = data
+        self.analysisTab.mydata = statsData
         self.graphTab.enableGraphType(self.dataTab.getDataType())
+        if self.dataTab.getNumColums() == 1:
+            self.analysisTab.enableStatistics(self.dataTab.getDataType())
+        elif self.dataTab.getNumColums() == 2:
+            self.analysisTab.enableRegession(self.dataTab.getDataType())
 
 def runStatsWiz():
     app = QApplication(sys.argv)
