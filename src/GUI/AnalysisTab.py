@@ -230,15 +230,20 @@ class AnalysisTab(QWidget):
         checked_options = []
         count = 0
 
-        for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
-            temp = test(ds)
-            for index in range(self.modelStats.rowCount()):
-                item = self.modelStats.item(index)
+        for index in range(self.modelStats.rowCount()):
+            print(index)
+            print(count)
+            print("000")
+            item = self.modelStats.item(index)
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
+                temp = test(ds)
                 if item.checkState() == Qt.Checked and count == index:
                     checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
                     count += 1
-            if count != index or item.checkState() != Qt.Checked:
-                count += 1
+                    break
+                if count != index or item.checkState() != Qt.Checked:
+                    count += 1
+            count = 0
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
