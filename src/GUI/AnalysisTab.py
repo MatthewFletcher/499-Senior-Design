@@ -76,7 +76,6 @@ class AnalysisTab(QWidget):
         # List widgets where users will choose what analysis
         # they would like ran on their data
         self.statsAnalysis = QListView()
-
         self.modelStats = QStandardItemModel(self.statsAnalysis)
 
         # for test, function in intervalList:
