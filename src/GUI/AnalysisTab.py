@@ -18,6 +18,7 @@ import Stats_Wizard as sw
 
 from pandas import DataFrame
 
+
 # The AnalysisTab class holds the GUI for the AnalysisTab, which consists of four sections:
 # TextGroup, ChooseIntervalGroup, ChooseOrdinalGroup, and ChooseFrequencyGroup. The TextGroup
 # prints out the analysis. The ChooseIntervalGroup allows the user to select the tests they
@@ -79,14 +80,14 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel(self.statsAnalysis)
 
         # for test, function in intervalList:
-        tempdata = {'foo':[], 'bar':[]}
+        tempdata = {'foo': [], 'bar': []}
         df = DataFrame(tempdata, columns=["foo", 'bar'])
         ds = tempdata['foo']
 
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
             item = test(ds)
             item = QStandardItem(item.name)
-            item.setCheckable(True)
+            item.setCheckable(False)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
@@ -115,14 +116,14 @@ class AnalysisTab(QWidget):
         self.model = QStandardItemModel(self.regAnalysis)
 
         # for test, function in intervalList:
-        tempdata = {'foo':[], 'bar':[]}
+        tempdata = {'foo': [], 'bar': []}
         df = DataFrame(tempdata, columns=["foo", 'bar'])
         ds = tempdata['foo']
 
         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
             item = test(df)
             item = QStandardItem(item.name)
-            item.setCheckable(True)
+            item.setCheckable(False)
             check = Qt.Unchecked
             item.setCheckState(check)
             self.model.appendRow(item)
@@ -139,47 +140,91 @@ class AnalysisTab(QWidget):
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
-    def enableStatistics(self):
+    def enableStatistics(self, dataType):
         self.statsButton.setEnabled(True)
         self.regButton.setEnabled(False)
+
+        for index in range(self.model.rowCount()):
+            item = self.model.item(index)
+            item.setCheckable(False)
+        #
         # if dataType == "interval":
-        #     for row in self.model:
-        #         print(row)
-        #     x = 0
+        #     for index in range(self.model.rowCount()):
+        #         item = self.model.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and 'i' in m[1].validTests]:
+        #             item.setCheckable(True)
         #
         # elif dataType == "ordinal":
-        #     x = 0
+        #     for index in range(self.model.rowCount()):
+        #         item = self.model.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and 'o' in m[1].validTests]:
+        #             item.setCheckable(True)
         #
         # elif dataType == "frequency":
-        #     x = 0
+        #     for index in range(self.model.rowCount()):
+        #         item = self.model.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_") and 'f' in m[1].validTests]:
+        #             item.setCheckable(True)
 
     # Change the types of tests available depending on which
     # data type radio button is selected on DataTab
-    def enableRegession(self):
+    def enableRegession(self, dataType):
         self.statsButton.setEnabled(False)
         self.regButton.setEnabled(True)
+        print("Hello Reg")
+        print(dataType)
 
+        # count = 0
+        #
+        # for index in range(self.model.rowCount()):
+        #     item = self.model.item(index)
+        #     item.setCheckable(False)
+        #
         # if dataType == "interval":
-        #     x = 0
+        #     print("Hello Reg One")
+        #     for index in range(self.model.rowCount()):
+        #         item = self.model.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'i' in m[1].validTests]:
+        #             item.setCheckable(True)
+        #             count += 1
         #
         # elif dataType == "ordinal":
-        #     x = 0
+        #     for index in range(self.model.rowCount()):
+        #         item = self.model.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'o' in m[1].validTests]:
+        #             item.setCheckable(True)
+        #             count += 1
         #
         # elif dataType == "frequency":
-        #     x = 0
+        #     for index in range(self.model.rowCount()):
+        #         item = self.model.item(index)
+        #         for _, test in [m for m in inspect.getmembers(sw) if count == index and m[0].startswith("r_") and 'f' in m[1].validTests]:
+        #             item.setCheckable(True)
+        #             count += 1
 
     def statsButtonClicked(self):
-        df = sw.Regression(self.mydata)
         ds = sw.Statistics(self.mydata)
-        for row in self.model:
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
-                temp = test(ds.d)
-                self.textGroup.analysis = f"Test: {temp.name}\nResult: {temp.func()}\n"
+        checked_options = []
+        count = 0
+        for index in range(self.model.rowCount()):
+            item = self.model.item(index)
+            if item is not None and item.checkState() == Qt.Checked:
+                for _, test in [m for m in inspect.getmembers(sw) if count == index]:
+                    temp = test(ds.d)
+                    checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+        if checked_options:
+            self.analysis.setText("\n".join(checked_options))
 
     def regButtonClicked(self):
         df = sw.Regression(self.mydata)
         rr = sw.Regression(df.df)
-        for row in self.model:
-            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
-                temp = test(rr.df)
-                self.textGroup.analysis2 = f"Test: {temp.name}\nResult: {temp.func()}\n"
+        checked_options = []
+        count = 0
+        for index in range(self.model.rowCount()):
+            item = self.model.item(index)
+            if item is not None and item.checkState() == Qt.Checked:
+                for _, test in [m for m in inspect.getmembers(sw) if count == index]:
+                    temp = test(rr.df)
+                    checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+        if checked_options:
+            self.analysis.setText("\n".join(checked_options))
