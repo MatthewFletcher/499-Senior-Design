@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout, QDesktopWidget, QDialog, QMainWindow)
+from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 import sys, os
