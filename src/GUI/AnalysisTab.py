@@ -151,6 +151,13 @@ class AnalysisTab(QWidget):
             item = self.modelStats.item(index)
             item.setCheckable(False)
             item.setEnabled(False)
+            item.setCheckState(False)
+
+        for index in range(self.modelReg.rowCount()):
+            item = self.modelReg.item(index)
+            item.setCheckable(False)
+            item.setEnabled(False)
+            item.setCheckState(False)
 
         if dataType == "interval":
             for index in range(self.modelStats.rowCount()):
@@ -167,7 +174,7 @@ class AnalysisTab(QWidget):
                 item = self.modelStats.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
                     temp = test(ds)
-                    if 'i' in temp.validTests and count == index:
+                    if 'o' in temp.validTests and count == index:
                         item.setCheckable(True)
                         item.setEnabled(True)
                         count += 1
@@ -177,7 +184,7 @@ class AnalysisTab(QWidget):
                 item = self.modelStats.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
                     temp = test(ds)
-                    if 'i' in temp.validTests and count == index:
+                    if 'f' in temp.validTests and count == index:
                         item.setCheckable(True)
                         item.setEnabled(True)
                         count += 1
@@ -194,6 +201,13 @@ class AnalysisTab(QWidget):
             item = self.modelReg.item(index)
             item.setCheckable(False)
             item.setEnabled(False)
+            item.setCheckState(False)
+
+        for index in range(self.modelStats.rowCount()):
+            item = self.modelStats.item(index)
+            item.setCheckable(False)
+            item.setEnabled(False)
+            item.setCheckState(False)
 
         if dataType == "interval":
             for index in range(self.modelReg.rowCount()):
@@ -210,7 +224,7 @@ class AnalysisTab(QWidget):
                 item = self.modelReg.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                     temp = test(ds)
-                    if 'i' in temp.validTests and count == index:
+                    if 'o' in temp.validTests and count == index:
                         item.setCheckable(True)
                         item.setEnabled(True)
                         count += 1
@@ -220,7 +234,7 @@ class AnalysisTab(QWidget):
                 item = self.modelReg.item(index)
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
                     temp = test(ds)
-                    if 'i' in temp.validTests and count == index:
+                    if 'f' in temp.validTests and count == index:
                         item.setCheckable(True)
                         item.setEnabled(True)
                         count += 1
