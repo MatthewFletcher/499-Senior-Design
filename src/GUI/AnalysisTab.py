@@ -253,7 +253,7 @@ class AnalysisTab(QWidget):
                         logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
                         count += 1
                         break
-                    if count != index or item.checkState() != Qt.Checked:
+                    else:
                         count += 1
                 count = 0
         except:
@@ -276,7 +276,7 @@ class AnalysisTab(QWidget):
                         logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
                         count += 1
                         break
-                    if count != index or item.checkState() != Qt.Checked:
+                    else:
                         count += 1
                 count = 0
         except:

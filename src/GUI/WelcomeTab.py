@@ -217,14 +217,14 @@ class CollapsibleDialog(QDialog):
                                 "Proceed to apply the Statistical Analysis that would be applied.")
        #picture of a table with test that apply for the type of data
         
-        self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
-        self.pixmap2=self.pixmap.scaled(self.infoWidth*.70,self.infoWidth*.50)
-        pic=QLabel(self)
-        pic.setPixmap(self.pixmap2)
+        # self.pixmap=QPixmap(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"TableTest.JPG")))
+        # self.pixmap2=self.pixmap.scaled(self.infoWidth*.70,self.infoWidth*.50)
+        # pic=QLabel(self)
+        # pic.setPixmap(self.pixmap2)
         
         
         layout.addWidget(infoA)
-        layout.addWidget(pic)
+        # layout.addWidget(pic)
         layout.addWidget(infoA2)
         
         title = "AnalysisTab"
