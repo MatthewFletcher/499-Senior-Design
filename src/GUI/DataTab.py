@@ -373,8 +373,6 @@ class DataTab(QWidget):
     def getDataFromTableForAnalysis(self):
         tempDF=self.masterDF[:]
         
-        print('before\n')
-        print(self.masterDF)
         if self.myTable.horizontalHeaderItem(0) is not None:
             del tempDF[self.myTable.horizontalHeaderItem(0).text()]
             #print('\nfromAnalysis\n')
