@@ -108,6 +108,8 @@ class GraphTab(QWidget):
     def graphButtonClicked(self):
         logging.info('Graphing has been selected')
         d = self.masterDF
+        print('\ngraph\n')#getting wrong df
+        print(d)
         if d is not None:
             self.figure.clear()
             if self.vbarRadioButton.isChecked():
@@ -155,10 +157,15 @@ class GraphTab(QWidget):
     def verticalBarGraph(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
+        print(headers)
         headers.pop(0)
+        print(headers)
         x = headers
         y = []
+        print('\nverticalbar\n')
+        print(df)
         for header in headers:
+            print(header)
             y.append(df[header].sum())
 
         plot.bar(x, y, color=['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender'])

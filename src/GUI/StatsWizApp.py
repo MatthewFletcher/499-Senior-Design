@@ -37,8 +37,14 @@ class TabPage(QTabWidget):
     # This is a method of passing data from the data tab to the graph and/or analysis tab.
     def setDF(self):
         data = self.dataTab.getDataFromTable()
+        print('\ninStats\n')
+        print(data)
         statsData = self.dataTab.getDataFromTableForAnalysis()
+        #print('\ninstatsData\n')
+        #print(statsData)
         self.graphTab.masterDF = data
+        print('\ngraphtab masterDF\n')
+        print(self.graphTab.masterDF)
         self.analysisTab.mydata = statsData
         self.graphTab.enableGraphType(self.dataTab.getDataType())
         if self.dataTab.getNumColums() == 1:

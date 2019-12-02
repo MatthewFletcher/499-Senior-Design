@@ -339,6 +339,8 @@ class DataTab(QWidget):
                 ptB = [number_of_rows - 1, number_of_columns - 1]
                 self.sentSuccess()
                 self.masterDF=UserSelect.selection(tmp_df, ptA, ptB, 1)
+                #print('\nforgraph\n')
+                #print(self.masterDF)
                 return self.masterDF#UserSelect.selection(tmp_df, ptA, ptB, 1)
             else:
                 # This is when the user clicks "Let me pick what to graph"
@@ -364,12 +366,21 @@ class DataTab(QWidget):
                         ptB = [x2, y2]
                         self.sentSuccess()
                         self.masterDF=UserSelect.selection(tmp_df, ptA, ptB, 1)
+                        #print('\nforGraph\n')
+                        #print(self.masterDF)
                         return self.masterDF#.selection(tmp_df, ptA, ptB, 1)
 
     def getDataFromTableForAnalysis(self):
-        tempDF=self.masterDF
+        tempDF=self.masterDF[:]
+        
+        print('before\n')
+        print(self.masterDF)
         if self.myTable.horizontalHeaderItem(0) is not None:
             del tempDF[self.myTable.horizontalHeaderItem(0).text()]
+            #print('\nfromAnalysis\n')
+            #print(tempDF)
+            print('after\n')
+            print(self.masterDF)
             return tempDF
         #
         # #retrive the DF that create
