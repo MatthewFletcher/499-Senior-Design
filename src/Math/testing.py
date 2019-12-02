@@ -19,8 +19,8 @@ ds = mydata['high_GPA']
 
 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("s_")]:
     temp = test(ds)
-    print(f"Test: {temp.name}\nResult: {temp.func()}\n")
+    print(f"Test: {temp.name}\nResult: {temp.func() if temp.func() is not None else 'None'}\n")
 
 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith("r_")]:
     temp = test(df)
-    print(f"Test: {temp.name}\nResult: {temp.func()}\n")
+    print(f"Test: {temp.name}\nResult: {temp.func() if temp.func() is not None else 'None'}\n")
