@@ -72,7 +72,7 @@ class DataTab(QWidget):
         self.graphGroup = QButtonGroup()
         self.allRadioButton = QRadioButton("Graph everything")
         self.allRadioButton.setChecked(True)
-        self.selectionRadioButton = QRadioButton("Let me pick what to graph")
+        self.selectionRadioButton = QRadioButton("Let me pick what to graph/test")
         self.graphGroup.addButton(self.allRadioButton)
         self.graphGroup.addButton(self.selectionRadioButton)
         self.allRadioButton.toggled.connect(self.allRadioButtonClicked)
@@ -130,9 +130,9 @@ class DataTab(QWidget):
 
         # Layout
         self.layout = QGridLayout()
-        self.layout.addWidget(self.graphLabel, 0, 0, 1, 3)
-        self.layout.addWidget(self.allRadioButton, 1, 0, 1, 3)
-        self.layout.addWidget(self.selectionRadioButton, 2, 0, 1, 3)
+        self.layout.addWidget(self.graphLabel, 0, 0, 1, 4)
+        self.layout.addWidget(self.allRadioButton, 1, 0, 1, 4)
+        self.layout.addWidget(self.selectionRadioButton, 2, 0, 1, 4)
         self.layout.addWidget(self.beginRowText, 3, 0)
         self.layout.addWidget(self.beginRow, 3, 1)
         self.layout.addWidget(self.beginColText, 3, 2)
