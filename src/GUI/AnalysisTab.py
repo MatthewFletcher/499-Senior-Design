@@ -7,6 +7,7 @@ from pathlib import Path
 import inspect
 import logging
 from scipy.stats import norm
+import traceback
 
 foo = norm.a
 sys.path.append(str(Path(os.getcwd()).joinpath("./src/csvtools").resolve()))
@@ -249,15 +250,15 @@ class AnalysisTab(QWidget):
                 for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
                     temp = test(ds)
                     if item.checkState() == Qt.Checked and count == index:
-                        checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
-                        logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                        checked_options.append(f"Test: {temp.name}\nResult:{'No Result' if temp.func() is None else temp.func()}\n")
+                        logging.info(f"Test: {temp.name}\nResult:{'No Result' if temp.func() is None else temp.func()}\n")
                         count += 1
                         break
                     else:
                         count += 1
                 count = 0
-        except:
-            print("didn't work")
+        except BaseException as ex:
+            print(''.join(traceback.format_exception(etype=type(ex), value=ex, tb=ex.__traceback__)))
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
