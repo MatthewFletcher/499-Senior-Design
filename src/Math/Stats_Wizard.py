@@ -118,7 +118,10 @@ class s_median():
         self.name = "Median"
         self.validTests = ['o', 'i', 'f']
     def func(self):
-        return sorted(self.d)[int(len(self.d) / 2)]
+        try:
+            return sorted(self.d)[int(len(self.d) / 2)]
+        except IndexError:
+            return None
     def __call__(self):
         return self.func()
 
@@ -133,7 +136,10 @@ class s_mode():
         self.name = "Mode"
         self.validTests = ['o', 'i', 'f']
     def func(self):
-        return self.d.value_counts().idxmax() if self.d.value_counts().max()==1 else None
+        try:
+            return self.d.value_counts().idxmax() if self.d.value_counts().max()==1 else None
+        except:
+            return None
 
     def __call__(self):
         return self.func()
