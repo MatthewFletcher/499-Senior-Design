@@ -10,7 +10,7 @@ import csv
 import pandas as pd
 import UserSelect
 from pathlib import Path
-import logging
+
 import AnalysisTab
 
 
@@ -176,12 +176,12 @@ class DataTab(QWidget):
     # Calls openCSV() function when the
     # newCSVButton is clicked
     def newCSVButtonClicked(self):
-        logging.info('Import CSV Button Selected')
+        
         self.manualIsChecked = False  # Set False not to expect manual input
         self.openCSV()
 
     def clearButtonClicked(self):
-        logging.info('Clear Data Button Selected')
+        
         self.manualIsChecked = True  # Defaults back to expecting manual input
         self.errorState = False
         self.clearTable()
@@ -191,7 +191,7 @@ class DataTab(QWidget):
     def openCSV(self):
         path = QFileDialog.getOpenFileName(self, "Open CSV", os.getenv("HOME"), "CSV(*.csv)")
         if path[0] != '':
-            logging.info("Opening the CSV file")
+            
             with open(path[0], newline='') as csvFile:
                 myFile = csv.reader(csvFile, delimiter=',', quotechar='|')
                 headers = next(myFile)
@@ -334,7 +334,7 @@ class DataTab(QWidget):
                     tmp_df.iloc[i, j] = int(self.myTable.item(i, j).text())
 
             if self.allRadioButton.isChecked():
-                logging.info('User Selection on Dataset')
+                
                 ptA = [0, 1]
                 ptB = [number_of_rows - 1, number_of_columns - 1]
                 self.sentSuccess()
@@ -415,7 +415,7 @@ class DataTab(QWidget):
 
     # Clears the table and restores it to the original
     def clearTable(self):
-        logging.info('clearing the dataset table')
+    
         while self.myTable.rowCount() > 0:
             self.myTable.removeRow(0)
 

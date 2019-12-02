@@ -5,7 +5,7 @@ from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 import sys
-import logging
+
 
 # The GraphTab class holds the GUI for the GraphTab, which consists of two sections:
 # the GraphGroup and the CustomGroup. The GraphGroup contains the graph. The CustomGroup
@@ -106,7 +106,6 @@ class GraphTab(QWidget):
 
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
-        logging.info('Graphing has been selected')
         d = self.masterDF
         if d is not None:
             self.figure.clear()
@@ -120,14 +119,14 @@ class GraphTab(QWidget):
                 self.scatterPlot(d)
         else:
             self.graphError()
-        logging.info('GraphTab: Data has been graphed')
+        
 
         self.myGraph.draw()
         self.repaint()
 
     # Calls the function to save a PNG
     def PNGButtonClicked(self):
-        logging.info('Saving graph as PNG')
+        
         self.saveFileDialog()
 
     # Saves a PNG to the computer of the graph
@@ -155,13 +154,11 @@ class GraphTab(QWidget):
     def verticalBarGraph(self, df):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
-        print(headers)
         headers.pop(0)
-        print(headers)
+        
         x = headers
         y = []
         for header in headers:
-            print(header)
             y.append(df[header].sum())
 
         plot.bar(x, y, color=['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'lavender'])
