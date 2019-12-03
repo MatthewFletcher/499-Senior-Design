@@ -101,7 +101,7 @@ class DataTab(QWidget):
         self.endRow.setEnabled(False)
         self.endCol.setEnabled(False)
 
-        # Ask user what type of data it is 
+        # Ask user what type of data it is
         self.dataLabel = QLabel("What kind of data is it?")
         self.newLine = QLabel("\n")
         self.typeGroup = QButtonGroup()
@@ -299,8 +299,7 @@ class DataTab(QWidget):
                 item.setData(Qt.EditRole, stuff)
                 self.myTable.setItem(row, column, item)
 
-                #  This function will be able to grab the data imported from the table
-
+    # This function will be able to grab the data imported from the table
     # and store it as a df to be used for graphing the data
     def getDataFromTable(self):
         # Condition statement to determine if the table is empty,
