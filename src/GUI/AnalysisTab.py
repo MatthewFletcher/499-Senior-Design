@@ -257,6 +257,7 @@ class AnalysisTab(QWidget):
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
+        logging.info('-------------------------------------------------------------------------------------------\n')
 
     def regButtonClicked(self):
         df = self.mydata
@@ -277,3 +278,4 @@ class AnalysisTab(QWidget):
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
+        logging.info('-------------------------------------------------------------------------------------------\n')
