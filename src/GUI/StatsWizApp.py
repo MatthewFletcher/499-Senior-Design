@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import (QApplication, QTabWidget, QVBoxLayout)
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 import sys, os
 from pathlib import Path
 import WelcomeTab, DataTab, GraphTab, AnalysisTab, SummaryTab
@@ -15,7 +16,7 @@ class TabPage(QTabWidget):
         #Get directory name of this file
         #Get icon name from the generated absolute path
         self.setWindowIcon(QIcon(os.path.join(Path(os.path.dirname(os.path.abspath(__file__)),"StatsLogo1.png"))))
-        self.show()
+        #self.show()
         # Creating the tabs here to have a reference
         self.dataTab = DataTab.DataTab()
         self.graphTab = GraphTab.GraphTab()
@@ -36,9 +37,14 @@ class TabPage(QTabWidget):
     # This is a method of passing data from the data tab to the graph and/or analysis tab.
     def setDF(self):
         data = self.dataTab.getDataFromTable()
+        statsData = self.dataTab.getDataFromTableForAnalysis()
         self.graphTab.masterDF = data
+        self.analysisTab.mydata = statsData
         self.graphTab.enableGraphType(self.dataTab.getDataType())
-        self.analysisTab.enableAnalysis(self.dataTab.getDataType())
+        if self.dataTab.getNumColums() == 1:
+            self.analysisTab.enableStatistics(self.dataTab.getDataType())
+        elif self.dataTab.getNumColums() == 2:
+            self.analysisTab.enableRegession(self.dataTab.getDataType())
 
 def runStatsWiz():
     app = QApplication(sys.argv)

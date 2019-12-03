@@ -3,12 +3,9 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, QRadioButton, QGroupB
                              QFileDialog, QMessageBox)
 from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-import pandas as pd
-from pathlib import Path
-import sys, os
-import logging
+import sys
+
 
 # The GraphTab class holds the GUI for the GraphTab, which consists of two sections:
 # the GraphGroup and the CustomGroup. The GraphGroup contains the graph. The CustomGroup
@@ -23,9 +20,9 @@ class GraphTab(QWidget):
 
         # These numbers are arbitrary and seemed
         # to have the best balance
-        self.buttonSize = self.size.width() * 0.29
-        self.graphWidth = self.size.width() * 0.65
-        self.customWidth = self.size.width() * 0.3
+        self.buttonSize = self.size.width() * 0.28
+        self.graphWidth = self.size.width() * 0.64
+        self.customWidth = self.size.width() * 0.29
 
         self.createGraphGroup()
         self.createCustomGroup()
@@ -109,7 +106,6 @@ class GraphTab(QWidget):
 
     # Call this function when the graph button is clicked
     def graphButtonClicked(self):
-        logging.info('Graphing has been selected')
         d = self.masterDF
         if d is not None:
             self.figure.clear()
@@ -123,14 +119,14 @@ class GraphTab(QWidget):
                 self.scatterPlot(d)
         else:
             self.graphError()
-        logging.info('GraphTab: Data has been graphed')
+        
 
         self.myGraph.draw()
         self.repaint()
 
     # Calls the function to save a PNG
     def PNGButtonClicked(self):
-        logging.info('Saving graph as PNG')
+        
         self.saveFileDialog()
 
     # Saves a PNG to the computer of the graph
@@ -159,6 +155,7 @@ class GraphTab(QWidget):
         plot = self.figure.add_subplot(111)
         headers = list(df.columns.values)
         headers.pop(0)
+        
         x = headers
         y = []
         for header in headers:
