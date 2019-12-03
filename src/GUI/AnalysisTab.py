@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout, QLabel, QGroupBox,
-                             QListView, QPushButton)
+                             QListView, QPushButton, QTextEdit)
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt
 import sys, os
@@ -59,12 +59,10 @@ class AnalysisTab(QWidget):
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Here is where the analysis will go
-        self.analysis = QLabel()
-        self.analysis2 = QLabel()
+        self.analysis = QTextEdit()
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.analysis)
-        self.layout.addWidget(self.analysis2)
         self.TextGroup.setLayout(self.layout)
 
     # The right side of AnalysisTab containing a checklist of tests that
@@ -244,21 +242,18 @@ class AnalysisTab(QWidget):
         ds = self.mydata
         checked_options = []
         count = 0
-        try:
-            for index in range(self.modelStats.rowCount()):
-                item = self.modelStats.item(index)
-                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
-                    temp = test(ds)
-                    if item.checkState() == Qt.Checked and count == index:
-                        checked_options.append(f"Test: {temp.name}\nResult:{'No Result' if temp.func() is None else temp.func()}\n")
-                        logging.info(f"Test: {temp.name}\nResult:{'No Result' if temp.func() is None else temp.func()}\n")
-                        count += 1
-                        break
-                    else:
-                        count += 1
-                count = 0
-        except BaseException as ex:
-            print(''.join(traceback.format_exception(etype=type(ex), value=ex, tb=ex.__traceback__)))
+        for index in range(self.modelStats.rowCount()):
+            item = self.modelStats.item(index)
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('s_')]:
+                temp = test(ds)
+                if item.checkState() == Qt.Checked and count == index:
+                    checked_options.append(f"Test: {temp.name}\nResult:{'No Result' if temp.func() is None else temp.func()}\n")
+                    logging.info(f"Test: {temp.name}\nResult:{'No Result' if temp.func() is None else temp.func()}\n")
+                    count += 1
+                    break
+                else:
+                    count += 1
+            count = 0
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
@@ -267,21 +262,18 @@ class AnalysisTab(QWidget):
         df = self.mydata
         checked_options = []
         count = 0
-        try:
-            for index in range(self.modelReg.rowCount()):
-                item = self.modelReg.item(index)
-                for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('r_')]:
-                    temp = test(df)
-                    if item.checkState() == Qt.Checked and count == index:
-                        checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
-                        logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
-                        count += 1
-                        break
-                    else:
-                        count += 1
-                count = 0
-        except:
-            print("didn't work")
+        for index in range(self.modelReg.rowCount()):
+            item = self.modelReg.item(index)
+            for _, test in [m for m in inspect.getmembers(sw) if m[0].startswith('r_')]:
+                temp = test(df)
+                if item.checkState() == Qt.Checked and count == index:
+                    checked_options.append(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                    logging.info(f"Test: {temp.name}\nResult: {temp.func()}\n")
+                    count += 1
+                    break
+                else:
+                    count += 1
+            count = 0
 
         if checked_options:
             self.analysis.setText("\n".join(checked_options))
