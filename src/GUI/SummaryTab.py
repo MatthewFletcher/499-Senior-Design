@@ -56,7 +56,6 @@ class SummaryTab(QWidget):
         logging.getLogger().propagate=False
 
         self.layout = QGridLayout()
-        self.layout.addWidget(self.analysis)
         self.layout.addWidget(self.logTextBox.widget)
         self.SummaryTextGroup.setLayout(self.layout)
 
