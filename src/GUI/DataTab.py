@@ -68,9 +68,9 @@ class DataTab(QWidget):
         self.setStyleSheet("font: 15pt Tw Cen MT")
 
         # Ask user what they'd like to graph
-        self.graphLabel = QLabel("How much do you want graphed?")
+        self.graphLabel = QLabel("How much do you want graphed/tested?")
         self.graphGroup = QButtonGroup()
-        self.allRadioButton = QRadioButton("Graph everything")
+        self.allRadioButton = QRadioButton("Graph/test everything")
         self.allRadioButton.setChecked(True)
         self.selectionRadioButton = QRadioButton("Let me pick what to graph/test")
         self.graphGroup.addButton(self.allRadioButton)
